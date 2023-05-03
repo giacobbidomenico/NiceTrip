@@ -1,0 +1,90 @@
+pages:
+    > bootstrap.php
+        > database.php
+        > functions.php
+    > index.php
+        > bootstrap.php
+        > base1.php
+        > login-form.php
+    > sign-up.php
+        > bootstrap.php
+        > base1.php
+        > sign-in.php
+    > success.php
+        > bootstrap.php
+        > base1.php
+        > reporting-page.php
+    > profile.php
+        > bootstrap.php
+        > base2.php
+        > post-list.js
+    > settings.php
+        > bootstrap.php
+        > base2.php
+        > account-details.php
+    > recover-password.php
+        > bootstrap.php
+        > base1.php
+        > password-recovering-form.php
+    > social.php
+        > bootstrap.php
+        > base2.php
+        > follower-following-list.php
+    > feed.php
+        > bootstrap.php
+        > base2.php
+        > post-list.php
+    > notifications.php
+        > bootstrap.php
+        > base2.php
+        > notifications-list.js
+    > search.php
+        > bootstrap.php
+        > base2.php
+        > search-bar.php
+        > post-list.js
+        > people-list.js
+        > search.js
+    > newpost.php
+        > bootstrap.php
+        > base2.php
+        > post-creation.php
+    > single-post.php
+        > bootstrap.php
+        > base2.php
+        > post-visualization.php
+
+
+js:
+    > post-list.js
+        > restituisce lista anteprima post, eventualmente
+          inserendo opzioni avanzate per i post di un determinato utente
+    > people-list.js
+    > search.js
+    > notifications-list.js
+        > restituite lista notifiche di un utente
+
+utils:
+    > functions.php
+
+db:
+    > database.php
+
+
+template:
+    > base1.php
+    > login-form.php
+    > sign-in-form.php
+    > reporting-page.php
+    > base2.php
+    > profile.php
+        > barra superiore con immagine profile
+        > elenco abbreviato follewers e following
+    > account-details.php
+    > password-recovering-form.php
+    > follower-following-list.php
+    > search-bar.php
+    > post-creation.php
+    > post-visualization.php
+
+
