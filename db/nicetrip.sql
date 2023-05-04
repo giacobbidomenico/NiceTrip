@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 04, 2023 alle 21:40
+-- Creato il: Mag 04, 2023 alle 22:00
 -- Versione del server: 10.4.25-MariaDB
 -- Versione PHP: 8.1.10
 
@@ -20,10 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `nicetrip`
 --
-
-create database nicetrip;
-
-use nicetrip;
+CREATE DATABASE IF NOT EXISTS `nicetrip` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `nicetrip`;
 
 -- --------------------------------------------------------
 
