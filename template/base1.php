@@ -7,29 +7,27 @@
     <title>NiceTrip</title>
 </head>
 <body>
-    <div class="container-fluid p-o overflow-hidden">
-        <div class="row">
-            <div class="col-12">
-                <div class="row">
-                    <div class="col-md-5">
-                        <img class="float-end" src="../upload/icon.png" alt="" />
-                        <h1 class="fw-bold fs-1">NiceTrip</h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <h2 class="fw-italic fs-6 text-muted">Share your travels with your friends</h2>
-                </div>
+    <div class="container-fluid p-0 overflow-hidden">
+        <div class="row pt-3 ps-5 mb-2">
+            <div class="col-1">
+                <img  class="img-fluid float-end d-inlin-block" src="../upload/icon.png" alt="" />
+            </div>
+            <div class="col-3">
+                <h1 class="fw-bold fs-1 d-inline-block text-primary">NiceTrip</h1>
+                <h2 class="fw-italic fs-6 text-muted">Share your travels with your friends</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-8 d-none d-md-block">
-                <img class="img-fluid rounded" src="group-travel.jpg" alt="" />
+            <div class="col-md-1"></div>
+            <div class="col-12 col-md-6 d-none d-md-block">
+                <img class="img-fluid rounded" src="group-travel.png" alt="" />
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-5">
                 <p>Example</p>
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
