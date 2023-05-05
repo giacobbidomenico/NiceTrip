@@ -11,16 +11,16 @@
         <div class="row">
             <div class="col-12">
                 <header>
-                    <h1>Title</h1>
+                    <h1 class="">Title</h1>
                     <h2>Subtitle</h2>
                 </header>
             </div>
         </div>
         <div class="row">
-            <div class="col-6">
-                <img class="img-fluid" src="group-travel.jpg" alt="" />
+            <div class="col-12 col-md-6">
+                <img class="img-fluid rounded" src="group-travel.jpg" alt="" />
             </div>
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <p>Example</p>
             </div>
         </div>
