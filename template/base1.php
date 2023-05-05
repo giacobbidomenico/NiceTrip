@@ -11,8 +11,8 @@
         <div class="row">
             <div class="col-12">
                 <header>
-                    <h1 class="">Title</h1>
-                    <h2>Subtitle</h2>
+                    <h1 class="fw-bold fs-1">Title</h1>
+                    <h2 class="fw-italic fs-6 text-muted">Hello</h2>
                 </header>
             </div>
         </div>
