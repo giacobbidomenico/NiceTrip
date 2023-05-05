@@ -10,17 +10,22 @@
     <div class="container-fluid p-o overflow-hidden">
         <div class="row">
             <div class="col-12">
-                <header>
-                    <h1 class="fw-bold fs-1">Title</h1>
-                    <h2 class="fw-italic fs-6 text-muted">Hello</h2>
-                </header>
+                <div class="row">
+                    <div class="col-md-5">
+                        <img class="float-end" src="../upload/icon.png" alt="" />
+                        <h1 class="fw-bold fs-1">NiceTrip</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <h2 class="fw-italic fs-6 text-muted">Share your travels with your friends</h2>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-8 d-none d-md-block">
                 <img class="img-fluid rounded" src="group-travel.jpg" alt="" />
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <p>Example</p>
             </div>
         </div>
