@@ -9,18 +9,16 @@
 <body>
     <div class="container-fluid p-0 overflow-hidden">
         <div class="row pt-3 ps-5 mb-2">
-            <div class="col-1">
-                <img  class="img-fluid float-end d-inlin-block" src="../upload/icon.png" alt="" />
-            </div>
-            <div class="col-3">
+            <header>
+                <img  class="img-fluid float-start d-inlin-block" src="../upload/icon.png" alt="" />
                 <h1 class="fw-bold fs-1 d-inline-block text-primary">NiceTrip</h1>
                 <h2 class="fw-italic fs-6 text-muted">Share your travels with your friends</h2>
-            </div>
+            </header>
         </div>
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-12 col-md-6 d-none d-md-block">
-                <img class="img-fluid rounded" src="group-travel.png" alt="" />
+                <img class="img-fluid rounded" src="../upload/group-travel.png" alt="" />
             </div>
             <div class="col-12 col-md-5">
                 <p>Example</p>
