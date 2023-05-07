@@ -1,5 +1,16 @@
 showLoginForm();
-document.getElementById("main-content").addEventListener("submit", login());
+
+document.querySelector("form").addEventListener("submit", function(event) {
+    const form = document.querySelector("form");
+    if(!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    form.classList.add('was-validated');
+    const username = document.querySelector("#username-email").value;
+    const password = document.querySelector("#password").value;
+    console.log(username);
+});
 
 function showLoginForm() {
     document.getElementById("main-content").innerHTML = `
