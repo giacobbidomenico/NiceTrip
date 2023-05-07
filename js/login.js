@@ -7,17 +7,17 @@ function showLoginForm() {
         <form class="row g-3 needs-validation mt-4" novalidate>
             <div class="col-12">
                 <div class="col-md-6">
-                    <label for="validationCustom03" class="form-label">Email or Username</label>
-                    <input type="text" class="form-control rounded-0" id="validationCustom03" required>
+                    <label for="username-email" class="form-label">Email or Username</label>
+                    <input type="text" class="form-control rounded-0" id="username-email" name="username-email" required>
                     <div class="invalid-feedback">
-                        Please provide a valid city.
+                        Please provide a valid email or username
                     </div>
                 </div>
             </div>
             <div class="col-12">
                 <div class="col-md-6">
-                    <label for="validationCustom03" class="form-label">Password</label>
-                    <input type="password" class="form-control  rounded-0" id="validationCustom03" required>
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control  rounded-0" id="password" name="password" required>
                     <div class="invalid-feedback">
                         Please provide a valid city.
                     </div>
@@ -25,9 +25,9 @@ function showLoginForm() {
             </div>
             <div class="col-12">
                 <div class="form-check">
-                    <input class="form-check-input  rounded-0" type="checkbox" value="" id="invalidCheck" required>
-                    <label class="form-check-label" for="invalidCheck">
-                    Agree to terms and conditions
+                    <input class="form-check-input  rounded-0" type="checkbox" value="staySignedIn" id="staySignedIn" required>
+                    <label class="form-check-label" for="staySignedIn">
+                    Stay signed in
                     </label>
                     <div class="invalid-feedback">
                     You must agree before submitting.
@@ -36,15 +36,16 @@ function showLoginForm() {
             </div>
             <div class="col-12 mt-5">
                 <div class="col-md-6 d-grid pe-1">
-                    <a class="btn btn-primary btn-lg rounded-0" type="submit">Login</a>
+                    <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Login" name="login" id="loginSubmit">
                 </div>
             </div>
-            <div class="col-12">
-                <div class="col-md-6 d-grid pe-1">
-                    <a class="btn btn-primary btn-lg rounded-0" type="submit">Sign Up</a>
-                </div>
+        </form>
+        
+        <div class="col-12 mt-3">
+            <div class="col-md-6 d-grid pe-1">
+                <a href="sign-in.php" class="btn btn-primary btn-lg rounded-0">Sign Up</a>
             </div>
-        </form>`;
+        </div>`;
 }
 
 function login() {
