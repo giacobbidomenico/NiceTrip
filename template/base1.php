@@ -10,7 +10,7 @@
     <div class="container-fluid p-0 overflow-hidden">
         <div class="row pt-3 ps-5 mb-2">
             <header>
-                <img  class="img-fluid float-start d-inlin-block" src="<?php echo UPLOAD_DIR.$templateParams["iconName"]; ?>" alt="" />
+                <img class="img-fluid float-start d-inlin-block" src="<?php echo UPLOAD_DIR.$templateParams["iconName"]; ?>" alt="<?php echo $templateParams["iconDescription"];?>" />
                 <h1 class="fw-bold fs-1 d-inline-block text-primary"><?php echo $templateParams["title"];?></h1>
                 <h2 class="fw-italic fs-6 text-muted"><?php echo $templateParams["subtitle"];?></h2>
             </header>
@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-12 col-md-6 d-none d-md-block">
-                <img class="img-fluid rounded" src="<?php echo UPLOAD_DIR.$templateParams["mainImageName"]; ?>" alt="" />
+                <img class="img-fluid rounded" src="<?php echo UPLOAD_DIR.$templateParams["mainImageName"]; ?>" alt="<?php echo $templateParams["mainImageDescription"];?>" />
             </div>
             <div class="col-12 col-md-5">
             </div>
