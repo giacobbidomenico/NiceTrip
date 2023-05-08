@@ -22,6 +22,11 @@
             </div>
             <div class="col-1"></div>
             <div id="main-content" class="col-10 col-md-4">
+            <?php
+                if(isset($templateParams["template-name"])){
+                    require($templateParams["template-name"]);
+                }
+            ?>
             </div>
             <div class="col-1"></div>
         </div>

@@ -1,5 +1,6 @@
 <?php
     require("bootstrap.php");
+    $templateParams["template-name"] = "login-form.php";
     $templateParams["title"] = "NiceTrip";
     $templateParams["subtitle"] = "Share your travels with your friends";
     $templateParams["iconName"] = "icon.png";

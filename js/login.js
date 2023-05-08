@@ -1,5 +1,5 @@
-showLoginForm();
-
+//showLoginForm();
+/*
 document.querySelector("form").addEventListener("submit", function(event) {
     const form = document.querySelector("form");
     if(!form.checkValidity()) {
@@ -7,19 +7,24 @@ document.querySelector("form").addEventListener("submit", function(event) {
         event.stopPropagation();
     }
     form.classList.add('was-validated');
-    const username = document.querySelector("#username-email").value;
+    const username = document.querySelector("#email-username").value;
     const password = document.querySelector("#password").value;
     console.log(username);
 });
 
+function showErrorForm(element) {
+    element
+}*/
+
+/*
 function showLoginForm() {
     document.getElementById("main-content").innerHTML = `
         <h3 class="fw-bold fs-e text-primary">Login:</h3>
         <form class="row g-3 needs-validation mt-4" novalidate>
             <div class="col-12">
                 <div class="col-md-6">
-                    <label for="username-email" class="form-label">Email or Username</label>
-                    <input type="text" class="form-control rounded-0" id="username-email" name="username-email" required>
+                    <label for="email-username" class="form-label">Email or Username</label>
+                    <input type="text" class="form-control rounded-0 is-valid" id="email-username" name="email-username" required>
                     <div class="invalid-feedback">
                         Please provide a valid email or username
                     </div>
@@ -36,13 +41,10 @@ function showLoginForm() {
             </div>
             <div class="col-12">
                 <div class="form-check">
-                    <input class="form-check-input  rounded-0" type="checkbox" value="staySignedIn" id="staySignedIn" required>
+                    <input class="form-check-input  rounded-0" type="checkbox" value="staySignedIn" id="staySignedIn">
                     <label class="form-check-label" for="staySignedIn">
-                    Stay signed in
+                        Stay signed in
                     </label>
-                    <div class="invalid-feedback">
-                    You must agree before submitting.
-                    </div>
                 </div>
             </div>
             <div class="col-12 mt-5">
@@ -57,7 +59,7 @@ function showLoginForm() {
                 <a href="sign-in.php" class="btn btn-primary btn-lg rounded-0">Sign Up</a>
             </div>
         </div>`;
-}
+}*/
 
 function login() {
     console.log("hello");
