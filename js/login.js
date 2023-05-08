@@ -1,4 +1,5 @@
 //showLoginForm();
+
 /*
 document.querySelector("form").addEventListener("submit", function(event) {
     const form = document.querySelector("form");
@@ -59,8 +60,28 @@ function showLoginForm() {
                 <a href="sign-in.php" class="btn btn-primary btn-lg rounded-0">Sign Up</a>
             </div>
         </div>`;
-}*/
+}
 
 function login() {
     console.log("hello");
+}
+*/
+
+"use strict";
+
+const email_username_field = document.getElementById("email-username");
+const password_field = document.getElementById("password");
+
+
+email_username_field.addEventListener("focusout", event => verifyEmail());
+
+
+function verifyEmail() {
+    const formData = new FormData();
+    formData.append('type-request', 'verify-email');
+    formData.append('email', email_username_field.value);
+
+    axios.post('api-login.php', formData).then(response => {
+        console.log(response);
+    });
 }
