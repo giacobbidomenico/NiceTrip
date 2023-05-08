@@ -9,13 +9,14 @@ class DatabaseHelper{
         } 
     }
 
-    public function checkEmail($email) {
-        $query = "SELECT `users`.`id`, `users`.`userName`, `users`.`email` FROM `users` WHERE `users`.`email` = ?";
+    public function checkEmailOrUsername($value) {
+        $query = "SELECT `users`.`id`, `users`.`userName`, `users`.`email` FROM `users` WHERE `users`.`email` = ? OR `users`.`username` = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $email);
+        $stmt->bind_param('ss', $value, $value);
         $stmt->execute();
         $result = $stmt->get_result();
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+}
 ?>

@@ -1,11 +1,11 @@
     <h3 class="fw-bold fs-e text-primary">Login:</h3>
-    <form class="row g-3 needs-validation mt-4" novalidate>
+    <form class="row g-3 needs-validation mt-4" method="POST" novalidate>
         <div class="col-12">
             <div class="col-md-6">
                 <label for="email-username" class="form-label">Email or Username</label>
                 <input type="text" class="form-control rounded-0" id="email-username" name="email-username" required>
                 <div class="invalid-feedback">
-                    Please provide a valid email or username
+                    Please provide a valid email or username!
                 </div>
             </div>
         </div>
@@ -14,7 +14,7 @@
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control  rounded-0" id="password" name="password" required>
                 <div class="invalid-feedback">
-                    Please provide a valid city.
+                    Password is incorrect!
                 </div>
             </div>
         </div>
