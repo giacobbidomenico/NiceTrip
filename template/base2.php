@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../css/style.css" rel="stylesheet" />
-    <script src="../js/base2-functions.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+    <script src="js/base2-functions.js"></script>
     <title><?php echo $templateParams["title"]; ?></title>
 </head>
 <body class="container-fluid " >
