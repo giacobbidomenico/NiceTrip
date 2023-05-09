@@ -7,29 +7,30 @@
     <script src="../js/base2-functions.js"></script>
     <title></title>
     <style type="text/css">
-        .navbarHighlight {
+        /*.navbarHighlight {
             height: 100vh;
-            /*background-color: gray;*/
-        }
+            background-color: gray;
+        }*/
 
         .titleHighlight {
-            height: 20vh;
+            height: 15vh;
             background-color: dimgray;
         }
 
         .asideHighlight {
-            height: 80vh;
+            height: 85vh;
             background-color: darkslategray;
         }
 
         .blogHighlight {
-            height: 80vh;
+            height: 200vh;
             background-color: lightgray;
         }
     </style>
 
 </head>
 <body class="container-fluid " >
+    <!-- top mobile navbar -->
     <div class="row d-block d-md-none">
         <div class="container-fluid">
             <nav id="top-nav" class="row fixed-top bg-light">
@@ -53,10 +54,11 @@
         </div>
     </div>
 
+
     <div class="row ">
         <div class="col-md-1"></div>
-        <div class="col-xl-2 col-md-1 d-none d-md-block navbarHighlight p-0">
-            <nav class="container-fluid">
+        <div class="col-xl-2 col-md-1 d-none d-md-block navbarHighlight p-0 vh-100 position-fixed offset-md-1">
+            <nav class="container-fluid ">
                 <div class="row">
                     <div class="col-12 p-0 text-center text-xl-start">
                         <a class="btn btn-light mt-5 mb-2" href="#">
@@ -128,11 +130,11 @@
 
             </nav>
         </div>
-        <div class="col-xl-8 col-md-9">
+        <div class="col-xl-8 col-md-9 offset-md-1 offset-xl-2">
             <section class="row test titleHighlight">
             </section>
             <main class="row">
-            <!--    <div class="col-md-1"></div>-->
+                <!--<div class="col-md-1"></div>-->
                 <article class="col-md-8 blogHighlight"></article>
                 <article class="col-md-4 asideHighlight"></article>
                 <!--<div class="col-md-1"></div>-->
@@ -140,6 +142,8 @@
         </div>
         <div class="col-md-1"></div>
     </div>
+    
+    <!-- bottom mobile navbar -->
     <div class="row d-block d-md-none">
         <div class="col-12">
             <nav id="bottom-nav" class="nav nav-fill fixed-bottom bg-light">
