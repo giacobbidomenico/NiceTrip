@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 09, 2023 alle 21:26
--- Versione del server: 10.4.27-MariaDB
--- Versione PHP: 8.1.12
+-- Creato il: Mag 09, 2023 alle 21:39
+-- Versione del server: 10.4.25-MariaDB
+-- Versione PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `nicetrip`
 --
+CREATE DATABASE IF NOT EXISTS `nicetrip` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `nicetrip`;
 
 -- --------------------------------------------------------
 
@@ -34,7 +36,7 @@ CREATE TABLE `comments` (
   `time` time NOT NULL,
   `postsId` int(11) NOT NULL,
   `userId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -48,7 +50,7 @@ CREATE TABLE `destinations` (
   `end-date` date NOT NULL,
   `init-time` time NOT NULL,
   `end-time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -57,9 +59,9 @@ CREATE TABLE `destinations` (
 --
 
 CREATE TABLE `followers` (
-  `idFollowed` int(11) NOT NULL,
+  `idFollower` int(11) NOT NULL,
   `idFollowing` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -71,7 +73,7 @@ CREATE TABLE `images` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `postsId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -82,7 +84,7 @@ CREATE TABLE `images` (
 CREATE TABLE `likes` (
   `userId` int(11) NOT NULL,
   `postsId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -95,7 +97,7 @@ CREATE TABLE `notifications` (
   `type` int(11) NOT NULL,
   `senderId` int(11) NOT NULL,
   `receiverId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -108,7 +110,7 @@ CREATE TABLE `posts` (
   `title` varchar(150) NOT NULL,
   `description` varchar(5000) NOT NULL,
   `userId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -119,7 +121,7 @@ CREATE TABLE `posts` (
 CREATE TABLE `trips` (
   `postsId` int(11) NOT NULL,
   `destinationsId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -133,16 +135,18 @@ CREATE TABLE `users` (
   `name` varchar(30) NOT NULL,
   `lastName` varchar(30) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `password` varchar(50) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `cookie` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `users`
 --
 
-INSERT INTO `users` (`id`, `userName`, `name`, `lastName`, `email`, `password`) VALUES
-(1, 'lori', 'lorenzo', 'colletta', 'lori@gmail.com', 'Hollywood'),
-(2, 'lucioli', 'luca', 'lucioli', 'lucioli@gmail.com', 'Lucioli1234');
+INSERT INTO `users` (`id`, `userName`, `name`, `lastName`, `email`, `password`, `active`, `cookie`) VALUES
+(1, 'lori', 'lorenzo', 'colletta', 'lori@gmail.com', 'Hollywood', 0, ''),
+(2, 'lucioli', 'luca', 'lucioli', 'lucioli@gmail.com', 'Lucioli1234', 0, '');
 
 --
 -- Indici per le tabelle scaricate
@@ -166,7 +170,7 @@ ALTER TABLE `destinations`
 -- Indici per le tabelle `followers`
 --
 ALTER TABLE `followers`
-  ADD PRIMARY KEY (`idFollowed`,`idFollowing`),
+  ADD PRIMARY KEY (`idFollower`,`idFollowing`),
   ADD KEY `idFollowing` (`idFollowing`);
 
 --
@@ -268,7 +272,7 @@ ALTER TABLE `comments`
 -- Limiti per la tabella `followers`
 --
 ALTER TABLE `followers`
-  ADD CONSTRAINT `followers_ibfk_1` FOREIGN KEY (`idFollowed`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `followers_ibfk_1` FOREIGN KEY (`idFollower`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `followers_ibfk_2` FOREIGN KEY (`idFollowing`) REFERENCES `users` (`id`);
 
 --
