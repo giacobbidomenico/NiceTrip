@@ -4,8 +4,11 @@ const email_username_field = document.getElementById("email-username");
 const password_field = document.getElementById("password");
 const stay_signed_in_checkbox = document.getElementById("stay-signed-in");
 const login_submit = document.getElementById("login-submit");
+const eye_button = document.getElementById("eye-button");
 
 email_username_field.addEventListener("focusout", event => verifyEmail());
+eye_button.addEventListener("click", event =>  viewPassword());
+
 
 login_submit.addEventListener("click", event => {
     event.preventDefault();
@@ -37,7 +40,6 @@ function login() {
     formData.append('stay-signed-in', stay_signed_in_checkbox.checked);
 
     axios.post('api-login.php', formData).then(response => {
-        console.log(response);
         if(response.data["error"] || response.data["found-users"] <= 0) {
             if(!email_username_field.classList.contains('is-valid')) {
                 email_username_field.classList.add("is-invalid");
@@ -47,4 +49,12 @@ function login() {
             window.location.replace("feed.php");
         }
     });
+}
+
+function viewPassword() {
+    if(password_field.type === 'password') {
+        password_field.type = 'text';
+    } else {
+        password_field.type = 'password';
+    }
 }
