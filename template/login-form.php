@@ -1,11 +1,11 @@
     <h3 class="fw-bold fs-e text-primary">Login:</h3>
-    <form class="row g-3 needs-validation mt-4" novalidate>
+    <form class="row g-3 needs-validation mt-4" method="POST" novalidate>
         <div class="col-12">
             <div class="col-md-6">
                 <label for="email-username" class="form-label">Email or Username</label>
                 <input type="text" class="form-control rounded-0" id="email-username" name="email-username" required>
                 <div class="invalid-feedback">
-                    Please provide a valid email or username
+                    Please provide a valid email or username!
                 </div>
             </div>
         </div>
@@ -14,13 +14,13 @@
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control  rounded-0" id="password" name="password" required>
                 <div class="invalid-feedback">
-                    Please provide a valid city.
+                    Password is incorrect!
                 </div>
             </div>
         </div>
         <div class="col-12">
             <div class="form-check">
-                <input class="form-check-input  rounded-0" type="checkbox" value="staySignedIn" id="staySignedIn">
+                <input class="form-check-input  rounded-0" type="checkbox" value="stay-signed-in" id="stay-signed-in">
                 <label class="form-check-label" for="staySignedIn">
                     Stay signed in
                 </label>
@@ -28,7 +28,7 @@
         </div>
         <div class="col-12 mt-5">
             <div class="col-md-6 d-grid pe-1">
-                <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Login" name="login" id="loginSubmit">
+                <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Login" name="login" id="login-submit">
             </div>
         </div>
     </form>
