@@ -20,7 +20,7 @@
         </div>
         <div class="col-12">
             <div class="form-check">
-                <input class="form-check-input  rounded-0" type="checkbox" value="staySignedIn" id="staySignedIn">
+                <input class="form-check-input  rounded-0" type="checkbox" value="stay-signed-in" id="stay-signed-in">
                 <label class="form-check-label" for="staySignedIn">
                     Stay signed in
                 </label>
@@ -28,7 +28,7 @@
         </div>
         <div class="col-12 mt-5">
             <div class="col-md-6 d-grid pe-1">
-                <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Login" name="login" id="loginSubmit">
+                <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Login" name="login" id="login-submit">
             </div>
         </div>
     </form>
