@@ -40,13 +40,22 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getPostImages($postId){
+        $query = 'SELECT * FROM images I WHERE I.postsId = 6';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $postId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function getFollowingUserPosts($followingId, $lastPost, $isLastPostSet){
         if($isLastPostSet){
-            $query = 'SELECT * FROM posts P, images I WHERE P.userId = ? AND P.id >= ? AND I.postsId = P.id;';
+            $query = 'SELECT * FROM posts P WHERE P.userId = ? AND P.id > ?;';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ss', $followingId, $lastPost);
         } else {
-            $query = 'SELECT * FROM posts P, images I WHERE P.userId = ? AND I.postsId = P.id;';
+            $query = 'SELECT * FROM posts P WHERE P.userId = ?;';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $followingId);
         }
@@ -56,7 +65,7 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getPostStats($followinId, $lastPost, $isLastPostSet){
+    public function getPostStats($followingId, $lastPost, $isLastPostSet){
         if($isLastPostSet){
             $query = 'SELECT Likes.postId, Comm.`comment-number`, Likes.`like-number` FROM (SELECT P.id AS postId, Count(P.id) AS `comment-number` FROM posts P, comments C WHERE P.userId = ? AND P.id > ?  AND C.postsId = P.id GROUP BY P.id) AS Comm, (SELECT P.id AS postId, Count(P.id) AS `like-number` FROM posts P, likes L WHERE P.userId = ? AND P.id > ? AND L.postsId = P.id GROUP BY P.id) AS Likes WHERE Likes.postId = Comm.postId';
             $stmt = $this->db->prepare($query);
