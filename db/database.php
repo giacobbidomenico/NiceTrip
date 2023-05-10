@@ -31,7 +31,7 @@ class DatabaseHelper{
     }
 
     public function getFollowingUserDetails($followerName){
-        $query = 'SELECT F.*,UF.* FROM users U, follows F, users UF WHERE U.userName = ? AND U.id = F.follower AND F.following = UF.id';
+        $query = 'SELECT F.*,UF.* FROM users U, follows F, users UF WHERE U.id = ? AND U.id = F.follower AND F.following = UF.id';
 
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $followerName);
