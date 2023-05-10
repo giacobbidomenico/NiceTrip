@@ -1,8 +1,16 @@
 <?php
-    require("bootstrap.php");
+    require_once("bootstrap.php");
+    require_once("utils/functions.php");
 
     if(isset($_SESSION["id"]) && isset($_SESSION["email"]) && isset($_SESSION["username"])) {
         header('Location: feed.php');
+    }
+
+    if(isset($_COOKIE["session-extension-code"])) {
+        $result = $dbh->updateSessionExtensionCode($session_extension_code);
+        if(isset($result["id"]) && isset($result["email"]) && isset($result["userName"])) {
+            registerLoginUser($result["id"], $result["email"], $result["userName"]);
+        }
     }
 
     $templateParams["template-name"] = "login-form.php";

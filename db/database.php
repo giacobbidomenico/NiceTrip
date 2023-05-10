@@ -20,10 +20,29 @@ class DatabaseHelper{
     }
 
     public function checkLogin($email_username, $password) {
-        $query = "SELECT `users`.id, `users`.`email`, `users`.`userName` FROM `users` WHERE (`users`.`email` = ? OR `users`.`userName` = ?) AND `users`.`password` = ?";
+        $query = "SELECT `users`.id, `users`.`userName`, `users`.`email` FROM `users` WHERE (`users`.`email` = ? OR `users`.`userName` = ?) AND `users`.`password` = ?";
 
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('sss', $email_username, $email_username, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function updateSessionExtensionCode($session_extension_code, $user_id) {
+        $query = "UPDATE `users` SET `cookie` = ? WHERE `users`.`id` = ?";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $session_extension_code, $user_id);
+        return $stmt->execute();
+    }
+
+    public function getUsersBySessionExtensionCode($session_extension_code) {
+        $query = "SELECT `users`.`id`, `users`.`userName`, `users`.`email` FROM `users` WHERE `users`.`cookie` = ?";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $session_extension_code);
         $stmt->execute();
         $result = $stmt->get_result();
 

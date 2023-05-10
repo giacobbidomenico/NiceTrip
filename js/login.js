@@ -40,6 +40,7 @@ function login() {
     formData.append('stay-signed-in', stay_signed_in_checkbox.checked);
 
     axios.post('api-login.php', formData).then(response => {
+        console.log(response);
         if(response.data["error"] || response.data["found-users"] <= 0) {
             if(!email_username_field.classList.contains('is-valid')) {
                 email_username_field.classList.add("is-invalid");
