@@ -64,7 +64,7 @@ class DatabaseHelper{
         } else {
             $query = 'SELECT Likes.postId, Comm.`comment-number`, Likes.`like-number` FROM (SELECT P.id AS postId, Count(P.id) AS `comment-number` FROM posts P, comments C WHERE P.userId = ? AND C.postsId = P.id GROUP BY P.id) AS Comm, (SELECT P.id AS postId, Count(P.id) AS `like-number` FROM posts P, likes L WHERE P.userId = ? AND L.postsId = P.id GROUP BY P.id) AS Likes WHERE Likes.postId = Comm.postId';
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ssss', $followingId, $followingId);
+            $stmt->bind_param('ss', $followingId, $followingId);
         }
         $stmt->execute();
         $result = $stmt->get_result();
