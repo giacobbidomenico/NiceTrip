@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 09, 2023 alle 21:39
+-- Creato il: Mag 10, 2023 alle 16:05
 -- Versione del server: 10.4.25-MariaDB
 -- Versione PHP: 8.1.10
 
@@ -55,12 +55,14 @@ CREATE TABLE `destinations` (
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `followers`
+-- Struttura della tabella `follows`
 --
 
-CREATE TABLE `followers` (
-  `idFollower` int(11) NOT NULL,
-  `idFollowing` int(11) NOT NULL
+CREATE TABLE `follows` (
+  `id` int(11) NOT NULL,
+  `follower` int(11) NOT NULL,
+  `following` int(11) NOT NULL,
+  `lastPost` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -109,7 +111,9 @@ CREATE TABLE `posts` (
   `id` int(11) NOT NULL,
   `title` varchar(150) NOT NULL,
   `description` varchar(5000) NOT NULL,
-  `userId` int(11) NOT NULL
+  `userId` int(11) NOT NULL,
+  `time` time NOT NULL,
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -141,14 +145,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dump dei dati per la tabella `users`
---
-
-INSERT INTO `users` (`id`, `userName`, `name`, `lastName`, `email`, `password`, `active`, `cookie`) VALUES
-(1, 'lori', 'lorenzo', 'colletta', 'lori@gmail.com', 'Hollywood', 0, ''),
-(2, 'lucioli', 'luca', 'lucioli', 'lucioli@gmail.com', 'Lucioli1234', 0, '');
-
---
 -- Indici per le tabelle scaricate
 --
 
@@ -167,11 +163,13 @@ ALTER TABLE `destinations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indici per le tabelle `followers`
+-- Indici per le tabelle `follows`
 --
-ALTER TABLE `followers`
-  ADD PRIMARY KEY (`idFollower`,`idFollowing`),
-  ADD KEY `idFollowing` (`idFollowing`);
+ALTER TABLE `follows`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `follower` (`follower`),
+  ADD KEY `following` (`following`),
+  ADD KEY `lastPost` (`lastPost`);
 
 --
 -- Indici per le tabelle `images`
@@ -234,6 +232,12 @@ ALTER TABLE `destinations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT per la tabella `follows`
+--
+ALTER TABLE `follows`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT per la tabella `images`
 --
 ALTER TABLE `images`
@@ -249,7 +253,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT per la tabella `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
@@ -269,11 +273,12 @@ ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
 
 --
--- Limiti per la tabella `followers`
+-- Limiti per la tabella `follows`
 --
-ALTER TABLE `followers`
-  ADD CONSTRAINT `followers_ibfk_1` FOREIGN KEY (`idFollower`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `followers_ibfk_2` FOREIGN KEY (`idFollowing`) REFERENCES `users` (`id`);
+ALTER TABLE `follows`
+  ADD CONSTRAINT `follows_ibfk_1` FOREIGN KEY (`follower`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `follows_ibfk_2` FOREIGN KEY (`following`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `follows_ibfk_3` FOREIGN KEY (`lastPost`) REFERENCES `posts` (`id`);
 
 --
 -- Limiti per la tabella `images`
