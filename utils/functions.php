@@ -9,6 +9,6 @@ function registerLoginUser($id, $email, $username) {
 }
 
 function random_str($length = 30) {
-    return bin2hex(random_bytes($length));
+    return bin2hex(random_bytes($length / 2));
 }
 ?>

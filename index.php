@@ -1,16 +1,16 @@
 <?php
     require_once("bootstrap.php");
     require_once("utils/functions.php");
+    if(isset($_COOKIE["session-extension-code"])) {
+        $result = $dbh->getUsersBySessionExtensionCode($_COOKIE["session-extension-code"]);
+        var_dump($result);
+        if(isset($result[0]["id"]) && isset($result[0]["email"]) && isset($result[0]["userName"])) {
+            registerLoginUser($result[0]["id"], $result[0]["email"], $result[0]["userName"]);
+        }
+    }
 
     if(isset($_SESSION["id"]) && isset($_SESSION["email"]) && isset($_SESSION["username"])) {
         header('Location: feed.php');
-    }
-
-    if(isset($_COOKIE["session-extension-code"])) {
-        $result = $dbh->updateSessionExtensionCode($session_extension_code);
-        if(isset($result["id"]) && isset($result["email"]) && isset($result["userName"])) {
-            registerLoginUser($result["id"], $result["email"], $result["userName"]);
-        }
     }
 
     $templateParams["template-name"] = "login-form.php";
