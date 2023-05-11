@@ -43,6 +43,6 @@
 
     <div class="col-12 mt-3">
         <div class="col-md-6 d-grid pe-1">
-            <a href="sign-in.php" class="btn btn-primary btn-lg rounded-0">Sign Up</a>
+            <a href="sign-up.php" class="btn btn-primary btn-lg rounded-0">Sign Up</a>
         </div>
     </div>

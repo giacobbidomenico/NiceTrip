@@ -2,17 +2,11 @@
 
 require_once "bootstrap.php";
 
-//The user is redirected to the feed if the session already contains the account data
-if(isSessionActive()) {
-    header('Location: feed.php');
-}
-
-$templateParams["template-name"] = "login-form.php";
 $templateParams["title"] = "NiceTrip";
 $templateParams["subtitle"] = "Share your travels with your friends";
 $templateParams["iconName"] = "icon.png";
 $templateParams["iconDescription"] = "NiceTrip icon";
-$templateParams["mainImageName"] = "group-travel.png";
+$templateParams["mainImageName"] = "person-travelling.png";
 $templateParams["mainImageDescription"] = "2 people packing their bags to go on a trip";
 
 $templateParams["js"] = array(
