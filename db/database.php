@@ -68,7 +68,7 @@ class DatabaseHelper{
 
     public function getPostStats($followingId, $lastPost, $isLastPostSet){
         if($isLastPostSet){
-            $query = 'SELECT  Likes.userId, Likes.postId, Comm.`comment-number`, Likes.`like-number` FROM ( SELECT F.following AS UserId, P.id AS postId, COUNT(C.postsId) AS `comment-number` FROM follows F JOIN posts P ON (F.following = P.userId) LEFT OUTER JOIN comments C ON (C.postsId = P.id) WHERE F.follower = ? AND P.id > 6 GROUP BY F.following, P.id ) AS Comm, ( SELECT F.following AS UserId, P.id AS postId, COUNT(L.postsId) AS `like-number` FROM follows F JOIN posts P ON (F.following = P.userId) LEFT OUTER JOIN likes L ON (L.postsId = P.id) WHERE F.follower = ? AND P.id > 6 GROUP BY F.following, P.id ) AS Likes WHERE Likes.postId = Comm.postId;';
+            $query = 'SELECT  Likes.userId, Likes.postId, Comm.`comment-number`, Likes.`like-number` FROM ( SELECT F.following AS UserId, P.id AS postId, COUNT(C.postsId) AS `comment-number` FROM follows F JOIN posts P ON (F.following = P.userId) LEFT OUTER JOIN comments C ON (C.postsId = P.id) WHERE F.follower = ? AND P.id > ? GROUP BY F.following, P.id ) AS Comm, ( SELECT F.following AS UserId, P.id AS postId, COUNT(L.postsId) AS `like-number` FROM follows F JOIN posts P ON (F.following = P.userId) LEFT OUTER JOIN likes L ON (L.postsId = P.id) WHERE F.follower = ? AND P.id > ? GROUP BY F.following, P.id ) AS Likes WHERE Likes.postId = Comm.postId;';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ssss', $followingId, $lastPost, $followingId, $lastPost);
         } else {
