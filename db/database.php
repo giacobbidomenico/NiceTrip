@@ -44,26 +44,26 @@ class DatabaseHelper{
     public function getPostImages($followerId){
         $query = 'SELECT I.* FROM images I, posts P, follows F WHERE F.follower = ? AND P.id > IFNULL(F.lastPost,-1) AND I.postsId = P.id';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $postId);
+        $stmt->bind_param('s', $followerId);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getFollowingUsersPosts($follower){
+    public function getFollowingUsersPosts($followerId){
         $query = 'SELECT P.* FROM posts P, follows F WHERE F.follower = ? AND F.following = P.userId AND P.id > IFNULL(F.lastPost,-1);';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $followingId);
+        $stmt->bind_param('s', $followerId);
 
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getPostStats($follower){
+    public function getPostStats($followerId){
         $query = 'SELECT  Likes.userId, Likes.postId, Comm.`comment-number`, Likes.`like-number` FROM ( SELECT F.following AS UserId, P.id AS postId, COUNT(C.postsId) AS `comment-number` FROM follows F JOIN posts P ON (F.following = P.userId) LEFT OUTER JOIN comments C ON (C.postsId = P.id) WHERE F.follower = ? AND P.id > IFNULL(F.lastPost,-1) GROUP BY F.following, P.id ) AS Comm, ( SELECT F.following AS UserId, P.id AS postId, COUNT(L.postsId) AS `like-number` FROM follows F JOIN posts P ON (F.following = P.userId) LEFT OUTER JOIN likes L ON (L.postsId = P.id) WHERE F.follower = ? AND P.id > IFNULL(F.lastPost,-1) GROUP BY F.following, P.id ) AS Likes WHERE Likes.postId = Comm.postId;';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss', $follower, $follower);
+        $stmt->bind_param('ss', $followerId, $followerId);
         
         $stmt->execute();
         $result = $stmt->get_result();
