@@ -1,7 +1,7 @@
 <?php
     require_once "bootstrap.php";
 
-
+    //The user is redirected to the feed if the session already contains the account data
     if(isSessionActive()) {
         header('Location: feed.php');
     }
