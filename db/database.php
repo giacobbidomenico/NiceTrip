@@ -41,8 +41,8 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getPostImages($postId){
-        $query = 'SELECT * FROM images I WHERE I.postsId = ?';
+    public function getPostImages($followerId){
+        $query = 'SELECT I.* FROM images I, posts P, follows F WHERE F.follower = ? AND P.id > IFNULL(F.lastPost,-1) AND I.postsId = P.id';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $postId);
         $stmt->execute();
