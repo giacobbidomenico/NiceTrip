@@ -52,11 +52,11 @@ class DatabaseHelper{
 
     public function getFollowingUsersPosts($follower, $lastPost, $isLastPostSet){
         if($isLastPostSet){
-            $query = 'SELECT P.* FROM posts P, users U, follows F WHERE U.id = "3" AND U.id = F.follower AND F.following = P.userId AND P.id > ?;';
+            $query = 'SELECT P.* FROM posts P, follows F WHERE F.follower = ? AND F.following = P.userId AND P.id > ?;';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ss', $followingId, $lastPost);
         } else {
-            $query = 'SELECT P.* FROM posts P, users U, follows F WHERE U.id = "3" AND U.id = F.follower AND F.following = P.userId ;';
+            $query = 'SELECT P.* FROM posts P, follows F WHERE F.follower = ? AND F.following = P.userId;';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $followingId);
         }
