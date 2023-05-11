@@ -30,6 +30,7 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+
     public function getFollowingUserDetails($followerName){
         $query = 'SELECT F.*,UF.* FROM users U, follows F, users UF WHERE U.id = ? AND U.id = F.follower AND F.following = UF.id';
 
@@ -41,7 +42,7 @@ class DatabaseHelper{
     }
 
     public function getPostImages($postId){
-        $query = 'SELECT * FROM images I WHERE I.postsId = 6';
+        $query = 'SELECT * FROM images I WHERE I.postsId = ?';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $postId);
         $stmt->execute();
@@ -49,13 +50,13 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getFollowingUserPosts($followingId, $lastPost, $isLastPostSet){
+    public function getFollowingUsersPosts($follower, $lastPost, $isLastPostSet){
         if($isLastPostSet){
-            $query = 'SELECT * FROM posts P WHERE P.userId = ? AND P.id > ?;';
+            $query = 'SELECT P.* FROM posts P, users U, follows F WHERE U.id = "3" AND U.id = F.follower AND F.following = P.userId AND P.id > ?;';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ss', $followingId, $lastPost);
         } else {
-            $query = 'SELECT * FROM posts P WHERE P.userId = ?;';
+            $query = 'SELECT P.* FROM posts P, users U, follows F WHERE U.id = "3" AND U.id = F.follower AND F.following = P.userId ;';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $followingId);
         }
