@@ -1,6 +1,6 @@
 <?php
+
 require_once 'bootstrap.php';
-require_once 'utils/functions.php';
 
 $result["error"] = false;
 
@@ -14,6 +14,7 @@ if(isset($_POST["type-request"])) {
             }
             break;
         case "login":
+
             if(isset($_POST["email-username"]) && isset($_POST["password"]) && isset($_POST["stay-signed-in"])) {
                 $login_data = $dbh->checkLogin($_POST["email-username"], $_POST["password"]);
                 $result["found-users"] = count($login_data);
@@ -47,4 +48,5 @@ if(isset($_POST["type-request"])) {
 
 header('Content-Type: application/json');
 echo json_encode($result);
+
 ?>

@@ -11,4 +11,8 @@ function registerLoginUser($id, $email, $username) {
 function random_str($length = 30) {
     return bin2hex(random_bytes($length / 2));
 }
+
+function isSessionActive() {
+    return isset($_SESSION["id"]) && isset($_SESSION["email"]) && isset($_SESSION["username"]);
+}
 ?>

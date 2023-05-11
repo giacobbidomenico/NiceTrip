@@ -1,15 +1,8 @@
 <?php
-    require_once("bootstrap.php");
-    require_once("utils/functions.php");
-    if(isset($_COOKIE["session-extension-code"])) {
-        $result = $dbh->getUsersBySessionExtensionCode($_COOKIE["session-extension-code"]);
-        var_dump($result);
-        if(isset($result[0]["id"]) && isset($result[0]["email"]) && isset($result[0]["userName"])) {
-            registerLoginUser($result[0]["id"], $result[0]["email"], $result[0]["userName"]);
-        }
-    }
+    require_once "bootstrap.php";
 
-    if(isset($_SESSION["id"]) && isset($_SESSION["email"]) && isset($_SESSION["username"])) {
+
+    if(isSessionActive()) {
         header('Location: feed.php');
     }
 
@@ -25,5 +18,6 @@
         "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js",
         "https://unpkg.com/axios/dist/axios.min.js",
         "js/login.js");
+
     require("template/base1.php");
 ?>
