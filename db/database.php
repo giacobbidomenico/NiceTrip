@@ -34,7 +34,7 @@ class DatabaseHelper{
     *   returns the followed users' posts id, sorteded starting from the most recent
     **/
     public function getPostToVisualizeId($followerId){
-        $query = '';
+        $query = 'SELECT P.id FROM posts P, follows F WHERE F.follower = ? AND F.following = P.userId AND P.id NOT IN (SELECT V.postId FROM visualizations V WHERE V.userId = F.follower)';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $followerId);
         $stmt->execute();
@@ -46,9 +46,9 @@ class DatabaseHelper{
     *   returns a user's public details
     **/
     public function getPublicUserDetails($userId){
-        $query = '';
+        $query = 'SELECT U.id, U.userName, U.name, U.lastName FROM users U WHERE U.id = ?';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $followerId);
+        $stmt->bind_param('s', $userId);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -57,10 +57,10 @@ class DatabaseHelper{
     /**
     * returns the images of a given post
     **/
-    public function getPostImages($followerId){
-        $query = '';
+    public function getPostImages($postId){
+        $query = 'SELECT * FROM images I WHERE I.postsId = ?';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $followerId);
+        $stmt->bind_param('s', $postId);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -69,10 +69,10 @@ class DatabaseHelper{
     /**
     *   returns title, userId, description, time, date, likes number, comments number of a given post
     **/
-    public function getPostDetails(){
-        $query = '';
+    public function getPostDetails($postId){
+        $query = 'SELECT PS.*, Comm.`comment-number`, Likes.`like-number` FROM posts PS, ( SELECT P.id AS postId, COUNT(C.postsId) AS `comment-number` FROM posts P LEFT OUTER JOIN comments C ON (C.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Comm, ( SELECT P.id AS postId, COUNT(L.postsId) AS `like-number` FROM posts P LEFT OUTER JOIN likes L ON (L.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Likes WHERE PS.id = Likes.postId AND PS.id = Comm.postId;';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $followerId);
+        $stmt->bind_param('ss', $postId);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
