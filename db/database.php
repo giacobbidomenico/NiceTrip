@@ -81,7 +81,7 @@ class DatabaseHelper{
         if($this->checkFollow($followerId, $postId, true)){
             $query = 'SELECT PS.*, Comm.`comment-number`, Likes.`like-number` FROM posts PS, ( SELECT P.id AS postId, COUNT(C.postsId) AS `comment-number` FROM posts P LEFT OUTER JOIN comments C ON (C.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Comm, ( SELECT P.id AS postId, COUNT(L.postsId) AS `like-number` FROM posts P LEFT OUTER JOIN likes L ON (L.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Likes WHERE PS.id = Likes.postId AND PS.id = Comm.postId;';
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ss', $postId);
+            $stmt->bind_param('ss', $postId, $postId);
             $stmt->execute();
             $result = $stmt->get_result();
             return $result->fetch_all(MYSQLI_ASSOC);
@@ -100,7 +100,7 @@ class DatabaseHelper{
         $stmt->bind_param('ss', $followerId, $id);
         $stmt->execute();
         $result = $stmt->get_result();
-        return count($result) == 0? false : true;
+        return count($result->fetch_all(MYSQLI_ASSOC)) == 0? false : true;
     }
 
 }
