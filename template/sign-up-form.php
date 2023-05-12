@@ -1,4 +1,4 @@
-<h3 class="fw-bold fs-e text-primary">Login:</h3>
+<h3 class="fw-bold fs-e text-primary">Sign Up:</h3>
 <form class="row g-3 needs-validation mt-4" method="POST" novalidate>
     <div class="col-12">
         <div class="col-md-6">
