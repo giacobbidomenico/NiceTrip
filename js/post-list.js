@@ -7,14 +7,22 @@ let index = 0;
     - richiesta id post da visualizzare
     - riempimento feed con numero limitato di post
     - alla rilevazione della fine dello scrolling aggiungere contenuto al feed
+        > evento:
+            window.innerHeight + window.scrollY >= document.getElementById("mainArticle").offsetHeight + document.getElementById("mainArticle").scrollTop
     ? scroll verso l'alto ricarica la pagina
  */
 
 
 axios.post('api-post-id-list.php', {}).then(response => {
     ids = response;
-    fillFeed();
 });
+
+window.addEventListener("onscroll", event => fillFeed());
+
+// checks whether the user has reached the bottom of the page
+function isBottomReached() {
+    return window.innerHeight + window.scrollY >= document.getElementById("mainArticle").offsetHeight + document.getElementById("mainArticle").scrollTop;
+}
 
 // adds a limited number of posts in mainArticle section
 function fillFeed() {
