@@ -1,7 +1,8 @@
 <?php
     require_once 'bootstrap.php';
-    $id = $_POST["postId"];
-    $result = $dbh->getPostImages($id);
+    $id = $_SESSION["id"];
+    $postId = $_POST["postId"];
+    $result = $dbh->getPostImages($postId, $id);
     
     echo json_encode($result);
 
