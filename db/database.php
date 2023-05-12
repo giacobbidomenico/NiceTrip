@@ -45,8 +45,8 @@ class DatabaseHelper{
     /**
     *   returns a user's public details
     **/
-    public function getPublicUserDetails($userId, $follwerId){
-        if($this->checkFollow($followerId, $postId, false)){
+    public function getPublicUserDetails($userId, $followerId){
+        if($this->checkFollow($followerId, $userId, false)){
             $query = 'SELECT U.id, U.userName, U.name, U.lastName FROM users U WHERE U.id = ?';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $userId);
