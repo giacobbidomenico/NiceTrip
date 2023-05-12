@@ -1,16 +1,14 @@
-<h3 class="fw-bold fs-e text-primary">Sign Up:</h3>
+<h3 class="fw-bold fs-e text-primary mt-4">Sign Up:</h3>
 <form class="row g-3 needs-validation mt-4" method="POST" novalidate>
     <div class="col-12">
-        <div class="col-md-6">
+        <div class="col-12 col-md-4 d-inline-block me-md-4">
             <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control rounded-0" id="username" name="username" required>
             <div class="invalid-feedback">
                 Please provide a valid username!
             </div>
         </div>
-    </div>
-    <div class="col-12">
-        <div class="col-md-6">
+        <div class="col-12 col-md-4 d-inline-block">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control rounded-0" id="email" name="email" required>
             <div class="invalid-feedback">
@@ -19,16 +17,15 @@
         </div>
     </div>
     <div class="col-12">
-        <div class="col-md-6">
+        <div class="col-12 col-md-4 d-inline-block me-md-4">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control rounded-0" id="name" name="name" required>
             <div class="invalid-feedback">
                 Please provide a valid name!
             </div>
         </div>
-    </div>
-    <div class="col-12">
-        <div class="col-md-6">
+        
+        <div class="col-12 col-md-4 d-inline-block">
             <label for="lastname" class="form-label">Last Name</label>
             <input type="text" class="form-control rounded-0" id="lastname" name="lastname" required>
             <div class="invalid-feedback">
@@ -36,8 +33,9 @@
             </div>
         </div>
     </div>
+
     <div class="col-12">
-        <div class="col-md-6">
+        <div class="col-12 col-md-4 d-inline-block me-md-4">
             <label for="password" class="form-label">Password</label>
             <div class="input-group">
                 <input type="password" class="form-control  rounded-0" id="password" name="password" required>
@@ -52,9 +50,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-12">
-        <div class="col-md-6">
+        <div class="col-12 col-md-4 d-inline-block">
             <label for="confirm-password" class="form-label">Confirm Password</label>
             <div class="input-group">
                 <input type="password" class="form-control  rounded-0" id="confirm-password" name="confirm-password" required>
@@ -70,23 +66,15 @@
             </div>
         </div>
     </div>
-    <div class="col-12">
-        <div class="form-check">
-            <input class="form-check-input  rounded-0" type="checkbox" value="stay-signed-in" id="stay-signed-in">
-            <label class="form-check-label" for="staySignedIn">
-                Stay signed in
-            </label>
-        </div>
-    </div>
     <div class="col-12 mt-5">
         <div class="col-md-6 d-grid pe-1">
-            <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Login" name="login" id="login-submit">
+            <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Sign Up" name="signup" id="signup-submit">
         </div>
     </div>
 </form>
 
 <div class="col-12 mt-3">
     <div class="col-md-6 d-grid pe-1">
-        <a href="sign-up.php" class="btn btn-primary btn-lg rounded-0">Sign Up</a>
+        <a href="index.php" class="btn btn-primary btn-lg rounded-0">Login</a>
     </div>
 </div>
