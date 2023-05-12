@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 10, 2023 alle 16:05
+-- Creato il: Mag 12, 2023 alle 10:18
 -- Versione del server: 10.4.25-MariaDB
 -- Versione PHP: 8.1.10
 
@@ -38,6 +38,14 @@ CREATE TABLE `comments` (
   `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `comments`
+--
+
+INSERT INTO `comments` (`id`, `description`, `date`, `time`, `postsId`, `userId`) VALUES
+(1, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
+(2, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7);
+
 -- --------------------------------------------------------
 
 --
@@ -61,9 +69,17 @@ CREATE TABLE `destinations` (
 CREATE TABLE `follows` (
   `id` int(11) NOT NULL,
   `follower` int(11) NOT NULL,
-  `following` int(11) NOT NULL,
-  `lastPost` int(11) NOT NULL
+  `following` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `follows`
+--
+
+INSERT INTO `follows` (`id`, `follower`, `following`) VALUES
+(5, 3, 5),
+(6, 6, 5),
+(7, 7, 5);
 
 -- --------------------------------------------------------
 
@@ -77,6 +93,15 @@ CREATE TABLE `images` (
   `postsId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `images`
+--
+
+INSERT INTO `images` (`id`, `name`, `postsId`) VALUES
+(1, 'primo', 5),
+(2, 'secondo.primo', 6),
+(3, 'secondo.secondo', 6);
+
 -- --------------------------------------------------------
 
 --
@@ -87,6 +112,14 @@ CREATE TABLE `likes` (
   `userId` int(11) NOT NULL,
   `postsId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `likes`
+--
+
+INSERT INTO `likes` (`userId`, `postsId`) VALUES
+(6, 6),
+(7, 6);
 
 -- --------------------------------------------------------
 
@@ -115,6 +148,15 @@ CREATE TABLE `posts` (
   `time` time NOT NULL,
   `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `posts`
+--
+
+INSERT INTO `posts` (`id`, `title`, `description`, `userId`, `time`, `date`) VALUES
+(5, 'primo', 'primo', 3, '16:11:59', '2023-05-10'),
+(6, 'secondo', 'secondo', 5, '16:12:21', '2023-05-10'),
+(7, 'secondo.primo', 'secondo.primo', 5, '16:14:52', '2023-05-09');
 
 -- --------------------------------------------------------
 
@@ -145,6 +187,28 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dump dei dati per la tabella `users`
+--
+
+INSERT INTO `users` (`id`, `userName`, `name`, `lastName`, `email`, `password`, `active`, `cookie`) VALUES
+(3, 'primo', 'primo', 'primo', 'primo@primo.primo', 'primp', 0, ''),
+(5, 'secondo', 'secondo', 'secondo', 'secondo@secondo.secondo', 'secondo', 0, ''),
+(6, 'terzo', 'terzo', 'terzo', 'terzo@terzo.terzo', 'terzo', 0, ''),
+(7, 'quarto', 'quarto', 'quarto', 'quarto@quarto.quarto', 'quarto', 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `visualizations`
+--
+
+CREATE TABLE `visualizations` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `postId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
 -- Indici per le tabelle scaricate
 --
 
@@ -168,8 +232,7 @@ ALTER TABLE `destinations`
 ALTER TABLE `follows`
   ADD PRIMARY KEY (`id`),
   ADD KEY `follower` (`follower`),
-  ADD KEY `following` (`following`),
-  ADD KEY `lastPost` (`lastPost`);
+  ADD KEY `following` (`following`);
 
 --
 -- Indici per le tabelle `images`
@@ -216,6 +279,14 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `userName` (`userName`);
 
 --
+-- Indici per le tabelle `visualizations`
+--
+ALTER TABLE `visualizations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `postId` (`postId`),
+  ADD KEY `userId` (`userId`);
+
+--
 -- AUTO_INCREMENT per le tabelle scaricate
 --
 
@@ -223,7 +294,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `destinations`
@@ -235,13 +306,13 @@ ALTER TABLE `destinations`
 -- AUTO_INCREMENT per la tabella `follows`
 --
 ALTER TABLE `follows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT per la tabella `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `notifications`
@@ -253,13 +324,19 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT per la tabella `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT per la tabella `visualizations`
+--
+ALTER TABLE `visualizations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Limiti per le tabelle scaricate
@@ -277,8 +354,7 @@ ALTER TABLE `comments`
 --
 ALTER TABLE `follows`
   ADD CONSTRAINT `follows_ibfk_1` FOREIGN KEY (`follower`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `follows_ibfk_2` FOREIGN KEY (`following`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `follows_ibfk_3` FOREIGN KEY (`lastPost`) REFERENCES `posts` (`id`);
+  ADD CONSTRAINT `follows_ibfk_2` FOREIGN KEY (`following`) REFERENCES `users` (`id`);
 
 --
 -- Limiti per la tabella `images`
@@ -312,6 +388,13 @@ ALTER TABLE `posts`
 ALTER TABLE `trips`
   ADD CONSTRAINT `trips_ibfk_1` FOREIGN KEY (`destinationsId`) REFERENCES `destinations` (`id`),
   ADD CONSTRAINT `trips_ibfk_2` FOREIGN KEY (`postsId`) REFERENCES `posts` (`id`);
+
+--
+-- Limiti per la tabella `visualizations`
+--
+ALTER TABLE `visualizations`
+  ADD CONSTRAINT `visualizations_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`),
+  ADD CONSTRAINT `visualizations_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
