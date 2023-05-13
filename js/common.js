@@ -3,13 +3,13 @@
  * If does not happen, an error message is shown in the form.
  * 
  */
-function verifyEmail(field, order=false) {
+function verifyUsernameEmail(field, order=false) {
     const formData = new FormData();
+
     formData.append('type-request', 'verify-email-username');
     formData.append('email-username', field.value);
 
     axios.post('api-login.php', formData).then(response => {
-        alert(order);
         if(!order) {
             if(response.data["error"] || response.data["found-emails-usernames"] == 0) {
                 field.classList.remove("is-valid");

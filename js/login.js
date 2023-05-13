@@ -6,7 +6,7 @@ const stay_signed_in_checkbox = document.getElementById("stay-signed-in");
 const login_submit = document.getElementById("login-submit");
 const eye_button = document.getElementById("eye-button");
 
-email_username_field.addEventListener("change", event => verifyEmail(email_username_field));
+email_username_field.addEventListener("change", event => verifyUsernameEmail(email_username_field));
 eye_button.addEventListener("click", event =>  viewPassword(password_field));
 
 
@@ -41,4 +41,3 @@ function login() {
         }
     });
 }
-
