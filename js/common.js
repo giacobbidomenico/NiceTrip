@@ -18,3 +18,15 @@ function verifyEmail() {
         }
     });
 }
+
+/**
+ * Function that makes the password field of the form visible if the user requests it.
+ * 
+ */
+function viewPassword(field) {
+    if(field.type === 'password') {
+        field.type = 'text';
+    } else {
+        field.type = 'password';
+    }
+}

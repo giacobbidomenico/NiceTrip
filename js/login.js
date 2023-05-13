@@ -7,7 +7,7 @@ const login_submit = document.getElementById("login-submit");
 const eye_button = document.getElementById("eye-button");
 
 email_username_field.addEventListener("focusout", event => verifyEmail());
-eye_button.addEventListener("click", event =>  viewPassword());
+eye_button.addEventListener("click", event =>  viewPassword(password_field));
 
 
 login_submit.addEventListener("click", event => {
@@ -42,14 +42,3 @@ function login() {
     });
 }
 
-/**
- * Function that makes the password field of the form visible if the user requests it.
- * 
- */
-function viewPassword() {
-    if(password_field.type === 'password') {
-        password_field.type = 'text';
-    } else {
-        password_field.type = 'password';
-    }
-}
