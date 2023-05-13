@@ -9,9 +9,18 @@ if(isset($_POST["type-request"])) {
     switch($_POST["type-request"]) {
 
         //Check that an email is associated with a certain account, otherwise an error is returned
-        case "verify-email-username":
-            if(isset($_POST["email-username"])) {
-                $result["found-emails-usernames"] = count($dbh->checkEmailOrUsername($_POST["email-username"]));
+        case "verify-email":
+            if(isset($_POST["email"])) {
+                $result["found-emails"] = count($dbh->checkEmail($_POST["email"]));
+            } else {
+                $result["error"] = true;
+            }
+            break;
+
+        //Check that an username is associated with a certain account, otherwise an error is returned
+        case "verify-username":
+            if(isset($_POST["email"])) {
+                $result["found-emails"] = count($dbh->checkEmail($_POST["email"]));
             } else {
                 $result["error"] = true;
             }
