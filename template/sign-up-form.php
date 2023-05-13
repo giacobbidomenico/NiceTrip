@@ -1,6 +1,6 @@
 <h3 class="fw-bold fs-e text-primary mt-4">Sign Up:</h3>
 <form class="row g-3 needs-validation mt-4" method="POST" novalidate>
-    <div class="col-12">
+    <!--<div class="col-md-12">-->
         <div class="col-12 col-md-4 d-inline-block me-md-4">
             <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control rounded-0" id="username" name="username" required>
@@ -15,8 +15,8 @@
                 Please provide a valid email!
             </div>
         </div>
-    </div>
-    <div class="col-12">
+    <!--</div>-->
+<!--    <div class="col-12">-->
         <div class="col-12 col-md-4 d-inline-block me-md-4">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control rounded-0" id="name" name="name" required>
@@ -32,9 +32,9 @@
                 Please provide a valid last name!
             </div>
         </div>
-    </div>
+<!--    </div>-->
 
-    <div class="col-12">
+<!--    <div class="col-12">-->
         <div class="col-12 col-md-4 d-inline-block me-md-4">
             <label for="password" class="form-label">Password</label>
             <div class="input-group">
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    <!--</div>-->
     <div class="col-12 mt-5">
         <div class="col-md-6 d-grid pe-1">
             <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Sign Up" name="signup" id="signup-submit">
@@ -73,8 +73,8 @@
     </div>
 </form>
 
-<div class="col-12 mt-3">
-    <div class="col-md-6 d-grid pe-1">
+<!--<div class="col-12 mt-3">-->
+    <div class="col-md-6 d-grid pe-1 mt-3">
         <a href="index.php" class="btn btn-primary btn-lg rounded-0">Login</a>
     </div>
-</div>
+<!--</div>-->

@@ -3,19 +3,31 @@
  * If does not happen, an error message is shown in the form.
  * 
  */
-function verifyEmail() {
+function verifyEmail(field, order=false) {
     const formData = new FormData();
     formData.append('type-request', 'verify-email-username');
-    formData.append('email-username', email_username_field.value);
+    formData.append('email-username', field.value);
 
     axios.post('api-login.php', formData).then(response => {
-        if(response.data["error"] || response.data["found-emails-usernames"] == 0) {
-            email_username_field.classList.remove("is-valid");
-            email_username_field.classList.add("is-invalid");
+        alert(order);
+        if(!order) {
+            if(response.data["error"] || response.data["found-emails-usernames"] == 0) {
+                field.classList.remove("is-valid");
+                field.classList.add("is-invalid");
+            } else {
+                field.classList.remove("is-invalid");
+                field.classList.add("is-valid");
+            }
         } else {
-            email_username_field.classList.remove("is-invalid");
-            email_username_field.classList.add("is-valid");
+            if(response.data["error"] || response.data["found-emails-usernames"] > 0) {
+                field.classList.remove("is-valid");
+                field.classList.add("is-invalid");
+            } else {
+                field.classList.remove("is-invalid");
+                field.classList.add("is-valid");
+            }
         }
+
     });
 }
 
