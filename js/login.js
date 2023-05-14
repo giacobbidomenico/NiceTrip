@@ -6,7 +6,10 @@ const stay_signed_in_checkbox = document.getElementById("stay-signed-in");
 const login_submit = document.getElementById("login-submit");
 const eye_button = document.getElementById("eye-button");
 
-email_username_field.addEventListener("change", event => verifyUsernameEmail(email_username_field));
+email_username_field.addEventListener("change", event => {
+    verifyEmailOrUsername(email_username_field, false);
+});
+
 eye_button.addEventListener("click", event =>  viewPassword(password_field));
 
 
@@ -29,7 +32,7 @@ function login() {
     formData.append('password', password_field.value);
     formData.append('stay-signed-in', stay_signed_in_checkbox.checked);
 
-    axios.post('api-login.php', formData).then(response => {
+    axios.post('api-authentication.php', formData).then(response => {
         console.log(response);
         if(response.data["error"] || response.data["found-users"] <= 0) {
             if(!email_username_field.classList.contains('is-valid')) {

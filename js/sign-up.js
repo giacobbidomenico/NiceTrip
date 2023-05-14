@@ -3,8 +3,8 @@ const email_field = document.getElementById("email");
 const password_field = document.getElementById("password");
 const confirm_password_field = document.getElementById("confirm-password");
 
-username_field.addEventListener("change", event => verifyUsernameEmail(username_field, true));
-email_field.addEventListener("change", event => verifyUsernameEmail(email_field, true));
+username_field.addEventListener("change", event => verifyUsername(username_field, true));
+email_field.addEventListener("change", event => verifyEmail(email_field, true));
 
 
 const eye_button1 = document.getElementById("eye-button1");
