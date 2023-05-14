@@ -130,20 +130,20 @@
             </section>
             <main class="row">
                 <!--<div class="col-md-1"></div>-->
-                <article id="mainArticle" class="col-md-8 border-end border-light-subtle ">
+                <div id="mainArticle" class="col-md-8 border-end border-light-subtle ">
                 <?php 
                 if(isset($templateParams["mainArticle"])):
                     echo $templateParams["mainArticle"]; 
                 endif;
                 ?>
-                </article>
-                <article id="sideArticle" class="col-md-4 vh-100 sticky-top border-top border-light-subtle">
+                </div>
+                <div id="sideArticle" class="col-md-4 vh-100 sticky-top border-top border-light-subtle">
                 <?php 
                 if(isset($templateParams["sideArticle"])):
                     echo $templateParams["sideArticle"]; 
                 endif;
                 ?>
-                </article>
+                </div>
                 <!--<div class="col-md-1"></div>-->
             </main>
         </div>
