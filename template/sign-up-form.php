@@ -68,7 +68,7 @@
 
     <div class="col-12 mt-5">
         <div class="col-md-6 d-grid pe-1">
-            <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Sign Up" name="signup" id="signup-submit">
+            <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Sign Up" name="signup" id="sign-up-submit">
         </div>
     </div>
 </form>

@@ -13,6 +13,7 @@ function verifyAccount(field, order, type) {
         console.log(response);
         if(response.data["error"] || 
             field.value === '' ||
+            !field.checkValidity() ||
             (response.data["num-"+type] == 0 && !order) ||
             (response.data["num-"+type] > 0 &&  order)) {
             showFieldInvalid(field);

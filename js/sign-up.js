@@ -1,3 +1,4 @@
+const form = document.querySelector("form");
 const username_field = document.getElementById("username");
 const email_field = document.getElementById("email");
 const password_field = document.getElementById("password");
@@ -12,3 +13,16 @@ const eye_button2 = document.getElementById("eye-button2");
 
 eye_button1.addEventListener("click", event =>  viewPassword(password_field));
 eye_button2.addEventListener("click", event =>  viewPassword(confirm_password_field));
+
+const sign_up_submit = document.getElementById("sign-up-submit");
+sign_up_submit.addEventListener("submit", event => {
+    event.preventDefault();
+    event.stopPropagation();
+    sign_up();
+});
+
+function sign_up() {
+    if(!form.checkValidity()) {
+        form.classList.add("was-validated");
+    }
+}
