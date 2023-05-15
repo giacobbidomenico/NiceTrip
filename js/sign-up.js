@@ -11,8 +11,9 @@ email_field.addEventListener("input", event => verifyEmail(email_field, true));
 name_field.addEventListener("input", event => showIfEmptyField(name_field));
 last_name_field.addEventListener("input", event => showIfEmptyField(last_name_field));
 password_field.addEventListener("input", event => {
+    checkPasswordStrength();
     checkPasswordConfirmation();
-    showIfEmptyField(password_field);
+    //showIfEmptyField(password_field);
 });
 confirm_password_field.addEventListener("input", event => checkPasswordConfirmation());
 
@@ -30,11 +31,20 @@ sign_up_submit.addEventListener("click", event => {
     sign_up();
 });
 
+function checkPasswordStrength() {
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    if(!strongRegex.test(password_field.value)) {
+        showFieldInvalid(password_field,'Your password must be more than 8 characters long, should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character');
+    } else {
+        showFieldValid(password_field);
+    }
+}
+
 function checkPasswordConfirmation() {
     if(password_field.value === confirm_password_field.value) {
         showFieldValid(confirm_password_field);
     } else {
-        showFieldInvalid(confirm_password_field);
+        showFieldInvalid(confirm_password_field, 'password does not match!');
     }
 }
 

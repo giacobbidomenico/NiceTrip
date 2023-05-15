@@ -10,7 +10,6 @@ function verifyAccount(field, order, type, message_error) {
     formData.append(type, field.value);
 
     axios.post('api-authentication.php', formData).then(response => {
-        console.log(response);
         if(response.data["error"] || 
             field.value === '' ||
             !field.checkValidity() ||
@@ -58,10 +57,14 @@ function showIfEmptyField(field) {
     return false;
 }
 
-function showFieldInvalid(field, message_error='') {
+function insertMessageError(field, message_error) {
     if(message_error !== '') {
-        field.parentElement.getElementsByClassName("invalid-feedback")[0].innerHTML = message_error;
+        field.parentElement.getElementsByClassName("invalid-feedback")[0].innerHTML = '<p>' + message_error + '</p>';
     }
+}
+
+function showFieldInvalid(field, message_error='') {
+    insertMessageError(field, message_error);
 
     field.classList.remove("is-valid");
     field.classList.add("is-invalid");
@@ -72,9 +75,7 @@ function showFieldValid(field, message_error='') {
         field.parentElement.innerHTML += '<div class="invalid-feedback"></div>';
     }
 
-    if(message_error !== '') {
-        field.parentElement.getElementsByClassName("invalid-feedback")[0].innerHTML = message_error;
-    }
+    insertMessageError(field, message_error);
 
     field.classList.remove("is-invalid");
     field.classList.add("is-valid");
