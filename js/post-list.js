@@ -15,6 +15,7 @@ let index = 0;
 
 document.getElementById("mainArticle").innerHTML = `<div id="feed" class="container-fluid"><div>`;
 
+//posts id request
 axios.post('api-post-id-list.php', {}).then(response => {
     ids = response;
     fillFeed();
@@ -79,25 +80,22 @@ function createPostPreview(postDetails) {
 }
 
 //adds author details to a given post
-function setAuthorDetails() {
-	let scheme = `<img id="author-image" class="desktop-icon" src="` + + `" />
-	<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="#">` + + `</a>`;
+function setAuthorDetails(author) {
+	let scheme = `<img id="author-image" class="desktop-icon" src="profilePhotos/` + author[0].photoPath + `" />
+	<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="#">` + author[0].userName + `</a>`;
+	document.getElementById("author-details").innerHTML = scheme;
 }
 
 // adds the corrisponding images at a given post
-function setPostImages() {
+function setPostImages(images) {
 	let scheme = `<div id="carouselExample" class="carousel slide">
 		<div class="carousel-inner">`;
-	scheme += `<div class="carousel-item active">
-				<img id="image" src="img/genericImage.jpg" class="d-block w-100" alt="" />
-			</div>`;
-			`<div class="carousel-item">
-				<img id="image" src="img/genericImage.jpg" class="d-block w-100" alt="" />
-			</div>
-			<div class="carousel-item">
-				<img id="image" src="img/genericImage.jpg" class="d-block w-100" alt="" />
-			</div>
-		</div>
+	for (let i = 0; i < images.length; i++) {
+		scheme += `<div class="carousel-item ` + (i === 0 ? "active" : "") + `">
+				<img id="image" src="img/` + images[0].path + `" class="d-block w-100" alt="" /></div>`;
+    }
+
+	scheme += `</div>
 		<button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
 			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 			<span class="visually-hidden">Previous</span>
@@ -107,6 +105,7 @@ function setPostImages() {
 			<span class="visually-hidden">Next</span>
 		</button>
 	</div>`;
+	document.getElementById("carousel").innerHTML = scheme;
 }
 
 // returns details of a given post
@@ -125,8 +124,9 @@ function requestPostDetails(postId) {
 function requestPostImages(postId) {
     const formData = new FormData();
     formData.append('postId', postId);
-    axios.post('api-post-details.php', formData).then(response => {
-        console.log(response);
+    axios.post('api-post-images.php', formData).then(response => {
+		console.log(response);
+		setPostImages(response.data);
     });
 }
 
@@ -135,6 +135,7 @@ function requestAuthorDetails(follow) {
     const formData = new FormData();
     formData.append('followingUserId', follow);
     axios.post('api-user-details-list.php', formData).then(response => {
-        console.log(response);
+		console.log(response);
+		setAuthorDetails(response.data);
     });
 }
