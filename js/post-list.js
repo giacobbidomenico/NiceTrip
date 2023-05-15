@@ -1,6 +1,6 @@
 "use strict";
 
-let ids;
+
 let index = 0;
 /*
  sequenza ordine: 
@@ -13,15 +13,16 @@ let index = 0;
     - alla visualizzazione di un post bisogna aggiornare il databse (entry che indichi che l'utente ha visualizzato il post)
  */
 
-document.getElementById("mainArticle").innerHTML = `<div id="feed" class="container-fluid"><div>`;
+document.getElementById("mainArticle").innerHTML = `<div id="feed" class="container-fluid5"><div>`;
 
 //posts id request
 axios.post('api-post-id-list.php', {}).then(response => {
-    ids = response;
-    fillFeed();
+	let ids = response;
+    fillFeed(ids);
+	window.addEventListener("scroll", event => fillFeed(ids));
 });
 
-window.addEventListener("scroll", event => fillFeed());
+
 
 // checks whether the user has reached the bottom of the page
 function isBottomReached() {
@@ -29,29 +30,32 @@ function isBottomReached() {
 }
 
 // adds a limited number of posts in mainArticle section
-function fillFeed() {
-    if (isBottomReached()) {
-		let post = requestPostDetails(ids.data[0].id);
-    }
+function fillFeed(ids) {
+	if (isBottomReached() && index < ids.data.length) {
+		for (let i = 0; i < 10 && i < ids.data.length; i++) {
+			let post = requestPostDetails(ids.data[index].id);
+			index++;
+        }
+	}
 }
 
 // adds the html for a new post and its details
 function createPostPreview(postDetails) {
-	let scheme =  `<div class="row gy-4">
+	let scheme =  `<div class="row gy-4 my-3">
 		<article class="card w-75 mx-auto p-0">
 			<div class="card-header">
-				<h4 id="post-title" class="card-title">
+				<h4 id="p-` + postDetails.data[0].id + `-title" class="card-title">
 					<a id="post-title" class="link-dark link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="">` + postDetails.data[0].title + `</a>
 				</h4>
-				<div id="author-details" class="">
+				<div id="p-` + postDetails.data[0].id + `-author-details" class="">
 				</div>
 			</div>
-			<div id="carousel" class="carousel slide">
+			<div id="p-` + postDetails.data[0].id + `-carousel" class="carousel slide">
 			</div>
 			<div class="container-fluid card-body gy-2">
 				<div class="row">
 					<div class="col">
-						<a id="comments" class="btn btn-light my-2" href="">
+						<a id="p-` + postDetails.data[0].id + `-comments" class="btn btn-light my-2" href="">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-card-text desktop-icon" viewBox="0 0 16 16">
 								<path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z" />
 								<path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z" />
@@ -60,7 +64,7 @@ function createPostPreview(postDetails) {
 								comments: ` + (postDetails.data[0].commentNumber !== 0 ? postDetails.data[0].commentNumber : 0) + `
 							</span>
 						</a>
-						<a id="likes" class="btn btn-light my-2" href="">
+						<a id="p-` + postDetails.data[0].id + `-likes" class="btn btn-light my-2" href="">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-balloon-heart desktop-icon" viewBox="0 0 16 16">
 								<path fill-rule="evenodd" d="m8 2.42-.717-.737c-1.13-1.161-3.243-.777-4.01.72-.35.685-.451 1.707.236 3.062C4.16 6.753 5.52 8.32 8 10.042c2.479-1.723 3.839-3.29 4.491-4.577.687-1.355.587-2.377.236-3.061-.767-1.498-2.88-1.882-4.01-.721L8 2.42Zm-.49 8.5c-10.78-7.44-3-13.155.359-10.063.045.041.089.084.132.129.043-.045.087-.088.132-.129 3.36-3.092 11.137 2.624.357 10.063l.235.468a.25.25 0 1 1-.448.224l-.008-.017c.008.11.02.202.037.29.054.27.161.488.419 1.003.288.578.235 1.15.076 1.629-.157.469-.422.867-.588 1.115l-.004.007a.25.25 0 1 1-.416-.278c.168-.252.4-.6.533-1.003.133-.396.163-.824-.049-1.246l-.013-.028c-.24-.48-.38-.758-.448-1.102a3.177 3.177 0 0 1-.052-.45l-.04.08a.25.25 0 1 1-.447-.224l.235-.468ZM6.013 2.06c-.649-.18-1.483.083-1.85.798-.131.258-.245.689-.08 1.335.063.244.414.198.487-.043.21-.697.627-1.447 1.359-1.692.217-.073.304-.337.084-.398Z" />
 							</svg>
@@ -76,18 +80,18 @@ function createPostPreview(postDetails) {
 			</div>
 		</article>
 	</div>`;
-	document.getElementById("feed").innerHTML = scheme;
+	document.getElementById("feed").innerHTML += scheme;
 }
 
 //adds author details to a given post
-function setAuthorDetails(author) {
+function setAuthorDetails(author, postId) {
 	let scheme = `<img id="author-image" class="desktop-icon" src="profilePhotos/` + author[0].photoPath + `" />
 	<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="#">` + author[0].userName + `</a>`;
-	document.getElementById("author-details").innerHTML = scheme;
+	document.getElementById("p-" + postId + "-author-details").innerHTML = scheme;
 }
 
 // adds the corrisponding images at a given post
-function setPostImages(images) {
+function setPostImages(images, postId) {
 	let scheme = `<div id="carouselExample" class="carousel slide">
 		<div class="carousel-inner">`;
 	for (let i = 0; i < images.length; i++) {
@@ -105,7 +109,7 @@ function setPostImages(images) {
 			<span class="visually-hidden">Next</span>
 		</button>
 	</div>`;
-	document.getElementById("carousel").innerHTML = scheme;
+	document.getElementById("p-" + postId + "-carousel").innerHTML = scheme;
 }
 
 // returns details of a given post
@@ -115,7 +119,7 @@ function requestPostDetails(postId) {
     axios.post('api-post-details.php', formData).then(response => {
 		console.log(response);
 		createPostPreview(response);
-		let authorData = requestAuthorDetails(response.data[0].userId);
+		let authorData = requestAuthorDetails(response.data[0].userId, postId);
 		let images = requestPostImages(postId);
     });
 }
@@ -126,16 +130,16 @@ function requestPostImages(postId) {
     formData.append('postId', postId);
     axios.post('api-post-images.php', formData).then(response => {
 		console.log(response);
-		setPostImages(response.data);
+		setPostImages(response.data, postId);
     });
 }
 
 // returns details of an author
-function requestAuthorDetails(follow) {
+function requestAuthorDetails(follow, postId) {
     const formData = new FormData();
     formData.append('followingUserId', follow);
     axios.post('api-user-details-list.php', formData).then(response => {
 		console.log(response);
-		setAuthorDetails(response.data);
+		setAuthorDetails(response.data, postId);
     });
 }
