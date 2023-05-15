@@ -4,7 +4,6 @@
  * 
  */
 function verifyAccount(field, order, type, message_error) {
-    showEmptyField(field);
     const formData = new FormData();
 
     formData.append('type-request', 'verify-'+ type);
@@ -25,31 +24,39 @@ function verifyAccount(field, order, type, message_error) {
     });
 }
 
-function verifyEmailOrUsername(field, order, message_error='') {
-    verifyAccount(field, order, 'email-username', message_error);
+function verifyEmailOrUsername(field, order,) {
+    verifyAccount(field, order, 'email-username');
 }
 
 function verifyEmail(field, order) {
-    if(!field.checkValidity()) {
-        showFieldInvalid(field, "Invalid email format!");
+    if(showIfEmptyField(field)) {
         return;
     }
-    verifyAccount(field, order, 'email', 'Email is already used!');
-    showEmptyField(field);
+    if(!field.checkValidity()) {
+        showFieldInvalid(field, "invalid email format!");
+        return;
+    }
+    verifyAccount(field, order, 'email', 'email is already used!');
 }
 
 function verifyUsername(field, order) {
-    verifyAccount(field, order, 'username', 'Username is already used!');
-    showEmptyField(field);
+    if(showIfEmptyField(field)) {
+        return;
+    }
+    verifyAccount(field, order, 'username', 'username is already used!');
+    showIfEmptyField(field);
 }
 
 
-function showEmptyField(field) {
+function showIfEmptyField(field) {
+    
     if(field.value === '') {
         showFieldInvalid(field, field.name + ' is request!');
+        return true;
     } else {
         showFieldValid(field);
     }
+    return false;
 }
 
 function showFieldInvalid(field, message_error='') {
