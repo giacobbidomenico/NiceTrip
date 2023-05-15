@@ -6,7 +6,7 @@
         <label for="username" class="form-label">Username</label>
         <input type="text" class="form-control rounded-0" id="username" name="username" required>
         <div class="invalid-feedback">
-            Please provide a valid username!
+            Username is required!
         </div>
     </div>
 
@@ -14,7 +14,7 @@
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control rounded-0" id="email" name="email" required>
         <div class="invalid-feedback">
-            Please provide a valid email!
+            Email is required!
         </div>
     </div>
 
@@ -22,15 +22,15 @@
         <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control rounded-0" id="name" name="name" required>
         <div class="invalid-feedback">
-            Please provide a valid name!
+            Name is required!
         </div>
     </div>
     
     <div class="col-12 col-md-5 d-inline-block text-nowrap">
-        <label for="lastname" class="form-label">Last Name</label>
-        <input type="text" class="form-control rounded-0" id="lastname" name="lastname" required>
+        <label for="last-name" class="form-label">Last Name</label>
+        <input type="text" class="form-control rounded-0" id="last-name" name="last-name" required>
         <div class="invalid-feedback">
-            Please provide a valid last name!
+            Last Name is required!
         </div>
     </div>
 
@@ -45,7 +45,7 @@
                 </svg>
             </span>
             <div class="invalid-feedback">
-                Password is incorrect!
+                Password is required!
             </div>
         </div>
     </div>
@@ -61,7 +61,6 @@
                 </svg>
             </span>
             <div class="invalid-feedback">
-                Password is incorrect!
             </div>
         </div>
     </div>

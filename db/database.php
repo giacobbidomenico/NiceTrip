@@ -55,6 +55,7 @@ class DatabaseHelper{
 
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ss', $session_extension_code, $user_id);
+
         return $stmt->execute();
     }
 

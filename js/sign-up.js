@@ -1,11 +1,15 @@
 const form = document.querySelector("form");
 const username_field = document.getElementById("username");
 const email_field = document.getElementById("email");
+const name_field = document.getElementById("name");
+const last_name_field = document.getElementById("last-name");
 const password_field = document.getElementById("password");
 const confirm_password_field = document.getElementById("confirm-password");
 
-username_field.addEventListener("input", event => verifyUsername(username_field, true, 'Username is already used!'));
+username_field.addEventListener("input", event => verifyUsername(username_field, true));
 email_field.addEventListener("input", event => verifyEmail(email_field, true));
+name_field.addEventListener("input", event => showEmptyField(name_field));
+last_name_field.addEventListener("input", event => showEmptyField(last_name_field));
 
 
 const eye_button1 = document.getElementById("eye-button1");
@@ -23,8 +27,10 @@ sign_up_submit.addEventListener("click", event => {
 
 function sign_up() {
     for(let item of form.getElementsByTagName("input")) {
+        showEmptyField(item);
+        /*
         if(!item.classList.contains("is-valid") && !item.classList.contains("is-invalid")) {
             item.checkValidity() ? item.classList.add("is-valid") : item.classList.add("is-invalid");
-        }
+        }*/
     }
 }
