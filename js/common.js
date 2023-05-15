@@ -49,7 +49,6 @@ function verifyUsername(field, order) {
 
 
 function showIfEmptyField(field) {
-    
     if(field.value === '') {
         showFieldInvalid(field, field.name + ' is request!');
         return true;

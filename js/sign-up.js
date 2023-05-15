@@ -11,7 +11,7 @@ email_field.addEventListener("input", event => verifyEmail(email_field, true));
 name_field.addEventListener("input", event => showIfEmptyField(name_field));
 last_name_field.addEventListener("input", event => showIfEmptyField(last_name_field));
 password_field.addEventListener("input", event => showIfEmptyField(password_field));
-confirm_password_field.addEventListener("input", event => showIfEmptyField(confirm_password_field));
+confirm_password_field.addEventListener("input", event => checkPasswordConfirmation(confirm_password_field));
 
 
 const eye_button1 = document.getElementById("eye-button1");
@@ -27,15 +27,20 @@ sign_up_submit.addEventListener("click", event => {
     sign_up();
 });
 
+function checkPasswordConfirmation() {
+    if(password_field.value === confirm_password_field.value) {
+        showFieldValid(confirm_password_field);
+    } else {
+        showFieldInvalid(confirm_password_field);
+    }
+}
+
 function sign_up() {
-    for(let item of form.getElementsByTagName("input")) {        
+    for(let item of form.getElementsByTagName("input")) {  
+        showIfEmptyField(item);
         if(!item.classList.contains("is-valid") && !item.checkValidity()) {
             item.classList.remove("is-valid");
             item.classList.add("is-invalid");
         }
-        /*if(item.classList.contains("is-invalid") && item.checkValidity()) {
-            item.classList.remove("is-invalid");
-            item.classList.add("is-valid");
-        }*/
     }
 }

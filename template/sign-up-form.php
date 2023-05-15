@@ -5,33 +5,25 @@
     <div class="col-12 col-md-5 d-inline-block me-md-4 text-nowrap">
         <label for="username" class="form-label">Username</label>
         <input type="text" class="form-control rounded-0" id="username" name="username" required>
-        <div class="invalid-feedback">
-            Username is required!
-        </div>
+        <div class="invalid-feedback"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block text-nowrap">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control rounded-0" id="email" name="email" required>
-        <div class="invalid-feedback">
-            Email is required!
-        </div>
+        <div class="invalid-feedback"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block me-md-4 text-nowrap">
         <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control rounded-0" id="name" name="name" required>
-        <div class="invalid-feedback">
-            Name is required!
-        </div>
+        <div class="invalid-feedback"></div>
     </div>
-    
+
     <div class="col-12 col-md-5 d-inline-block text-nowrap">
         <label for="last-name" class="form-label">Last Name</label>
         <input type="text" class="form-control rounded-0" id="last-name" name="last-name" required>
-        <div class="invalid-feedback">
-            Last Name is required!
-        </div>
+        <div class="invalid-feedback"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block me-md-4 text-nowrap">
@@ -44,9 +36,7 @@
                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                 </svg>
             </span>
-            <div class="invalid-feedback">
-                Password is required!
-            </div>
+            <div class="invalid-feedback"></div>
         </div>
     </div>
 
@@ -60,8 +50,7 @@
                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                 </svg>
             </span>
-            <div class="invalid-feedback">
-            </div>
+            <div class="invalid-feedback"></div>
         </div>
     </div>
 
