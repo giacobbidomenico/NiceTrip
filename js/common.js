@@ -68,6 +68,10 @@ function showFieldInvalid(field, message_error='') {
 }
 
 function showFieldValid(field, message_error='') {
+    if(field.parentElement.getElementsByClassName("invalid-feedback").lenght == 0) {
+        field.parentElement.innerHTML += '<div class="invalid-feedback"></div>';
+    }
+
     if(message_error !== '') {
         field.parentElement.getElementsByClassName("invalid-feedback")[0].innerHTML = message_error;
     }
