@@ -6,11 +6,11 @@ const stay_signed_in_checkbox = document.getElementById("stay-signed-in");
 const login_submit = document.getElementById("login-submit");
 const eye_button = document.getElementById("eye-button");
 
-email_username_field.addEventListener("change", event => {
+email_username_field.addEventListener("input", event => {
     verifyEmailOrUsername(email_username_field, false);
 });
 
-eye_button.addEventListener("click", event =>  viewPassword(password_field));
+eye_button.addEventListener("input", event =>  viewPassword(password_field));
 
 
 login_submit.addEventListener("click", event => {
