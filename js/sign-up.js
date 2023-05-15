@@ -32,6 +32,9 @@ sign_up_submit.addEventListener("click", event => {
 });
 
 function checkPasswordStrength() {
+    if(showIfEmptyField(password_field)) {
+        return;
+    }
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     if(!strongRegex.test(password_field.value)) {
         showFieldInvalid(password_field,'Your password must be more than 8 characters long, should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character');
@@ -41,6 +44,9 @@ function checkPasswordStrength() {
 }
 
 function checkPasswordConfirmation() {
+    if(showIfEmptyField(confirm_password_field)) {
+        return;
+    }
     if(password_field.value === confirm_password_field.value) {
         showFieldValid(confirm_password_field);
     } else {
@@ -54,4 +60,22 @@ function sign_up() {
             showIfEmptyField(item);
         }
     }
+
+    const formData = new FormData();
+    formData.append("username", username_field.value);
+    formData.append("email", email_field.value);
+    formData.append("name", name_field.value);
+    formData.append("password", password_field.value);
+
+    axios.post('api-signup.php', formData).then(response => {
+        console.log(response);
+        if(response.data["error"] || response.data["found-users"] <= 0) {
+            if(!email_username_field.classList.contains('is-valid')) {
+                email_username_field.classList.add("is-invalid");
+            }
+            password_field.classList.add("is-invalid");
+        } else {
+            window.location.replace("feed.php");
+        }
+    });
 }
