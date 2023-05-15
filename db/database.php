@@ -47,7 +47,7 @@ class DatabaseHelper{
     **/
     public function getPublicUserDetails($userId, $followerId){
         if($this->checkFollow($followerId, $userId, false)){
-            $query = 'SELECT U.id, U.userName, U.name, U.lastName FROM users U WHERE U.id = ?';
+            $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath FROM users U WHERE U.id = ?';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('s', $userId);
             $stmt->execute();
@@ -79,7 +79,7 @@ class DatabaseHelper{
     **/
     public function getPostDetails($postId, $followerId){
         if($this->checkFollow($followerId, $postId, true)){
-            $query = 'SELECT PS.*, Comm.`comment-number`, Likes.`like-number` FROM posts PS, ( SELECT P.id AS postId, COUNT(C.postsId) AS `comment-number` FROM posts P LEFT OUTER JOIN comments C ON (C.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Comm, ( SELECT P.id AS postId, COUNT(L.postsId) AS `like-number` FROM posts P LEFT OUTER JOIN likes L ON (L.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Likes WHERE PS.id = Likes.postId AND PS.id = Comm.postId;';
+            $query = 'SELECT PS.*, Comm.`commentNumber`, Likes.`likeNumber` FROM posts PS, ( SELECT P.id AS postId, COUNT(C.postsId) AS `commentNumber` FROM posts P LEFT OUTER JOIN comments C ON (C.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Comm, ( SELECT P.id AS postId, COUNT(L.postsId) AS `likeNumber` FROM posts P LEFT OUTER JOIN likes L ON (L.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Likes WHERE PS.id = Likes.postId AND PS.id = Comm.postId;';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('ss', $postId, $postId);
             $stmt->execute();
