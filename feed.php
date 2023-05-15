@@ -9,7 +9,7 @@ $navBarParams["search"] = "";
 $navBarParams["notifications"] = "";
 $navBarParams["newPost"] = "";
 $navBarParams["options"] = "";
-$templateParams["js"] = array("https://unpkg.com/axios/dist/axios.min.js","js/post-list.js","https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js");
+$templateParams["js"] = array("https://unpkg.com/axios/dist/axios.min.js","js/post-preview.js","js/feed.js","https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js");
 
 require 'template/base2.php';
 
