@@ -69,13 +69,5 @@ function sign_up() {
 
     axios.post('api-signup.php', formData).then(response => {
         console.log(response);
-        if(response.data["error"] || response.data["found-users"] <= 0) {
-            if(!email_username_field.classList.contains('is-valid')) {
-                email_username_field.classList.add("is-invalid");
-            }
-            password_field.classList.add("is-invalid");
-        } else {
-            window.location.replace("feed.php");
-        }
     });
 }
