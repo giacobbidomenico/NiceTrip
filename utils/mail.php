@@ -2,6 +2,7 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
 require_once 'libs/PHPMailer/src/Exception.php';
 require_once 'libs/PHPMailer/src/PHPMailer.php';
@@ -9,33 +10,43 @@ require_once 'libs/PHPMailer/src/SMTP.php';
 require_once 'bootstrap.php';
 
 class MailManager {
-    public function __construct($email_address, $password, $host, $port, $fromName, $destination_email) {
-        $this->mail = new PhpMailer(true);
+    public function __construct($host, $email_address, $password, $fromName, $destination_email) {
+        $this->mail = new PHPMailer(true);
+ 
         $this->mail->IsSMTP();
         $this->mail->Host = $host;
-        $this->mail->Port = $port;
+        $this->mail->Port = 587;
+
         $this->mail->SMTPSecure = 'tls';
         $this->mail->SMTPAuth = true;
         $this->mail->Username = $email_address;
         $this->mail->Password = $password;
-
+        
         $this->mail->From = $email_address;
         $this->mail->FromName = $fromName;
         $this->mail->AddAddress($destination_email);
-         
-        $this->mail->IsHTML(true);
+
+        
     }
 
-    public function sendAccountVerificationEmail() {
-        $this->mail->Subject = 'NiceTrip';
-        $this->mail->Body    = 'NiceTrip sign up';
-        $this->mail->AltBody = 'fejfo';
+    public function sendAccountVerificationEmail($activation_code) {
+        $this->mail->IsHTML(true);
         
-        if(!$this->mail->Send()) {
-            return false;
-        }
-        return true;
-    } 
+        $message = "
+            <html>
+                <head></head>
+                <body>
+                    <p>NiceTrip - share your travels</p>
+                    <p>To verify your account press the following <a href='http://$_SERVER[HTTP_HOST]/account-verification.php?activation-code=$activation_code'>link</a></p>
+                </body>
+            </html>
+        ";
+        
+        $this->mail->Subject = 'NiceTrip';
+        $this->mail->Body = $message;
+
+        return $this->mail->Send();
+    }
 }
 
 ?>

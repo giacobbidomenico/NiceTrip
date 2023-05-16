@@ -69,5 +69,14 @@ class DatabaseHelper{
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function signUpUser($username, $name, $last_name, $email, $password, $activation_code) {
+        $query = 'INSERT INTO `users`(`userName`, `name`, `lastName`, `email`, `password`, `activation_code`) VALUES (?,?,?,?,?,?)';
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ssssss', $username, $name, $last_name, $email, $password, $activation_code);
+
+        return $stmt->execute();
+    }
 }
 ?>
