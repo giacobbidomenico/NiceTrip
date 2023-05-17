@@ -65,9 +65,14 @@ function sign_up() {
     formData.append("username", username_field.value);
     formData.append("email", email_field.value);
     formData.append("name", name_field.value);
+    formData.append("last-name", last_name_field.value);
     formData.append("password", password_field.value);
 
     axios.post('api-signup.php', formData).then(response => {
-        console.log(response);
+        if(response.data["error"]) {
+            console.log("error");
+        }else {
+            console.log("no error");
+        }
     });
 }
