@@ -48,7 +48,7 @@ if(isset($_POST["type-request"])) {
 
                     //If the credentials are correct, the user data are recorded in specific session variables
                     registerLoginUser($login_data[0]["id"], $login_data[0]["email"], $login_data[0]["userName"]);
-                    
+
                     /*In case the request to maintain the connection is received, a code is associated with 
                      *the user and inserted in the user's entry in the db and then in a cookie
                      */

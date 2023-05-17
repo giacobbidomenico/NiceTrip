@@ -70,6 +70,17 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getUsersByActivationCode($activation_code) {
+        $query = "SELECT `users`.`id`, `users`.`userName`, `users`.`email` FROM `users` WHERE `users`.`activation_code` = ?";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $activation_code);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function signUpUser($username, $name, $last_name, $email, $password, $activation_code) {
         $query = 'INSERT INTO `users`(`userName`, `name`, `lastName`, `email`, `password`, `activation_code`) VALUES (?,?,?,?,?,?)';
 
