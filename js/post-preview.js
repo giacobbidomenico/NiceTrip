@@ -1,9 +1,29 @@
 "use strict";
 
-// adds the html for a new post and its details
-function createPostPreview(postDetails) {
-	let scheme =  `<div class="row gy-4 my-3">
-		<article class="card w-75 mx-auto p-0">
+function Post(id) {
+	this.id = id;
+	this.authorId;
+	this.isSchemeAdded = false;
+	this.isAuthorAdded = false;
+	this.isCarouselAdded = false;
+
+	/**
+	 * @returns true if the entire post has been added
+	 * */
+	this.isPostCreated = function () {
+		if (this.isAuthorAdded && this.isCarouselAdded && this.isPostCreated) {
+			return true;
+		}
+		return false;
+    }
+
+	/**
+	 * adds html of the post as innerHTML of an element with id "feed"
+	 * @param {any} postDetails - object containing details about the post
+	 */
+	this.createPostPreview = function(postDetails) {
+		let scheme = `<div class="row gy-4 my-3">
+		<article id="p-` + postDetails.data[0].id + `" class="card w-75 mx-auto p-0">
 			<div class="card-header">
 				<h4 id="p-` + postDetails.data[0].id + `-title" class="card-title">
 					<a id="post-title" class="link-dark link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="">` + postDetails.data[0].title + `</a>
@@ -41,66 +61,88 @@ function createPostPreview(postDetails) {
 			</div>
 		</article>
 	</div>`;
-	document.getElementById("feed").innerHTML += scheme;
-}
+		document.getElementById("feed").innerHTML += scheme;
+		this.isSchemeAdded = true;
+	}
 
-//adds author details to a given post
-function setAuthorDetails(author, postId) {
-	let scheme = `<img id="author-image" class="desktop-icon" src="profilePhotos/` + author[0].photoPath + `" />
+	/**
+	 * adds author details 
+	 * @param {any} author - author details
+	 */
+	this.setAuthorDetails = function (author) {
+		let scheme = `<img id="author-image" class="desktop-icon" src="profilePhotos/` + author[0].photoPath + `" />
 	<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="#">` + author[0].userName + `</a>`;
-	document.getElementById("p-" + postId + "-author-details").innerHTML = scheme;
-}
+		document.getElementById("p-" + this.id + "-author-details").innerHTML = scheme;
+		this.isAuthorAdded = true;
+	}
 
-// adds the corrisponding images at a given post
-function setPostImages(images, postId) {
-	let scheme = `<div id="carouselExample" class="carousel slide">
-		<div class="carousel-inner">`;
-	for (let i = 0; i < images.length; i++) {
-		scheme += `<div class="carousel-item ` + (i === 0 ? "active" : "") + `">
+	/**
+	 * adds images
+	 * @param {any} images - images to be added
+	 */
+	this.setPostImages = function(images) {
+		let scheme = `<div class="carousel-inner">`;
+		console.log(images.length);
+		for (let i = 0; i < images.length; i++) {
+			scheme += `<div class="carousel-item ` + (i === 0 ? "active" : "") + `">
 				<img id="image" src="img/` + images[0].path + `" class="d-block w-100" alt="" /></div>`;
-    }
+		}
 
-	scheme += `</div>
-		<button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+		scheme += `</div>
+		<button class="carousel-control-prev" type="button" data-bs-target="#p-` + this.id + `-carousel" data-bs-slide="prev">
 			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 			<span class="visually-hidden">Previous</span>
 		</button> 
-		<button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+		<button class="carousel-control-next" type="button" data-bs-target="#p-` + this.id + `-carousel" data-bs-slide="next">
 			<span class="carousel-control-next-icon" aria-hidden="true"></span>
 			<span class="visually-hidden">Next</span>
-		</button>
-	</div>`;
-	document.getElementById("p-" + postId + "-carousel").innerHTML = scheme;
+		</button>`;
+		document.getElementById("p-" + this.id + "-carousel").innerHTML = scheme;
+		this.isCarouselAdded = true;
+	}
+
+	/**
+	 * sends a request to get details about a given post, then adds html
+	 */
+	this.requestPostDetails = function() {
+		const formData = new FormData();
+		formData.append('postId', this.id);
+		axios.post('api-post-details.php', formData).then(response => {
+			//console.log(response);
+			this.createPostPreview(response);
+			this.authorId = response.data[0].userId;
+			let authorData = this.requestAuthorDetails(this.authorId, this.id);
+			let images = this.requestPostImages(this.id);
+			//index++;
+		});
+	}
+
+	/**
+	 * sends a request to get the images of a given post
+	 */
+	this.requestPostImages = function () {
+		const formData = new FormData();
+		formData.append('postId', this.id);
+		axios.post('api-post-images.php', formData).then(response => {
+			console.log(response);
+			this.setPostImages(response.data);
+		});
+	}
+
+	// returns details of an author
+	/**
+	 * requests details of an author, then adds them into its corrisponding html element
+	 * @param {any} follow - author id
+	 */
+	this.requestAuthorDetails = function(follow) {
+		const formData = new FormData();
+		formData.append('followingUserId', follow);
+		axios.post('api-user-details-list.php', formData).then(response => {
+			//console.log(response);
+			this.setAuthorDetails(response.data);
+		});
+	}
 }
 
-// returns details of a given post
-function requestPostDetails(postId) {
-    const formData = new FormData();
-    formData.append('postId', postId);
-    axios.post('api-post-details.php', formData).then(response => {
-		console.log(response);
-		createPostPreview(response);
-		let authorData = requestAuthorDetails(response.data[0].userId, postId);
-		let images = requestPostImages(postId);
-    });
-}
 
-// returns images of a given post
-function requestPostImages(postId) {
-    const formData = new FormData();
-    formData.append('postId', postId);
-    axios.post('api-post-images.php', formData).then(response => {
-		console.log(response);
-		setPostImages(response.data, postId);
-    });
-}
 
-// returns details of an author
-function requestAuthorDetails(follow, postId) {
-    const formData = new FormData();
-    formData.append('followingUserId', follow);
-    axios.post('api-user-details-list.php', formData).then(response => {
-		console.log(response);
-		setAuthorDetails(response.data, postId);
-    });
-}
