@@ -24,26 +24,34 @@ class MailManager {
         
         $this->mail->From = $email_address;
         $this->mail->FromName = $fromName;
-        $this->mail->AddAddress($destination_email);
-
-        
+        $this->mail->AddAddress($destination_email);        
     }
 
     public function sendAccountVerificationEmail($activation_code) {
         $this->mail->IsHTML(true);
         
+        $actualDir = dirname($_SERVER["PHP_SELF"]);
+
         $message = "
             <html>
-                <head></head>
+                <head>
+                    <meta charset='utf-8' />
+                </head>
                 <body>
                     <p>NiceTrip - share your travels</p>
-                    <p>To verify your account press the following <a href='http://$_SERVER[HTTP_HOST]/account-verification.php?activation-code=$activation_code'>link</a></p>
+                    <p>To verify your account press the following <a href='http://$_SERVER[HTTP_HOST]$actualDir/account-verification.php?activation-code=$activation_code'>link</a></p>
                 </body>
             </html>
         ";
-        
+
+        $textMessage = "
+            NiceTrip - share your travels
+            To verify your account press the following link
+        ";
+
         $this->mail->Subject = 'NiceTrip';
         $this->mail->Body = $message;
+        $this->mail->AltBody = $textMessage;
 
         return $this->mail->Send();
     }
