@@ -92,3 +92,9 @@ function viewPassword(field) {
         field.type = 'password';
     }
 }
+
+function disableAllFields(completeForm) {
+    for (let item of completeForm.getElementsByTagName("input")) {
+        item.disabled = true;
+    }
+}

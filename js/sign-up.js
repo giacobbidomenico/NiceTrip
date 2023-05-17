@@ -56,9 +56,14 @@ function checkPasswordConfirmation() {
 
 function sign_up() {
     for(let item of form.getElementsByTagName("input")) {
-        if(!item.classList.contains("is-invalid")) {
+        if(!item.classList.contains("is-invalid") && item.type !== 'submit') {
             showIfEmptyField(item);
         }
+    }
+
+    if(form.getElementsByClassName('is-valid').length !== 6) {
+        alert('not 6');
+        return;
     }
 
     const formData = new FormData();
@@ -68,11 +73,25 @@ function sign_up() {
     formData.append("last-name", last_name_field.value);
     formData.append("password", password_field.value);
 
+
     axios.post('api-signup.php', formData).then(response => {
         if(response.data["error"]) {
-            console.log("error");
+            showMessage("Error, your registration to NiceTrip could not be completed", 'error');
         }else {
-            console.log("no error");
+            showMessage("A link has been sent by email, click it to verify your account", 'success');
         }
     });
 }
+
+function showMessage(message, type) {
+    const elementMessage = document.getElementById("message");
+    elementMessage.classList = '';
+    if(type==='error') {
+        elementMessage.classList.add('text-danger');
+    } else {
+        elementMessage.classList.add('text-success');
+        disableAllFields(form);
+    }
+    elementMessage.innerText = message;
+}
+
