@@ -39,6 +39,16 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function isAccountActivated($email_username) {
+        $query = "SELECT `users`.id, `users`.`userName`, `users`.`email` FROM `users` WHERE (`users`.`email` = ? OR `users`.`userName` = ?) AND `users`.`activation_code` IS NULL";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $email_username,$email_username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return count($result->fetch_all(MYSQLI_ASSOC)) !== 0;
+    }
+
     public function checkLogin($email_username, $password) {
         $query = "SELECT `users`.id, `users`.`userName`, `users`.`email` FROM `users` WHERE (`users`.`email` = ? OR `users`.`userName` = ?) AND `users`.`password` = ?";
 

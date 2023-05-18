@@ -2,7 +2,7 @@
 
 require_once 'bootstrap.php';
 
-$result["error"] = false;
+$result["error"] = '';
 
 //Take certain actions based on the type of request, otherwise an error is returned
 if(isset($_POST["type-request"])) {
@@ -13,7 +13,7 @@ if(isset($_POST["type-request"])) {
             if(isset($_POST["email-username"])) {
                 $result["num-email-username"] = count($dbh->checkEmailOrUsername($_POST["email-username"]));
             } else {
-                $result["error"] = true;
+                $result["error"] = 'error-verify-email-username';
             }
             break;
 
@@ -22,7 +22,7 @@ if(isset($_POST["type-request"])) {
             if(isset($_POST["email"])) {
                 $result["num-email"] = count($dbh->checkEmail($_POST["email"]));
             } else {
-                $result["error"] = true;
+                $result["error"] = 'error-email';
             }
             break;
 
@@ -31,7 +31,7 @@ if(isset($_POST["type-request"])) {
             if(isset($_POST["username"])) {
                 $result["num-username"] = count($dbh->checkUsername($_POST["username"]));
             } else {
-                $result["error"] = true;
+                $result["error"] = 'error-verify-username';
             }
             break;
 
@@ -40,29 +40,36 @@ if(isset($_POST["type-request"])) {
             if(isset($_POST["email-username"]) && isset($_POST["password"]) && isset($_POST["stay-signed-in"])) {
                 $login_data = $dbh->checkLogin($_POST["email-username"], $_POST["password"]);
                 $result["found-users"] = count($login_data);
-    
+        
                 if($result["found-users"] > 0 &&
                     isset($login_data[0]["id"]) &&
                     isset($login_data[0]["email"]) &&
                     isset($login_data[0]["userName"])) {
 
-                    //If the credentials are correct, the user data are recorded in specific session variables
-                    registerLoginUser($login_data[0]["id"], $login_data[0]["email"], $login_data[0]["userName"]);
+                    if(!$dbh->isAccountActivated($_POST["email-username"])) {
+                        $result["error"] = 'error-account-not-activated';
+                    } else {
 
-                    /*In case the request to maintain the connection is received, a code is associated with 
-                     *the user and inserted in the user's entry in the db and then in a cookie
-                     */
-                    if($_POST["stay-signed-in"] === 'true') {
-                        do {
-                            $session_extension_code = random_str();
-                        }while(count($dbh->getUsersBySessionExtensionCode($session_extension_code)) !== 0);
-                        
-                        $dbh->updateSessionExtensionCode($session_extension_code, $login_data[0]["id"]);
-                        setcookie("session-extension-code", $session_extension_code, time() + TIME_SESSION_EXTENSION, '/');
-                    }                    
+                        //If the credentials are correct, the user data are recorded in specific session variables
+                        registerLoginUser($login_data[0]["id"], $login_data[0]["email"], $login_data[0]["userName"]);
+
+                        /*In case the request to maintain the connection is received, a code is associated with 
+                        *the user and inserted in the user's entry in the db and then in a cookie
+                        */
+                        if($_POST["stay-signed-in"] === 'true') {
+                            do {
+                                $session_extension_code = random_str();
+                            }while(count($dbh->getUsersBySessionExtensionCode($session_extension_code)) !== 0);
+                            
+                            $dbh->updateSessionExtensionCode($session_extension_code, $login_data[0]["id"]);
+                            setcookie("session-extension-code", $session_extension_code, time() + TIME_SESSION_EXTENSION, '/');
+                        }
+                    }
+                } else {
+                    $result["error"] = 'error-login-data';
                 }
             } else {
-                $result["error"] = true;
+                $result["error"] = 'error-login-data';
             }
             break;
         default:

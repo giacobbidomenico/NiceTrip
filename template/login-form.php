@@ -5,7 +5,6 @@
             <label for="email-username" class="form-label">Email or Username</label>
             <input type="text" class="form-control rounded-0" id="email-username" name="email-username" required>
             <div class="invalid-feedback">
-                Please provide a valid email or username!
             </div>
         </div>
     </div>
@@ -21,7 +20,6 @@
                     </svg>
                 </span>
                 <div class="invalid-feedback">
-                    Password is incorrect!
                 </div>
             </div>
         </div>
@@ -34,7 +32,10 @@
             </label>
         </div>
     </div>
-    <div class="col-12 mt-5">
+    <div class="col-12">
+        <p id="message"></p>
+    </div>
+    <div class="col-12">
         <div class="col-md-6 d-grid pe-1">
             <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Login" name="login" id="login-submit">
         </div>

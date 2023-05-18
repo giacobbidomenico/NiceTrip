@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Function that requests the server if the email entered in the form corresponds to an existing account.
  * If does not happen, an error message is shown in the form.
@@ -10,7 +12,7 @@ function verifyAccount(field, order, type, message_error) {
     formData.append(type, field.value);
 
     axios.post('api-authentication.php', formData).then(response => {
-        if(response.data["error"] || 
+        if(response.data["error-verify-"+type] || 
             field.value === '' ||
             !field.checkValidity() ||
             (response.data["num-"+type] == 0 && !order) ||
@@ -24,7 +26,10 @@ function verifyAccount(field, order, type, message_error) {
 }
 
 function verifyEmailOrUsername(field, order,) {
-    verifyAccount(field, order, 'email-username');
+    if(showIfEmptyField(field)) {
+        return;
+    }
+    verifyAccount(field, order, "email-username", "no matching accounts");
 }
 
 function verifyEmail(field, order) {
@@ -47,11 +52,11 @@ function verifyUsername(field, order) {
 }
 
 
-function showIfEmptyField(field) {
+function showIfEmptyField(field, valid=true) {
     if(field.value === '') {
         showFieldInvalid(field, field.name + ' is request!');
         return true;
-    } else {
+    } else if(valid){
         showFieldValid(field);
     }
     return false;
@@ -97,4 +102,16 @@ function disableAllFields(completeForm) {
     for (let item of completeForm.getElementsByTagName("input")) {
         item.disabled = true;
     }
+}
+
+function showMessage(message, type) {
+    const elementMessage = document.getElementById("message");
+    elementMessage.classList = '';
+    if(type==='error') {
+        elementMessage.classList.add('text-danger');
+    } else {
+        elementMessage.classList.add('text-success');
+        disableAllFields(form);
+    }
+    elementMessage.innerText = message;
 }

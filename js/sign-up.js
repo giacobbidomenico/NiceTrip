@@ -1,3 +1,5 @@
+"use strict";
+
 const form = document.querySelector("form");
 const username_field = document.getElementById("username");
 const email_field = document.getElementById("email");
@@ -62,7 +64,6 @@ function sign_up() {
     }
 
     if(form.getElementsByClassName('is-valid').length !== 6) {
-        alert('not 6');
         return;
     }
 
@@ -76,22 +77,11 @@ function sign_up() {
 
     axios.post('api-signup.php', formData).then(response => {
         if(response.data["error"]) {
-            showMessage("Error, your registration to NiceTrip could not be completed", 'error');
+            showMessage("Error, your account has not been verified", 'error');
         }else {
             showMessage("A link has been sent by email, click it to verify your account", 'success');
         }
     });
 }
 
-function showMessage(message, type) {
-    const elementMessage = document.getElementById("message");
-    elementMessage.classList = '';
-    if(type==='error') {
-        elementMessage.classList.add('text-danger');
-    } else {
-        elementMessage.classList.add('text-success');
-        disableAllFields(form);
-    }
-    elementMessage.innerText = message;
-}
 

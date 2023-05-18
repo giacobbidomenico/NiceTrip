@@ -1,5 +1,6 @@
 "use strict";
 
+const form =  document.getElementsByTagName("form")[0];
 const email_username_field = document.getElementById("email-username");
 const password_field = document.getElementById("password");
 const stay_signed_in_checkbox = document.getElementById("stay-signed-in");
@@ -8,7 +9,7 @@ const eye_button = document.getElementById("eye-button");
 
 email_username_field.addEventListener("input", event => verifyEmailOrUsername(email_username_field, false));
 
-eye_button.addEventListener("input", event =>  viewPassword(password_field));
+eye_button.addEventListener("click", event =>  viewPassword(password_field));
 
 
 login_submit.addEventListener("click", event => {
@@ -23,6 +24,18 @@ login_submit.addEventListener("click", event => {
  * 
  */
 function login() {
+
+
+    for(let item of form.getElementsByTagName("input")) {
+        if(!item.classList.contains("is-invalid") && item.type !== 'checkbox' && item.type !== 'submit') {
+            showIfEmptyField(item);
+        }
+    }
+
+    if(!email_username_field.classList.contains("is-valid")) {
+        return;
+    }
+
     const formData = new FormData();
 
     formData.append('type-request', 'login');
@@ -31,12 +44,14 @@ function login() {
     formData.append('stay-signed-in', stay_signed_in_checkbox.checked);
 
     axios.post('api-authentication.php', formData).then(response => {
-        console.log(response);
-        if(response.data["error"] || response.data["found-users"] <= 0) {
-            if(!email_username_field.classList.contains('is-valid')) {
+        if(response.data['error'] === 'error-account-not-activated') {
+            showFieldValid(password_field, '');
+            showMessage("Error, your account has not been verified", 'error');
+        }else if(response.data['error'] === 'error-login-data' && response.data["found-users"] <= 0) {
+            if (!email_username_field.classList.contains('is-valid')) {
                 email_username_field.classList.add("is-invalid");
             }
-            password_field.classList.add("is-invalid");
+            showFieldInvalid(password_field, 'Error, password is incorrect!');
         } else {
             window.location.replace("feed.php");
         }
