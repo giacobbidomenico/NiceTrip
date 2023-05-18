@@ -55,6 +55,11 @@ function checkPasswordConfirmation() {
     }
 }
 
+/**
+ * Function that requests the server if the ac entered in the form corresponds to an existing account.
+ * If does not happen, an error message is shown in the form.
+ * 
+ */
 function verifyEmail(field, order) {
     if(showIfEmptyField(field)) {
         return;
