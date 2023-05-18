@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 12, 2023 alle 10:18
+-- Creato il: Mag 18, 2023 alle 19:11
 -- Versione del server: 10.4.25-MariaDB
 -- Versione PHP: 8.1.10
 
@@ -90,17 +90,19 @@ INSERT INTO `follows` (`id`, `follower`, `following`) VALUES
 CREATE TABLE `images` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `postsId` int(11) NOT NULL
+  `postsId` int(11) NOT NULL,
+  `path` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `images`
 --
 
-INSERT INTO `images` (`id`, `name`, `postsId`) VALUES
-(1, 'primo', 5),
-(2, 'secondo.primo', 6),
-(3, 'secondo.secondo', 6);
+INSERT INTO `images` (`id`, `name`, `postsId`, `path`) VALUES
+(1, 'primo', 5, 'genericImage.jpg'),
+(2, 'secondo.primo', 6, 'genericImage.jpg'),
+(3, 'secondo.secondo', 6, 'genericImage.jpg'),
+(4, 'secondo.terzo', 8, 'genericImage.jpg');
 
 -- --------------------------------------------------------
 
@@ -118,8 +120,7 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`userId`, `postsId`) VALUES
-(6, 6),
-(7, 6);
+(3, 6);
 
 -- --------------------------------------------------------
 
@@ -156,7 +157,18 @@ CREATE TABLE `posts` (
 INSERT INTO `posts` (`id`, `title`, `description`, `userId`, `time`, `date`) VALUES
 (5, 'primo', 'primo', 3, '16:11:59', '2023-05-10'),
 (6, 'secondo', 'secondo', 5, '16:12:21', '2023-05-10'),
-(7, 'secondo.primo', 'secondo.primo', 5, '16:14:52', '2023-05-09');
+(7, 'secondo.primo', 'secondo.primo', 5, '16:14:52', '2023-05-09'),
+(8, 'secondo.secondo', 'secondo.secondo', 5, '16:12:21', '2023-05-16'),
+(9, 'secondo.terzo', 'secondo.terzo', 5, '16:14:52', '2023-05-16'),
+(10, 'terzo', 'terzo', 5, '16:12:21', '2023-05-17'),
+(11, 'quarto', 'quarto', 5, '16:14:52', '2023-05-17'),
+(12, 'quinto', 'quinto', 5, '16:12:21', '2023-05-17'),
+(13, 'sesto', 'sesto', 5, '16:14:52', '2023-05-16'),
+(14, 'settimo', 'settimo', 5, '16:14:52', '2023-05-16'),
+(15, 'ottavo', 'ottavo', 5, '16:12:21', '2023-05-17'),
+(16, 'nono', 'nono', 5, '16:14:52', '2023-05-17'),
+(17, 'decimo', 'decimo', 5, '16:12:21', '2023-05-17'),
+(18, 'undicesiomo', 'undicesiomo', 5, '16:14:52', '2023-05-16');
 
 -- --------------------------------------------------------
 
@@ -183,18 +195,19 @@ CREATE TABLE `users` (
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `active` tinyint(1) NOT NULL,
-  `cookie` varchar(30) NOT NULL
+  `cookie` varchar(30) NOT NULL,
+  `photoPath` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `users`
 --
 
-INSERT INTO `users` (`id`, `userName`, `name`, `lastName`, `email`, `password`, `active`, `cookie`) VALUES
-(3, 'primo', 'primo', 'primo', 'primo@primo.primo', 'primp', 0, ''),
-(5, 'secondo', 'secondo', 'secondo', 'secondo@secondo.secondo', 'secondo', 0, ''),
-(6, 'terzo', 'terzo', 'terzo', 'terzo@terzo.terzo', 'terzo', 0, ''),
-(7, 'quarto', 'quarto', 'quarto', 'quarto@quarto.quarto', 'quarto', 0, '');
+INSERT INTO `users` (`id`, `userName`, `name`, `lastName`, `email`, `password`, `active`, `cookie`, `photoPath`) VALUES
+(3, 'primo', 'primo', 'primo', 'primo@primo.primo', 'primp', 0, '', 'genericProfilePhoto.jpg'),
+(5, 'secondo', 'secondo', 'secondo', 'secondo@secondo.secondo', 'secondo', 0, '', 'genericProfilePhoto.jpg'),
+(6, 'terzo', 'terzo', 'terzo', 'terzo@terzo.terzo', 'terzo', 0, '', 'genericProfilePhoto.jpg'),
+(7, 'quarto', 'quarto', 'quarto', 'quarto@quarto.quarto', 'quarto', 0, '', 'genericProfilePhoto.jpg');
 
 -- --------------------------------------------------------
 
@@ -207,6 +220,25 @@ CREATE TABLE `visualizations` (
   `userId` int(11) NOT NULL,
   `postId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `visualizations`
+--
+
+INSERT INTO `visualizations` (`id`, `userId`, `postId`) VALUES
+(281, 7, 6),
+(282, 7, 7),
+(283, 7, 8),
+(284, 7, 9),
+(285, 7, 10),
+(286, 7, 11),
+(287, 7, 12),
+(288, 7, 13),
+(289, 7, 14),
+(290, 7, 15),
+(291, 7, 16),
+(292, 7, 17),
+(293, 7, 18);
 
 --
 -- Indici per le tabelle scaricate
@@ -312,7 +344,7 @@ ALTER TABLE `follows`
 -- AUTO_INCREMENT per la tabella `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `notifications`
@@ -324,7 +356,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT per la tabella `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
@@ -336,7 +368,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `visualizations`
 --
 ALTER TABLE `visualizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=294;
 
 --
 -- Limiti per le tabelle scaricate
