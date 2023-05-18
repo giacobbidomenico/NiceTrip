@@ -4,14 +4,22 @@ const email_username_field = document.getElementById("email-username");
 const password_field = document.getElementById("password");
 const stay_signed_in_checkbox = document.getElementById("stay-signed-in");
 const login_submit = document.getElementById("login-submit");
+const eye_button = document.getElementById("eye-button");
 
 email_username_field.addEventListener("focusout", event => verifyEmail());
+eye_button.addEventListener("click", event =>  viewPassword());
+
 
 login_submit.addEventListener("click", event => {
     event.preventDefault();
     login();
 });
 
+/**
+ * Function that requests the server if the email entered in the form corresponds to an existing account.
+ * If does not happen, an error message is shown in the form.
+ * 
+ */
 function verifyEmail() {
     const formData = new FormData();
     formData.append('type-request', 'verify-email-username');
@@ -28,6 +36,12 @@ function verifyEmail() {
     });
 }
 
+/**
+ * Function that requests the server if the email and password entered in the form correspond to an existing account.
+ * If this happens it means that the user has been logged in and the user is redirected to the feed, otherwise he is 
+ * warned that the password is incorrect
+ * 
+ */
 function login() {
     const formData = new FormData();
 
@@ -47,4 +61,16 @@ function login() {
             window.location.replace("feed.php");
         }
     });
+}
+
+/**
+ * Function that makes the password field of the form visible if the user requests it.
+ * 
+ */
+function viewPassword() {
+    if(password_field.type === 'password') {
+        password_field.type = 'text';
+    } else {
+        password_field.type = 'password';
+    }
 }

@@ -1,7 +1,8 @@
 <?php
-    require("bootstrap.php");
+    require_once "bootstrap.php";
 
-    if(isset($_SESSION["id"]) && isset($_SESSION["email"]) && isset($_SESSION["username"])) {
+    //The user is redirected to the feed if the session already contains the account data
+    if(isSessionActive()) {
         header('Location: feed.php');
     }
 
@@ -17,5 +18,6 @@
         "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js",
         "https://unpkg.com/axios/dist/axios.min.js",
         "js/login.js");
+
     require("template/base1.php");
 ?>
