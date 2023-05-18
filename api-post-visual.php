@@ -1,7 +1,6 @@
 <?php
     require_once 'bootstrap.php';
-//    $id = $_SESSION["id"];
-    $id = 3;
+    $id = $_SESSION["id"];
     $postId = $_POST["postId"];
     $result = $dbh->notifyVisual($postId, $id);
     

@@ -1,8 +1,6 @@
 <?php
     require_once 'bootstrap.php';
-    //$id = $_SESSION["id"];
-    $id = 3;
-
+    $id = $_SESSION["id"];
     $result = $dbh->getPostToVisualizeId($id);
     
     echo json_encode($result);
