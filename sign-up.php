@@ -2,6 +2,10 @@
 
 require_once "bootstrap.php";
 
+if(isSessionActive()) {
+    header('Location: feed.php');
+}
+
 $templateParams["template-name"] = "sign-up-form.php";
 $templateParams["title"] = "NiceTrip";
 $templateParams["subtitle"] = "Share your travels with your friends";

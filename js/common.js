@@ -12,7 +12,7 @@ function verifyAccount(field, order, type, message_error) {
     formData.append(type, field.value);
 
     axios.post('api-authentication.php', formData).then(response => {
-        if(response.data["error-verify-"+type] || 
+        if(response.data["error-verify-"+type] ||
             field.value === '' ||
             !field.checkValidity() ||
             (response.data["num-"+type] == 0 && !order) ||
@@ -24,33 +24,6 @@ function verifyAccount(field, order, type, message_error) {
         }
     });
 }
-
-function verifyEmailOrUsername(field, order,) {
-    if(showIfEmptyField(field)) {
-        return;
-    }
-    verifyAccount(field, order, "email-username", "no matching accounts");
-}
-
-function verifyEmail(field, order) {
-    if(showIfEmptyField(field)) {
-        return;
-    }
-    if(!field.checkValidity()) {
-        showFieldInvalid(field, "invalid email format!");
-        return;
-    }
-    verifyAccount(field, order, 'email', 'email is already used!');
-}
-
-function verifyUsername(field, order) {
-    if(showIfEmptyField(field)) {
-        return;
-    }
-    verifyAccount(field, order, 'username', 'username is already used!');
-    showIfEmptyField(field);
-}
-
 
 function showIfEmptyField(field, valid=true) {
     if(field.value === '') {

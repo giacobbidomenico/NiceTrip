@@ -15,7 +15,6 @@ last_name_field.addEventListener("input", event => showIfEmptyField(last_name_fi
 password_field.addEventListener("input", event => {
     checkPasswordStrength();
     checkPasswordConfirmation();
-    //showIfEmptyField(password_field);
 });
 confirm_password_field.addEventListener("input", event => checkPasswordConfirmation());
 
@@ -54,6 +53,25 @@ function checkPasswordConfirmation() {
     } else {
         showFieldInvalid(confirm_password_field, 'password does not match!');
     }
+}
+
+function verifyEmail(field, order) {
+    if(showIfEmptyField(field)) {
+        return;
+    }
+    if(!field.checkValidity()) {
+        showFieldInvalid(field, "invalid email format!");
+        return;
+    }
+    verifyAccount(field, order, 'email', 'email is already used!');
+}
+
+function verifyUsername(field, order) {
+    if(showIfEmptyField(field)) {
+        return;
+    }
+    verifyAccount(field, order, 'username', 'username is already used!');
+    showIfEmptyField(field);
 }
 
 function sign_up() {

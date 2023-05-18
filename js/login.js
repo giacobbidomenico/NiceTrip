@@ -17,6 +17,13 @@ login_submit.addEventListener("click", event => {
     login();
 });
 
+function verifyEmailOrUsername(field, order) {
+    if(showIfEmptyField(field)) {
+        return;
+    }
+    verifyAccount(field, order, "email-username", "no matching accounts");
+}
+
 /**
  * Function that requests the server if the email and password entered in the form correspond to an existing account.
  * If this happens it means that the user has been logged in and the user is redirected to the feed, otherwise he is 
@@ -48,10 +55,12 @@ function login() {
             showFieldValid(password_field, '');
             showMessage("Error, your account has not been verified", 'error');
         }else if(response.data['error'] === 'error-login-data' && response.data["found-users"] <= 0) {
-            if (!email_username_field.classList.contains('is-valid')) {
-                email_username_field.classList.add("is-invalid");
+            if(!showIfEmptyField(password_field, false)) {
+                if (!email_username_field.classList.contains('is-valid')) {
+                    email_username_field.classList.add("is-invalid");
+                }
+                showFieldInvalid(password_field, 'Error, password is incorrect!');
             }
-            showFieldInvalid(password_field, 'Error, password is incorrect!');
         } else {
             window.location.replace("feed.php");
         }
