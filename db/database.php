@@ -90,6 +90,22 @@ class DatabaseHelper{
         }
     }
 
+    /**
+    *   registers that $followerId has visualized $postId
+    **/
+    public function notifyVisual($postId, $followerId){
+        if($this->checkFollow($followerId, $postId, true)){
+            $query = 'INSERT INTO `visualizations` (`id`, `userId`, `postId`) VALUES (NULL, ?, ?);';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ss', $followerId, $postId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            return array();
+        }
+    }
+
     private function checkFollow($followerId, $id, $isIdAPost){
         if($isIdAPost){
             $query = 'SELECT COUNT(F.id) FROM follows F, Posts P WHERE F.follower = ? AND P.id = ? AND P.userId = F.following';
