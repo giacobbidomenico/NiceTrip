@@ -79,9 +79,9 @@ class DatabaseHelper{
     **/
     public function getPostDetails($postId, $followerId){
         if($this->checkFollow($followerId, $postId, true)){
-            $query = 'SELECT PS.*, Comm.`commentNumber`, Likes.`likeNumber` FROM posts PS, ( SELECT P.id AS postId, COUNT(C.postsId) AS `commentNumber` FROM posts P LEFT OUTER JOIN comments C ON (C.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Comm, ( SELECT P.id AS postId, COUNT(L.postsId) AS `likeNumber` FROM posts P LEFT OUTER JOIN likes L ON (L.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Likes WHERE PS.id = Likes.postId AND PS.id = Comm.postId;';
+            $query = 'SELECT PS.*, Comm.`commentNumber`, Likes.`likeNumber`, COUNT(LU.userId) AS liked FROM posts PS, ( SELECT P.id AS postId, COUNT(C.postsId) AS `commentNumber` FROM posts P LEFT OUTER JOIN comments C ON (C.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Comm, ( SELECT P.id AS postId, COUNT(L.postsId) AS `likeNumber` FROM posts P LEFT OUTER JOIN likes L ON (L.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Likes LEFT OUTER JOIN likes LU ON (LU.postsId = Likes.postId AND LU.userId = ?) WHERE PS.id = Likes.postId AND PS.id = Comm.postId';
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ss', $postId, $postId);
+            $stmt->bind_param('sss', $postId, $postId, $followerId);
             $stmt->execute();
             $result = $stmt->get_result();
             return $result->fetch_all(MYSQLI_ASSOC);
@@ -105,6 +105,26 @@ class DatabaseHelper{
             return array();
         }
     }
+
+    /**
+    *   registers that $followerId reacted to $psotId post
+    **/
+    public function notifyLike($postId, $followerId, $register){
+        if($this->checkFollow($followerId, $postId, true)){
+            if($register){
+                $query = 'INSERT INTO `likes` (`userId`, `postsId`) VALUES (?, ?);';
+                $stmt = $this->db->prepare($query);
+                $stmt->bind_param('ss', $followerId, $postId);
+                $stmt->execute();
+            } else {
+                $query = 'DELETE FROM `likes` WHERE `likes`.`userId` = ? AND `likes`.`postsId` = ?';
+                $stmt = $this->db->prepare($query);
+                $stmt->bind_param('ss', $followerId, $postId);
+                $stmt->execute();
+            }
+        }
+    }
+
 
     private function checkFollow($followerId, $id, $isIdAPost){
         if($isIdAPost){

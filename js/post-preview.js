@@ -6,6 +6,8 @@ function Post(id) {
 	this.isSchemeAdded = false;
 	this.isAuthorAdded = false;
 	this.isCarouselAdded = false;
+	this.like = false;
+	this.likesNumber = 0;
 
 	/**
 	 * @returns true if the entire post has been added
@@ -21,7 +23,10 @@ function Post(id) {
 	 * adds html of the post as innerHTML of an element with id "feed"
 	 * @param {any} postDetails - object containing details about the post
 	 */
-	this.createPostPreview = function(postDetails) {
+	this.createPostPreview = function (postDetails) {
+		this.likesNumber = postDetails.data[0].likeNumber;
+		console.log("liked: " + postDetails.data[0].liked);
+		this.like = postDetails.data[0].liked === 1 ? true : false;
 		let scheme = `<div class="row gy-4 my-3">
 		<article id="p-` + postDetails.data[0].id + `" class="card w-75 mx-auto p-0">
 			<div class="card-header">
@@ -45,23 +50,28 @@ function Post(id) {
 								comments: ` + (postDetails.data[0].commentNumber !== 0 ? postDetails.data[0].commentNumber : 0) + `
 							</span>
 						</a>
-						<a id="p-` + postDetails.data[0].id + `-likes" class="btn btn-light my-2" href="">
-							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-balloon-heart desktop-icon" viewBox="0 0 16 16">
+						<button id="p-` + postDetails.data[0].id + `-likes" class="btn btn-light my-2">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-balloon-heart desktop-icon ` + (this.like ? "d-none" : "") + `" viewBox="0 0 16 16">
 								<path fill-rule="evenodd" d="m8 2.42-.717-.737c-1.13-1.161-3.243-.777-4.01.72-.35.685-.451 1.707.236 3.062C4.16 6.753 5.52 8.32 8 10.042c2.479-1.723 3.839-3.29 4.491-4.577.687-1.355.587-2.377.236-3.061-.767-1.498-2.88-1.882-4.01-.721L8 2.42Zm-.49 8.5c-10.78-7.44-3-13.155.359-10.063.045.041.089.084.132.129.043-.045.087-.088.132-.129 3.36-3.092 11.137 2.624.357 10.063l.235.468a.25.25 0 1 1-.448.224l-.008-.017c.008.11.02.202.037.29.054.27.161.488.419 1.003.288.578.235 1.15.076 1.629-.157.469-.422.867-.588 1.115l-.004.007a.25.25 0 1 1-.416-.278c.168-.252.4-.6.533-1.003.133-.396.163-.824-.049-1.246l-.013-.028c-.24-.48-.38-.758-.448-1.102a3.177 3.177 0 0 1-.052-.45l-.04.08a.25.25 0 1 1-.447-.224l.235-.468ZM6.013 2.06c-.649-.18-1.483.083-1.85.798-.131.258-.245.689-.08 1.335.063.244.414.198.487-.043.21-.697.627-1.447 1.359-1.692.217-.073.304-.337.084-.398Z" />
 							</svg>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-balloon-heart-fill desktop-icon" viewBox="0 0 16 16">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-balloon-heart-fill desktop-icon ` + (this.like ? "" : "d-none") + `" viewBox="0 0 16 16">
 								<path fill-rule="evenodd" d="M8.49 10.92C19.412 3.382 11.28-2.387 8 .986 4.719-2.387-3.413 3.382 7.51 10.92l-.234.468a.25.25 0 1 0 .448.224l.04-.08c.009.17.024.315.051.45.068.344.208.622.448 1.102l.013.028c.212.422.182.85.05 1.246-.135.402-.366.751-.534 1.003a.25.25 0 0 0 .416.278l.004-.007c.166-.248.431-.646.588-1.115.16-.479.212-1.051-.076-1.629-.258-.515-.365-.732-.419-1.004a2.376 2.376 0 0 1-.037-.289l.008.017a.25.25 0 1 0 .448-.224l-.235-.468ZM6.726 1.269c-1.167-.61-2.8-.142-3.454 1.135-.237.463-.36 1.08-.202 1.85.055.27.467.197.527-.071.285-1.256 1.177-2.462 2.989-2.528.234-.008.348-.278.14-.386Z" />
 							</svg>
 							<span>
 								likes: ` + (postDetails.data[0].likeNumber !== 0 ? postDetails.data[0].likeNumber : 0) + `
 							</span>
-						</a>
+						</button>
 					</div>
 				</div>
 			</div>
 		</article>
 	</div>`;
-		document.getElementById("feed").innerHTML += scheme;
+		document.getElementById("feed").insertAdjacentHTML("beforeend", scheme);
+		document.getElementById("p-" + postDetails.data[0].id + "-likes").addEventListener("click", event => { this.notifyLike();});
+		console.log(document.getElementById("p-" + this.id + "-likes"));
+		//document.getElementById("p-" + this.id + "-likes").addEventListener("click", event => { console.log("click");});
+
+
 		this.isSchemeAdded = true;
 	}
 
@@ -82,7 +92,6 @@ function Post(id) {
 	 */
 	this.setPostImages = function(images) {
 		let scheme = `<div class="carousel-inner">`;
-		console.log(images.length);
 		for (let i = 0; i < images.length; i++) {
 			scheme += `<div class="carousel-item ` + (i === 0 ? "active" : "") + `">
 				<img id="image" src="img/` + images[0].path + `" class="d-block w-100" alt="" /></div>`;
@@ -108,12 +117,10 @@ function Post(id) {
 		const formData = new FormData();
 		formData.append('postId', this.id);
 		axios.post('api-post-details.php', formData).then(response => {
-			//console.log(response);
 			this.createPostPreview(response);
 			this.authorId = response.data[0].userId;
 			let authorData = this.requestAuthorDetails(this.authorId, this.id);
 			let images = this.requestPostImages(this.id);
-			//index++;
 		});
 	}
 
@@ -124,12 +131,10 @@ function Post(id) {
 		const formData = new FormData();
 		formData.append('postId', this.id);
 		axios.post('api-post-images.php', formData).then(response => {
-			console.log(response);
 			this.setPostImages(response.data);
 		});
 	}
 
-	// returns details of an author
 	/**
 	 * requests details of an author, then adds them into its corrisponding html element
 	 * @param {any} follow - author id
@@ -138,9 +143,45 @@ function Post(id) {
 		const formData = new FormData();
 		formData.append('followingUserId', follow);
 		axios.post('api-user-details-list.php', formData).then(response => {
-			//console.log(response);
 			this.setAuthorDetails(response.data);
 		});
+	}
+
+	/**
+	 * updates database, registers that the user has visualized the post
+	 */
+	this.notifyVisual = function () {
+		const formData = new FormData();
+		formData.append('postId', this.id);
+		axios.post('api-post-visual.php', formData).then(response => {});
+	}
+
+	/**
+	 * updates database, registers that the user has liked the post
+	 */
+	this.notifyLike = function () {
+		const formData = new FormData();
+		formData.append('postId', this.id);
+		if (!this.like) {
+			this.like = true;
+			this.likesNumber++;
+			console.log("like");
+			formData.append('like', 'true');
+			axios.post('api-post-like.php', formData).then(response => { });
+			document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.add("d-none");
+			document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.remove("d-none");
+			document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
+		} else {
+			this.like = false;
+			this.likesNumber--;
+			console.log("dislike: " + this.id );
+			formData.append('like', 'false');
+			axios.post('api-post-like.php', formData).then(response => { console.log(response) });
+			document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.remove("d-none");
+			document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.add("d-none");
+			document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
+        }
+
 	}
 }
 
