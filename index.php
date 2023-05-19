@@ -12,8 +12,8 @@ $templateParams["title"] = "NiceTrip";
 $templateParams["subtitle"] = "Share your travels with your friends";
 $templateParams["iconName"] = "icon.png";
 $templateParams["iconDescription"] = "NiceTrip icon";
-$templateParams["mainImageName"] = "travel.png";
-$templateParams["mainImageDescription"] = "travel graphics";
+$templateParams["mainImageName"] = "people-travelling.png";
+$templateParams["mainImageDescription"] = "people who are travelling";
 
 $templateParams["js"] = array(
     "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js",

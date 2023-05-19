@@ -10,7 +10,9 @@
     <div class="container-fluid p-0 overflow-hidden">
         <div class="row pt-3 ps-md-5 ps-3  mb-md-2">
             <header>
-                <img class="img-fluid float-start d-inlin-block" src="<?php echo UPLOAD_DIR.$templateParams["iconName"]; ?>" alt="<?php echo $templateParams["iconDescription"];?>" />
+                <a href="index.php">
+                    <img class="img-fluid float-start d-inlin-block" src="<?php echo UPLOAD_DIR.$templateParams["iconName"]; ?>" alt="<?php echo $templateParams["iconDescription"];?>" />
+                </a>
                 <h1 class="fw-bold fs-1 d-inline-block text-primary"><?php echo $templateParams["title"];?></h1>
                 <h2 class="fw-italic fs-6 text-muted"><?php echo $templateParams["subtitle"];?></h2>
             </header>
