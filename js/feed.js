@@ -12,7 +12,6 @@ document.getElementById("mainArticle").innerHTML = `<div id="feed" class="contai
 
 //waits for the first posts to finish loading, then checks whether they have been visualized
 const observer = new MutationObserver(function (el) {
-    //console.log("MutationObserved: " + el[0].target.classList);
     checkVisualizedPosts();
 });
 
@@ -48,16 +47,16 @@ function updateFeed() {
     } else{
         let maxId = postCounter + ADDED_PREV_PER_TIME;
         for (let i = postCounter; i < maxId && i < ids.data.length; i++) {
-            console.log("post Loading: " + i);
             posts.push(new Post(ids.data[i].id, false));
             posts[i].requestPostDetails();
             postCounter++;
-        ////console.log(ids.data[i]);
-        //requestPostDetails(ids.data[i].id);
         }
     }
 }
 
+/**
+ * adds a card showing that there are no posts to be shown
+ * */
 function addEmptyFeed() {
     let scheme = `<article class="card mx-auto" style="width: 18rem;">
         <div class="card-body">
@@ -72,11 +71,8 @@ function addEmptyFeed() {
  * Checks whether posts have been visualized, notifies database
  */
 function checkVisualizedPosts(){
-    //console.log("lastViewed:" + lastViewed);
     for (let i = lastViewed; i < postCounter && posts[i].isPostCreated(); i++) {
-        //console.log(i + ": post: " + posts[i].id + " : " + posts[i].isPostCreated());
         if (document.getElementById("p-" + ids.data[i].id).getBoundingClientRect().bottom <= window.innerHeight) {
-            //console.log(ids.data[i].id + "viewed");
             lastViewed++;
             posts[i].notifyVisual();
         }
