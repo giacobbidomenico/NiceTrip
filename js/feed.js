@@ -49,7 +49,7 @@ function updateFeed() {
         let maxId = postCounter + ADDED_PREV_PER_TIME;
         for (let i = postCounter; i < maxId && i < ids.data.length; i++) {
             console.log("post Loading: " + i);
-            posts.push(new Post(ids.data[i].id));
+            posts.push(new Post(ids.data[i].id, false));
             posts[i].requestPostDetails();
             postCounter++;
         ////console.log(ids.data[i]);
