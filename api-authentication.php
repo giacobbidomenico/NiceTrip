@@ -38,7 +38,9 @@ if(isset($_POST["type-request"])) {
         //Verify that email and password are associated with a certain account, otherwise an error is returned
         case "login":
             if(isset($_POST["email-username"]) && isset($_POST["password"]) && isset($_POST["stay-signed-in"])) {
-                $login_data = $dbh->checkLogin($_POST["email-username"], $_POST["password"]);
+                
+                $hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
+                $login_data = $dbh->checkLogin($_POST["email-username"], $hash);
                 $result["found-users"] = count($login_data);
         
                 if($result["found-users"] > 0 &&
@@ -49,7 +51,6 @@ if(isset($_POST["type-request"])) {
                     if(!$dbh->isAccountActivated($_POST["email-username"])) {
                         $result["error"] = 'error-account-not-activated';
                     } else {
-
                         //If the credentials are correct, the user data are recorded in specific session variables
                         registerLoginUser($login_data[0]["id"], $login_data[0]["email"], $login_data[0]["userName"]);
 

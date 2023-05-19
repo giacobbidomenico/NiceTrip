@@ -14,9 +14,9 @@ name_field.addEventListener("input", event => showIfEmptyField(name_field));
 last_name_field.addEventListener("input", event => showIfEmptyField(last_name_field));
 password_field.addEventListener("input", event => {
     checkPasswordStrength(password_field);
-    checkPasswordConfirmation();
+    checkPasswordConfirmation(password_field, confirm_password_field);
 });
-confirm_password_field.addEventListener("input", event => checkPasswordConfirmation());
+confirm_password_field.addEventListener("input", event => checkPasswordConfirmation(password_field, confirm_password_field));
 
 
 const eye_button1 = document.getElementById("eye-button1");
