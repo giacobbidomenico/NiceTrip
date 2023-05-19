@@ -96,20 +96,25 @@ class DatabaseHelper{
      *        user password
      */
     public function checkLogin($email_username, $password) {
-        $query = "SELECT `users`.id, `users`.`userName`, `users`.`email` FROM `users` WHERE (`users`.`email` = ? OR `users`.`userName` = ?) AND `users`.`password` = ?";
+        $query = "SELECT `users`.id, `users`.`userName`, `users`.`email`, `users`.`password` FROM `users` WHERE `users`.`email` = ? OR `users`.`userName` = ?";
 
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('sss', $email_username, $email_username, $password);
+        $stmt->bind_param('ss', $email_username, $email_username);
         $stmt->execute();
         $result = $stmt->get_result();
+        $match = $result->fetch_all(MYSQLI_ASSOC);
+        if(isset($match[0]["password"])) {
+            if(!password_verify($password, $match[0]["password"])) {
+                return array();
+            }
+        }
 
-        return $result->fetch_all(MYSQLI_ASSOC);
-        
+        return $match;   
     }
 
     /**
      *   returns the followed users' posts id, sorteded starting from the most recent
-     **/
+     */
     public function getPostToVisualizeId($followerId){
         $query = 'SELECT P.id FROM posts P, follows F WHERE F.follower = ? AND F.following = P.userId AND P.id NOT IN (SELECT V.postId FROM visualizations V WHERE V.userId = F.follower)';
         $stmt = $this->db->prepare($query);
@@ -289,7 +294,9 @@ class DatabaseHelper{
         $query = 'INSERT INTO `users`(`userName`, `name`, `lastName`, `email`, `password`, `activation_code`) VALUES (?,?,?,?,?,?)';
 
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ssssss', $username, $name, $last_name, $email, $password, $activation_code);
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt->bind_param('ssssss', $username, $name, $last_name, $email, $hash, $activation_code);
 
         return $stmt->execute();
     }

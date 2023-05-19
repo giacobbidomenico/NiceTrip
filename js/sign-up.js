@@ -56,7 +56,7 @@ function sign_up() {
     //Sending data to server
     axios.post('api-signup.php', formData).then(response => {
         if(response.data["error"]) {
-            showMessage("Error, your account has not been verified", 'error');
+            showMessage("Error, your account has not been registered", 'error');
         }else {
             showMessage("A link has been sent by email, click it to verify your account", 'success');
         }

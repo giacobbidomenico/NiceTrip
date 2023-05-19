@@ -47,7 +47,6 @@ function login() {
             showFieldValid(password_field, '');
             showMessage("Error, your account has not been verified", 'error');
         }else if(response.data['error'] === 'error-login-data' && response.data["found-users"] <= 0) {
-
             //In case of wrong password
             if(!showIfEmptyField(password_field, false)) {
                 if (!email_username_field.classList.contains('is-valid')) {

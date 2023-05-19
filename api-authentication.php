@@ -38,9 +38,7 @@ if(isset($_POST["type-request"])) {
         //Verify that email and password are associated with a certain account, otherwise an error is returned
         case "login":
             if(isset($_POST["email-username"]) && isset($_POST["password"]) && isset($_POST["stay-signed-in"])) {
-                
-                $hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
-                $login_data = $dbh->checkLogin($_POST["email-username"], $hash);
+                $login_data = $dbh->checkLogin($_POST["email-username"], $_POST["password"]);
                 $result["found-users"] = count($login_data);
         
                 if($result["found-users"] > 0 &&
