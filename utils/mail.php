@@ -9,7 +9,26 @@ require_once 'libs/PHPMailer/src/PHPMailer.php';
 require_once 'libs/PHPMailer/src/SMTP.php';
 require_once 'bootstrap.php';
 
+/**
+ * Class dealing with email management.
+ * 
+ */
 class MailManager {
+
+    /**
+     * Build a new MailManager
+     * 
+     * @param $host
+     *        smtp server
+     * @param $email_address
+     *        email address
+     * @param $password
+     *        email account password
+     * @param $fromName
+     *        Sender
+     * @param $destination_email
+     *        destination email
+     */
     public function __construct($host, $email_address, $password, $fromName, $destination_email) {
         $this->mail = new PHPMailer(true);
  
@@ -27,6 +46,10 @@ class MailManager {
         $this->mail->AddAddress($destination_email);        
     }
 
+    /**
+     * Send account confirmation email.
+     * 
+     */
     public function sendAccountVerificationEmail($activation_code) {
         $this->mail->IsHTML(true);
         
