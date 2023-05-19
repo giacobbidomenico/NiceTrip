@@ -240,3 +240,19 @@ function verifyUsername(field, order) {
     verifyAccount(field, order, 'username', 'username is already used!');
     showIfEmptyField(field);
 }
+
+/**
+ * Function that deals with the management of a field of a form containing an email or a username.
+ * 
+ * @param {*} field
+ *            considered field
+ * @param {*} order
+ *            order is true if an error message is returned if the email/username match an account,
+ *            false if a success message is to be returned
+ */
+function verifyEmailOrUsername(field, order) {
+    if(showIfEmptyField(field)) {
+        return;
+    }
+    verifyAccount(field, order, "email-username", "no matching accounts");
+}
