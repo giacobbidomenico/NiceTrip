@@ -104,7 +104,7 @@ function Post(id, editable) {
 							</form>
 						</li>
 						<li>
-							<button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
+							<button id="p-` + this.id + `-delete" type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
 								Delete post
 							</button>
 						</li>
@@ -117,7 +117,7 @@ function Post(id, editable) {
 			document.getElementById("p-" + postDetails.data[0].id + "-likes").addEventListener("click", event => { this.notifyLike(); });
         }
 		console.log(document.getElementById("p-" + this.id + "-likes"));
-		//document.getElementById("p-" + this.id + "-likes").addEventListener("click", event => { console.log("click");});
+		document.getElementById("p-" + this.id + "-delete").addEventListener("click", event => { this.deletePost(); });
 
 
 		this.isSchemeAdded = true;

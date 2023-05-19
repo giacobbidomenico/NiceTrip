@@ -1,7 +1,7 @@
 <?php
     require_once 'bootstrap.php';
-    $id = $_SESSION["postId"];
-    $result = $dbh->deletePost($id, $postId);
+    $id = $_SESSION["id"];
+    $result = $dbh->deletePost($id, $_POST["postId"]);
     
     echo json_encode($result);
 
