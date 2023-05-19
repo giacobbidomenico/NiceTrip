@@ -13,7 +13,7 @@ email_field.addEventListener("input", event => verifyEmail(email_field, true));
 name_field.addEventListener("input", event => showIfEmptyField(name_field));
 last_name_field.addEventListener("input", event => showIfEmptyField(last_name_field));
 password_field.addEventListener("input", event => {
-    checkPasswordStrength();
+    checkPasswordStrength(password_field);
     checkPasswordConfirmation();
 });
 confirm_password_field.addEventListener("input", event => checkPasswordConfirmation());
@@ -32,60 +32,14 @@ sign_up_submit.addEventListener("click", event => {
     sign_up();
 });
 
-function checkPasswordStrength() {
-    if(showIfEmptyField(password_field)) {
-        return;
-    }
-    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    if(!strongRegex.test(password_field.value)) {
-        showFieldInvalid(password_field,'Your password must be more than 8 characters long, should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character');
-    } else {
-        showFieldValid(password_field);
-    }
-}
-
-function checkPasswordConfirmation() {
-    if(showIfEmptyField(confirm_password_field)) {
-        return;
-    }
-    if(password_field.value === confirm_password_field.value) {
-        showFieldValid(confirm_password_field);
-    } else {
-        showFieldInvalid(confirm_password_field, 'password does not match!');
-    }
-}
-
 /**
- * Function that requests the server if the ac entered in the form corresponds to an existing account.
- * If does not happen, an error message is shown in the form.
- * 
+ * Function that takes care of sending user data, taken from the form, and 
+ * sending them to the server to sign up him. 
  */
-function verifyEmail(field, order) {
-    if(showIfEmptyField(field)) {
-        return;
-    }
-    if(!field.checkValidity()) {
-        showFieldInvalid(field, "invalid email format!");
-        return;
-    }
-    verifyAccount(field, order, 'email', 'email is already used!');
-}
-
-function verifyUsername(field, order) {
-    if(showIfEmptyField(field)) {
-        return;
-    }
-    verifyAccount(field, order, 'username', 'username is already used!');
-    showIfEmptyField(field);
-}
-
 function sign_up() {
-    for(let item of form.getElementsByTagName("input")) {
-        if(!item.classList.contains("is-invalid") && item.type !== 'submit') {
-            showIfEmptyField(item);
-        }
-    }
+    showEmptyFields(form);
 
+    //if all fields have not been validated, they are not sent to the server
     if(form.getElementsByClassName('is-valid').length !== 6) {
         return;
     }
@@ -98,6 +52,7 @@ function sign_up() {
     formData.append("password", password_field.value);
 
 
+    //Sending data to server
     axios.post('api-signup.php', formData).then(response => {
         if(response.data["error"]) {
             showMessage("Error, your account has not been verified", 'error');
@@ -106,5 +61,3 @@ function sign_up() {
         }
     });
 }
-
-

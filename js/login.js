@@ -27,18 +27,14 @@ function verifyEmailOrUsername(field, order) {
 /**
  * Function that requests the server if the email and password entered in the form correspond to an existing account.
  * If this happens it means that the user has been logged in and the user is redirected to the feed, otherwise he is 
- * warned that the password is incorrect
+ * warned that the password is incorrect.
  * 
  */
 function login() {
 
+    showEmptyFields(form);
 
-    for(let item of form.getElementsByTagName("input")) {
-        if(!item.classList.contains("is-invalid") && item.type !== 'checkbox' && item.type !== 'submit') {
-            showIfEmptyField(item);
-        }
-    }
-
+    //check that the email has been validated
     if(!email_username_field.classList.contains("is-valid")) {
         return;
     }
@@ -50,6 +46,7 @@ function login() {
     formData.append('password', password_field.value);
     formData.append('stay-signed-in', stay_signed_in_checkbox.checked);
 
+    //sending data to server
     axios.post('api-authentication.php', formData).then(response => {
         if(response.data['error'] === 'error-account-not-activated') {
             showFieldValid(password_field, '');

@@ -5,7 +5,7 @@
  * correspond to a specific account.
  * 
  * @param {*} field
- *            field considered
+ *            considered field
  * @param {*} order
  *            order is true if an error message is returned if the credentials match an account, 
  *            false if a success message is to be returned
@@ -36,10 +36,10 @@ function verifyAccount(field, order, type, message_error) {
 
 /**
  * Function that shows an error message if a form field has not been filled in and returns true, 
- * otherwise if desired, prints a success message and returns false
+ * otherwise if desired, prints a success message and returns false.
  * 
  * @param {*} field
- *            field considered
+ *            considered field
  * @param {*} valid
  *            valid is true if you want a success message to be returned if the field is not empty, false otherwise
  * 
@@ -56,10 +56,24 @@ function showIfEmptyField(field, valid=true) {
 }
 
 /**
- * Function that inserts a new message below a field
+ * Function that displays an error message in all fields of a form that have not been filled in.
+ * 
+ * @param {*} completeForm
+ *            considered form 
+ */
+function showEmptyFields(completeForm) {
+    for(let item of completeForm.getElementsByTagName("input")) {
+        if(!item.classList.contains("is-invalid") && item.type !== 'checkbox' && item.type !== 'submit') {
+            showIfEmptyField(item);
+        }
+    }
+}
+
+/**
+ * Function that inserts a new message below a field.
  * 
  * @param {*} field
- *            field considered
+ *            considered field
  * @param {*} message_error
  *            error message that is displayed
  */
@@ -73,7 +87,7 @@ function insertMessage(field, message_error) {
  * Function that displays an error message corresponding to a field.
  * 
  * @param {*} field
- *            field considered
+ *            considered field
  * @param {*} message_error
  *            error message that is displayed
  */
@@ -88,7 +102,7 @@ function showFieldInvalid(field, message_error='') {
  * Function that displays a success message corresponding to a field.
  * 
  * @param {*} field
- *            field considered 
+ *            considered field 
  * @param {*} message
  *            message that is displayed
  */
@@ -119,7 +133,7 @@ function viewPassword(field) {
  * Function that disables all the fields of a form.
  * 
  * @param {*} completeForm
- *            form considered 
+ *            considered form
  */
 function disableAllFields(completeForm) {
     for (let item of completeForm.getElementsByTagName("input")) {
@@ -145,4 +159,84 @@ function showMessage(message, type) {
         disableAllFields(form);
     }
     elementMessage.innerText = message;
+}
+
+/**
+ * Function that checks if the password is secure.
+ * If it is, the field is validated, otherwise an error message is shown.
+ * 
+ * @param {*} field
+ *            considered field 
+ */
+function checkPasswordStrength(field) {
+    if(showIfEmptyField(field)) {
+        return;
+    }
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    if(!strongRegex.test(field.value)) {
+        showFieldInvalid(field,'Your password must be more than 8 characters long, should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character');
+    } else {
+        showFieldValid(field);
+    }
+}
+
+/**
+ * Function that checks if the confirmation password field value is equal to
+ * that of the password field. If so, the password confirmation field is validated, 
+ * otherwise an error message is returned.
+ * 
+ * @param {*} p_field
+ *            password field
+ * @param {*} field
+ *            confirmation password field
+ */
+function checkPasswordConfirmation(p_field, field) {
+    if(showIfEmptyField(field)) {
+        return;
+    }
+    if(p_field.value === field.value) {
+        showFieldValid(field);
+    } else {
+        showFieldInvalid(field, 'password does not match!');
+    }
+}
+
+/**
+ * Function that deals with the management of a field of a form containing an e-mail.
+ * 
+ * @param {*} field
+ *            considered field
+ * @param {*} order
+ *            order is true if an error message is returned if the e-mail match an account,
+ *            false if a success message is to be returned
+ */
+function verifyEmail(field, order) {
+    if(showIfEmptyField(field)) {
+        return;
+    }
+
+    //Check the format of the email
+    if(!field.checkValidity()) {
+        showFieldInvalid(field, "invalid email format!");
+        return;
+    }
+
+    verifyAccount(field, order, 'email', 'email is already used!');
+}
+
+/**
+ * Function that deals with the management of a field of a form containing an username.
+ * 
+ * @param {*} field
+ *            considered field
+ * @param {*} order
+ *            order is true if an error message is returned if the username match an account,
+ *            false if a success message is to be returned
+ */
+function verifyUsername(field, order) {
+    if(showIfEmptyField(field)) {
+        return;
+    }
+    verifyAccount(field, order, 'username', 'username is already used!');
+    showIfEmptyField(field);
 }
