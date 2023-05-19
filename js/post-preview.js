@@ -1,13 +1,19 @@
 "use strict";
 
-function Post(id) {
+/**
+ * Represents a post
+ * @param {Number} id - post unique id
+ * @param {Boolean} editable - true if post is editable, false otherwise
+ */
+function Post(id, editable) {
 	this.id = id;
-	this.authorId;
+	this.editable = editable;
 	this.isSchemeAdded = false;
 	this.isAuthorAdded = false;
 	this.isCarouselAdded = false;
 	this.like = false;
 	this.likesNumber = 0;
+	this.authorId;
 
 	/**
 	 * @returns true if the entire post has been added
@@ -60,12 +66,50 @@ function Post(id) {
 							<span>
 								likes: ` + (postDetails.data[0].likeNumber !== 0 ? postDetails.data[0].likeNumber : 0) + `
 							</span>
-						</button>
-					</div>
+						</button>`;
+		if (this.editable) {
+			const modal = `<div id="exampleModal" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Are you sure?</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>You cannot restore posts that have been deleted.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Delete</button>
 				</div>
 			</div>
-		</article>
+		</div>
 	</div>`;
+			document.getElementById("p" + this.id).insertAdjacentHTML("beforebegin", modal);
+			scheme += `<div class="dropdown">
+				<button id="likes" class="btn btn-light my-2 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+						<path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+					</svg>
+				</button>
+				<ul class="dropdown-menu">
+					<li>
+						<form method="post" action="newpost.php" class="inline">
+							<input type="hidden" name="postToEdit" value="` + this.id + `">
+								<button type="submit" name="submit_param" value="submit_value" class="dropdown-item">
+									Edit post
+								</button>
+						</form>
+					</li>
+					<li>
+						<button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
+							Delete post
+						</button>
+					</li>
+				</ul>
+			</div>`;
+        }
+		scheme += `</div></div></div></article></div>`;
 		document.getElementById("feed").insertAdjacentHTML("beforeend", scheme);
 		document.getElementById("p-" + postDetails.data[0].id + "-likes").addEventListener("click", event => { this.notifyLike();});
 		console.log(document.getElementById("p-" + this.id + "-likes"));
@@ -181,7 +225,15 @@ function Post(id) {
 			document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.add("d-none");
 			document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
         }
+	}
 
+	/**
+	 * deletes this post from database
+	 * */
+	this.deletePost = function () {
+		const formData = new FormData();
+		formData.append('postId', this.id);
+		axios.post('api-post-delete.php', formData).then(response => { console.log(response) });
 	}
 }
 

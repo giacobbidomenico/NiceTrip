@@ -33,7 +33,7 @@ class DatabaseHelper{
     /**
     *   returns the followed users' posts id, sorteded starting from the most recent
     **/
-    public function getPostToVisualizeId($followerId){
+    public function getFollowsPosts($followerId){
         $query = 'SELECT P.id FROM posts P, follows F WHERE F.follower = ? AND F.following = P.userId AND P.id NOT IN (SELECT V.postId FROM visualizations V WHERE V.userId = F.follower)';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $followerId);
@@ -125,7 +125,18 @@ class DatabaseHelper{
         }
     }
 
+    public function deletePost($userId, $postId){
+        $query = 'DELETE FROM `posts` WHERE `posts`.`id` = ? AND `posts`.`userId` = ?;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $postId, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result;
+    }
 
+    /**
+    * returs false if $id is not $followerId's following person nor a following person's post
+    */
     private function checkFollow($followerId, $id, $isIdAPost){
         if($isIdAPost){
             $query = 'SELECT COUNT(F.id) FROM follows F, Posts P WHERE F.follower = ? AND P.id = ? AND P.userId = F.following';
