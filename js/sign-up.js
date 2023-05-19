@@ -34,7 +34,8 @@ sign_up_submit.addEventListener("click", event => {
 
 /**
  * Function that takes care of sending user data, taken from the form, and 
- * sending them to the server to sign up him. 
+ * sending them to the server to sign up him.
+ *  
  */
 function sign_up() {
     showEmptyFields(form);

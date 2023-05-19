@@ -17,7 +17,7 @@
         </div>
         <div class="row">
             <div class="col-md-1"></div>
-            <div class="col-md-6 d-none d-md-block">
+            <div class="col-md-6 d-none d-md-block text-center">
                 <img class="img-fluid rounded" src="<?php echo UPLOAD_DIR.$templateParams["mainImageName"]; ?>" alt="<?php echo $templateParams["mainImageDescription"];?>" />
             </div>
             <div class="col-1"></div>
