@@ -1,0 +1,22 @@
+<?php
+
+	require_once 'bootstrap.php';
+
+	//in case no session is active, redirects to login
+	if(!isSessionActive()){
+		header('Location: index.php');
+	}
+
+	$templateParams["title"] = "YourProfile";
+	$navBarParams["profile"] = "";
+	$navBarParams["logOut"] = "";
+	$navBarParams["feed"] = "feed.php";
+	$navBarParams["search"] = "";
+	$navBarParams["notifications"] = "";
+	$navBarParams["newPost"] = "";
+	$navBarParams["options"] = "";
+	$templateParams["js"] = array("https://unpkg.com/axios/dist/axios.min.js","js/post-preview.js","js/profile.js","https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js");
+
+	require 'template/base2.php';
+
+?>
