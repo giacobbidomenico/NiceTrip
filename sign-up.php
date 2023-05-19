@@ -7,6 +7,7 @@ if(isSessionActive()) {
 }
 
 $templateParams["template-name"] = "sign-up-form.php";
+$templateParams["pageName"] = 'Sign Up';
 $templateParams["title"] = "NiceTrip";
 $templateParams["subtitle"] = "Share your travels with your friends";
 $templateParams["iconName"] = "icon.png";

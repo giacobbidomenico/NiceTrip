@@ -8,6 +8,7 @@ if(isSessionActive()) {
 }
 
 $templateParams["template-name"] = "login-form.php";
+$templateParams["pageName"] = 'Home';
 $templateParams["title"] = "NiceTrip";
 $templateParams["subtitle"] = "Share your travels with your friends";
 $templateParams["iconName"] = "icon.png";
