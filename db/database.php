@@ -43,6 +43,18 @@ class DatabaseHelper{
     }
 
     /**
+    *  returns a list of posts of a given user
+    **/
+    public function getUserPosts($userId){
+        $query = 'SELECT P.id FROM posts P WHERE P.userId = ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
     *   returns a user's public details
     **/
     public function getPublicUserDetails($userId, $followerId){
