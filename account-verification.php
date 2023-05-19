@@ -7,7 +7,10 @@ $templateParams["message"] = "There was an unexpected error";
 $templateParams["mainImageName"] = "error.png";
 
 if(isset($_GET["activation-code"])) {
+    //if the account has not been activated
     if(count($dbh->getUsersByActivationCode($_GET["activation-code"])) > 0) {
+        //activate the account
+        $dbh->activateAccount($_GET["activation-code"]);
         $templateParams["error"] = false;
         $templateParams["mainImageName"] = "ok.png";
         $templateParams["message"] = "Your account has been verified";

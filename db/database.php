@@ -111,6 +111,10 @@ class DatabaseHelper{
      * Function that associates a new code to the user, which is also present in the cookie and will 
      * allow him to maintain his session even after closing the browser.
      * 
+     * @param $session_extension_code
+     *        code to restore the session after closing the browser through a cookie
+     * @param $user_id
+     *        user id
      */
     public function updateSessionExtensionCode($session_extension_code, $user_id) {
         $query = "UPDATE `users` SET `cookie` = ? WHERE `users`.`id` = ?";
@@ -125,6 +129,8 @@ class DatabaseHelper{
      * Function that returns the user from a code associated with him and also present in a cookie in 
      * the user's browser.
      * 
+     * @param $session_extension_code
+     *        code to restore the session after closing the browser through a cookie
      */
     public function getUsersBySessionExtensionCode($session_extension_code) {
         $query = "SELECT `users`.`id`, `users`.`userName`, `users`.`email` FROM `users` WHERE `users`.`cookie` = ?";
@@ -140,6 +146,8 @@ class DatabaseHelper{
     /**
      * Function that returns the user corresponding to a code assigned to activate the account.
      * 
+     * @param $activation_code
+     *        activation code
      */
     public function getUsersByActivationCode($activation_code) {
         $query = "SELECT `users`.`id`, `users`.`userName`, `users`.`email` FROM `users` WHERE `users`.`activation_code` = ?";
@@ -155,12 +163,39 @@ class DatabaseHelper{
     /**
      * Function that sign up a new user into the database.
      * 
+     * @param $username
+     *        user username
+     * @param $name
+     *        user name
+     * @param $last_name
+     *        user last name
+     * @param $email
+     *        user email
+     * @param $password
+     *        user password
+     * @param $activation_code
+     *        user activation code
      */
     public function signUpUser($username, $name, $last_name, $email, $password, $activation_code) {
         $query = 'INSERT INTO `users`(`userName`, `name`, `lastName`, `email`, `password`, `activation_code`) VALUES (?,?,?,?,?,?)';
 
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ssssss', $username, $name, $last_name, $email, $password, $activation_code);
+
+        return $stmt->execute();
+    }
+
+    /**
+     * Function that takes care of activating an account.
+     * 
+     * @param $activation_code
+     *        activation code
+     */
+    public function activateAccount($activation_code) {
+        $query = "UPDATE `users` SET `activation_code` = NULL WHERE `users`.`activation_code` = ?";
+        
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $activation_code);
 
         return $stmt->execute();
     }
