@@ -1,13 +1,15 @@
 "use strict";
 
+const form =  document.getElementsByTagName("form")[0];
 const email_username_field = document.getElementById("email-username");
 const password_field = document.getElementById("password");
 const stay_signed_in_checkbox = document.getElementById("stay-signed-in");
 const login_submit = document.getElementById("login-submit");
 const eye_button = document.getElementById("eye-button");
 
-email_username_field.addEventListener("focusout", event => verifyEmail());
-eye_button.addEventListener("click", event =>  viewPassword());
+email_username_field.addEventListener("input", event => verifyEmailOrUsername(email_username_field, false));
+
+eye_button.addEventListener("click", event =>  viewPassword(password_field));
 
 
 login_submit.addEventListener("click", event => {
@@ -16,33 +18,20 @@ login_submit.addEventListener("click", event => {
 });
 
 /**
- * Function that requests the server if the email entered in the form corresponds to an existing account.
- * If does not happen, an error message is shown in the form.
- * 
- */
-function verifyEmail() {
-    const formData = new FormData();
-    formData.append('type-request', 'verify-email-username');
-    formData.append('email-username', email_username_field.value);
-
-    axios.post('api-login.php', formData).then(response => {
-        if(response.data["error"] || response.data["found-emails-usernames"] == 0) {
-            email_username_field.classList.remove("is-valid");
-            email_username_field.classList.add("is-invalid");
-        } else {
-            email_username_field.classList.remove("is-invalid");
-            email_username_field.classList.add("is-valid");
-        }
-    });
-}
-
-/**
  * Function that requests the server if the email and password entered in the form correspond to an existing account.
  * If this happens it means that the user has been logged in and the user is redirected to the feed, otherwise he is 
- * warned that the password is incorrect
+ * warned that the password is incorrect.
  * 
  */
 function login() {
+
+    showEmptyFields(form);
+
+    //check that the email has been validated
+    if(!email_username_field.classList.contains("is-valid")) {
+        return;
+    }
+
     const formData = new FormData();
 
     formData.append('type-request', 'login');
@@ -50,27 +39,24 @@ function login() {
     formData.append('password', password_field.value);
     formData.append('stay-signed-in', stay_signed_in_checkbox.checked);
 
-    axios.post('api-login.php', formData).then(response => {
-        console.log(response);
-        if(response.data["error"] || response.data["found-users"] <= 0) {
-            if(!email_username_field.classList.contains('is-valid')) {
-                email_username_field.classList.add("is-invalid");
+    //sending data to server
+    axios.post('api-authentication.php', formData).then(response => {
+
+        //if the account has not been activated, it is reported to the user and the login is not carried out
+        if(response.data['error'] === 'error-account-not-activated') {
+            showFieldValid(password_field, '');
+            showMessage("Error, your account has not been verified", 'error');
+        }else if(response.data['error'] === 'error-login-data' && response.data["found-users"] <= 0) {
+
+            //In case of wrong password
+            if(!showIfEmptyField(password_field, false)) {
+                if (!email_username_field.classList.contains('is-valid')) {
+                    email_username_field.classList.add("is-invalid");
+                }
+                showFieldInvalid(password_field, 'Error, password is incorrect!');
             }
-            password_field.classList.add("is-invalid");
         } else {
             window.location.replace("feed.php");
         }
     });
-}
-
-/**
- * Function that makes the password field of the form visible if the user requests it.
- * 
- */
-function viewPassword() {
-    if(password_field.type === 'password') {
-        password_field.type = 'text';
-    } else {
-        password_field.type = 'password';
-    }
 }
