@@ -130,7 +130,7 @@ function Post(id, editable) {
 	 */
 	this.setAuthorDetails = function (author) {
 		let scheme = `<img id="author-image" class="desktop-icon" src="profilePhotos/` + author[0].photoPath + `" />
-	<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="#">` + author[0].userName + `</a>`;
+	<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=` + author[0].id + `">` + author[0].userName + `</a>`;
 		document.getElementById("p-" + this.id + "-author-details").innerHTML = scheme;
 		this.isAuthorAdded = true;
 	}

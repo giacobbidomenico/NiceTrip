@@ -11,9 +11,7 @@ let ids;
 document.getElementById("mainArticle").innerHTML = `<div id="feed" class="container-fluid5"></div>`;
 
 //posts id request
-const formData = new FormData();
-formData.append('ownPosts', "true");
-axios.post('api-post-id-list.php', formData).then(response => {
+axios.get('api-post-id-list.php?userProfile='+userProfile).then(response => {
     ids = response;
     updateFeed();
     window.addEventListener("scroll", event => {
