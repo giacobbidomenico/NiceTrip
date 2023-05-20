@@ -42,12 +42,12 @@ function isBottomReached() {
  * adds new posts
  */
 function updateFeed() {
-    if (ids.data.length == 0) {
+    if (ids.data["posts"].length == 0) {
         addEmptyFeed();
     } else{
         let maxId = postCounter + ADDED_PREV_PER_TIME;
-        for (let i = postCounter; i < maxId && i < ids.data.length; i++) {
-            posts.push(new Post(ids.data[i].id, false));
+        for (let i = postCounter; i < maxId && i < ids.data["posts"].length; i++) {
+            posts.push(new Post(ids.data["posts"][i].id, false));
             posts[i].requestPostDetails();
             postCounter++;
         }
@@ -72,7 +72,7 @@ function addEmptyFeed() {
  */
 function checkVisualizedPosts(){
     for (let i = lastViewed; i < postCounter && posts[i].isPostCreated(); i++) {
-        if (document.getElementById("p-" + ids.data[i].id).getBoundingClientRect().bottom <= window.innerHeight) {
+        if (document.getElementById("p-" + ids.data["posts"][i].id).getBoundingClientRect().bottom <= window.innerHeight) {
             lastViewed++;
             posts[i].notifyVisual();
         }

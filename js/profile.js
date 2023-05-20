@@ -31,13 +31,13 @@ function isBottomReached() {
  * adds new posts
  */
 function updateFeed() {
-    if (ids.data.length == 0) {
+    if (ids.data["posts"].length == 0) {
         addEmptyFeed();
     } else {
         let maxId = postCounter + ADDED_PREV_PER_TIME;
-        for (let i = postCounter; i < maxId && i < ids.data.length; i++) {
+        for (let i = postCounter; i < maxId && i < ids.data["posts"].length; i++) {
             console.log("post Loading: " + i);
-            posts.push(new Post(ids.data[i].id, true));
+            posts.push(new Post(ids.data["posts"][i].id, ids.data["isMyProfile"]));
             posts[i].requestPostDetails();
             postCounter++;
         }
