@@ -115,9 +115,10 @@ function Post(id, editable) {
 		document.getElementById("feed").insertAdjacentHTML("beforeend", scheme);
 		if (!this.editable) {
 			document.getElementById("p-" + postDetails.data[0].id + "-likes").addEventListener("click", event => { this.notifyLike(); });
+		} else {
+			document.getElementById("p-" + this.id + "-delete").addEventListener("click", event => { this.deletePost(); });
         }
 		console.log(document.getElementById("p-" + this.id + "-likes"));
-		document.getElementById("p-" + this.id + "-delete").addEventListener("click", event => { this.deletePost(); });
 
 
 		this.isSchemeAdded = true;
