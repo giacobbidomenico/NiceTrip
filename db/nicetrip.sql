@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 18, 2023 alle 19:11
--- Versione del server: 10.4.25-MariaDB
--- Versione PHP: 8.1.10
+-- Creato il: Mag 20, 2023 alle 00:41
+-- Versione del server: 10.4.28-MariaDB
+-- Versione PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,7 +36,7 @@ CREATE TABLE `comments` (
   `time` time NOT NULL,
   `postsId` int(11) NOT NULL,
   `userId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `comments`
@@ -58,7 +58,7 @@ CREATE TABLE `destinations` (
   `end-date` date NOT NULL,
   `init-time` time NOT NULL,
   `end-time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -70,7 +70,7 @@ CREATE TABLE `follows` (
   `id` int(11) NOT NULL,
   `follower` int(11) NOT NULL,
   `following` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `follows`
@@ -92,7 +92,7 @@ CREATE TABLE `images` (
   `name` varchar(50) NOT NULL,
   `postsId` int(11) NOT NULL,
   `path` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `images`
@@ -113,7 +113,7 @@ INSERT INTO `images` (`id`, `name`, `postsId`, `path`) VALUES
 CREATE TABLE `likes` (
   `userId` int(11) NOT NULL,
   `postsId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `likes`
@@ -133,7 +133,7 @@ CREATE TABLE `notifications` (
   `type` int(11) NOT NULL,
   `senderId` int(11) NOT NULL,
   `receiverId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -148,7 +148,7 @@ CREATE TABLE `posts` (
   `userId` int(11) NOT NULL,
   `time` time NOT NULL,
   `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `posts`
@@ -179,7 +179,7 @@ INSERT INTO `posts` (`id`, `title`, `description`, `userId`, `time`, `date`) VAL
 CREATE TABLE `trips` (
   `postsId` int(11) NOT NULL,
   `destinationsId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -193,21 +193,22 @@ CREATE TABLE `users` (
   `name` varchar(30) NOT NULL,
   `lastName` varchar(30) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `active` tinyint(1) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `activation_code` varchar(30) DEFAULT NULL,
   `cookie` varchar(30) NOT NULL,
   `photoPath` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `users`
 --
 
-INSERT INTO `users` (`id`, `userName`, `name`, `lastName`, `email`, `password`, `active`, `cookie`, `photoPath`) VALUES
-(3, 'primo', 'primo', 'primo', 'primo@primo.primo', 'primp', 0, '', 'genericProfilePhoto.jpg'),
-(5, 'secondo', 'secondo', 'secondo', 'secondo@secondo.secondo', 'secondo', 0, '', 'genericProfilePhoto.jpg'),
-(6, 'terzo', 'terzo', 'terzo', 'terzo@terzo.terzo', 'terzo', 0, '', 'genericProfilePhoto.jpg'),
-(7, 'quarto', 'quarto', 'quarto', 'quarto@quarto.quarto', 'quarto', 0, '', 'genericProfilePhoto.jpg');
+INSERT INTO `users` (`id`, `userName`, `name`, `lastName`, `email`, `password`, `activation_code`, `cookie`, `photoPath`) VALUES
+(3, 'primo', 'primo', 'primo', 'primo@primo.primo', 'primp', NULL, '', 'genericProfilePhoto.jpg'),
+(5, 'secondo', 'secondo', 'secondo', 'secondo@secondo.secondo', 'secondo', NULL, '', 'genericProfilePhoto.jpg'),
+(6, 'terzo', 'terzo', 'terzo', 'terzo@terzo.terzo', 'terzo', NULL, '', 'genericProfilePhoto.jpg'),
+(7, 'quarto', 'quarto', 'quarto', 'quarto@quarto.quarto', 'quarto', NULL, '', 'genericProfilePhoto.jpg'),
+(11, 'cruciani', 'roberto', 'cruciani', 'nicetrip.socialplatform@gmail.com', '$2y$10$3wK7rbaNToUFSQxDnLxvz.TzOb.eru.XtYTXPkHct0OlT0ZgqkOAm', NULL, '', '');
 
 -- --------------------------------------------------------
 
@@ -219,7 +220,7 @@ CREATE TABLE `visualizations` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `postId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `visualizations`
@@ -362,7 +363,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT per la tabella `visualizations`

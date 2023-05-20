@@ -74,7 +74,7 @@ db:
 template:
     > base1.php
     > login-form.php
-    > sign-in-form.php
+    > sign-up-form.php
     > reporting-page.php
     > base2.php
     > profile.php
