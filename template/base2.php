@@ -122,19 +122,17 @@
         </div>
         <div class="col-xl-8 col-md-9 offset-md-1 offset-xl-2">
             <section id="introduction" class="row test titleHighlight border-bottom border-light-subtle">
-            <?php 
-            if(isset($templateParams["introduction"])):
-                echo $templateParams["introduction"]; 
-            endif;
-            ?>
+            <?php if(isset($templateParams["introduction"])): ?>
+                <h1 class="text-primary fw-bold fs-1"><?php echo $templateParams["introduction"];?></h1> 
+            <?php endif;?>
             </section>
             <main class="row">
                 <!--<div class="col-md-1"></div>-->
                 <div id="mainArticle" class="col-md-8 border-end border-light-subtle ">
                 <?php 
-                if(isset($templateParams["mainArticle"])):
-                    echo $templateParams["mainArticle"]; 
-                endif;
+                    if(isset($templateParams["mainArticle"])):
+                        require_once $templateParams["mainArticle"]; 
+                    endif;
                 ?>
                 </div>
                 <div id="sideArticle" class="col-md-4 vh-100 sticky-top border-top border-light-subtle">
