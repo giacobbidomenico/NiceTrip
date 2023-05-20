@@ -184,6 +184,15 @@
             </nav>
         </div>
     </div>
+    <script>
+    <?php
+        if(isset($templateParams["jsVars"])):
+            foreach($templateParams["jsVars"] as $script):
+                echo $script; 
+            endforeach;
+        endif;
+    ?>
+    </script>
     <?php
     if(isset($templateParams["js"])):
         foreach($templateParams["js"] as $script):
