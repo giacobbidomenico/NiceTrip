@@ -12,30 +12,34 @@
     </div>
     
     <div class="col-12">
-        <p  class="fw-bold fs-4 text-primary" >Destionations:</p>
         <div class="row">
-            <label for="destination">Add destination:</label>
-            <div class="col-6">
-                <input type="text" class="form-control rounded-0" id="destination" name="destination" required>
-            </div>
-            <div class="col-6">
-                <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Add" name="Add" id="add" autocomplete="on">
+            <p  class="fw-bold fs-4 text-primary" >Destinations:</p>
+        </div>
+        <div class="row">
+            <div class="col-4 ps-4">
+                <label class="fw-bold" for="destination">Add destination:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="Text input with checkbox">
+                    <input class="btn btn-primary" type="submit" value="Post" name="signup" id="post-submit" autocomplete="on">
+                </div>
             </div>
         </div>
         <div class="row">
-            <ul class="list-group">
-                <li class="list-group-item active" aria-current="true">fedfe</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-                <li class="list-group-item">A fourth item</li>
-                <li class="list-group-item">And a fifth one</li>
-            </ul>
+            <div class="col-8 pt-4 ps-4">
+                <ul class="list-group">
+                    <li class="list-group-item" aria-current="true">fedfe</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                </ul>
+            </div>
         </div>
     </div>
 
     <div class="col-12">
         <div class="col-md-3 d-grid pe-1 float-end">
-            <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Post" name="signup" id="post-submit" autocomplete="on">
+            <input class="btn btn-primary btn-lg" type="submit" value="Post" name="signup" id="post-submit" autocomplete="on">
         </div>
     </div>
 </form>
