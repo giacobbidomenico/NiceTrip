@@ -193,7 +193,8 @@ function Post(id, editable) {
 	 */
 	this.requestAuthorDetails = function(follow) {
 		const formData = new FormData();
-		formData.append('followingUserId', follow);
+		formData.append('userId', follow);
+		formData.append('checkFollow', 'false');
 		axios.post('api-user-details-list.php', formData).then(response => {
 			this.setAuthorDetails(response.data);
 		});
