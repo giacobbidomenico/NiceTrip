@@ -137,9 +137,9 @@
                 </div>
                 <div id="sideArticle" class="col-md-4 vh-100 sticky-top border-top border-light-subtle">
                 <?php 
-                if(isset($templateParams["sideArticle"])):
-                    echo $templateParams["sideArticle"]; 
-                endif;
+                    if(isset($templateParams["sideArticle"])):
+                        echo $templateParams["sideArticle"]; 
+                    endif;
                 ?>
                 </div>
                 <!--<div class="col-md-1"></div>-->
@@ -186,7 +186,7 @@
     if(isset($templateParams["js"])):
         foreach($templateParams["js"] as $script):
     ?>
-        <script src="<?php echo $script; ?>"></script>
+        <script src="<?php echo $script[0]; ?>"  <?php if(isset($script[1])):for($i=0;$i < count($script[1]); $i++): echo $script[1][$i].' '; endfor;endif;?>></script>
     <?php
         endforeach;
     endif;
