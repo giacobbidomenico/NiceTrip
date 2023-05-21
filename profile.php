@@ -11,7 +11,7 @@
 	}
 
 	$templateParams["title"] = "YourProfile";
-	$templateParams["introduction"] = "";
+	$templateParams["introduction"] = "profileIntroduction.php";
 	$navBarParams["profile"] = "";
 	$navBarParams["logOut"] = "";
 	$navBarParams["feed"] = "feed.php";
