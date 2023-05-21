@@ -34,7 +34,7 @@
     </div>
 
 
-    <div class="row ">
+    <div class="row">
         <div class="col-md-1"></div>
         <div class="col-xl-2 col-md-1 p-0 vh-100 position-fixed offset-md-1 d-none d-md-block border-end border-light-subtle navbarHighlight">
             <nav class="container-fluid ">
@@ -120,30 +120,34 @@
 
             </nav>
         </div>
-        <div class="col-xl-8 col-md-9 offset-md-1 offset-xl-2">
-            <section id="introduction" class="row test titleHighlight border-bottom border-light-subtle">
-            <?php if(isset($templateParams["introduction"])): ?>
-                <h1 class="text-primary fw-bold fs-1"><?php echo $templateParams["introduction"];?></h1> 
-            <?php endif;?>
-            </section>
-            <main class="row">
-                <!--<div class="col-md-1"></div>-->
-                <div id="mainArticle" class="col-md-8 border-end border-light-subtle ">
-                <?php 
-                    if(isset($templateParams["mainArticle"])):
-                        require_once $templateParams["mainArticle"]; 
+        <div class="col-xl-8 col-md-9 offset-md-1 offset-xl-2 p-0">
+            <div class="container-fluid">
+                <section id="introduction" class="row test titleHighlight">
+                    <?php 
+                        if(isset($templateParams["introduction"])){
+                            require($templateParams["introduction"]);
+                        } 
+                    ?>
+                </section>
+                <main class="row">
+                    <!--<div class="col-md-1"></div>-->
+                    <div id="mainArticle" class="col-md-8 border-end border-top border-light-subtle ">
+                    <?php 
+                        if(isset($templateParams["mainArticle"])):
+                            require_once $templateParams["mainArticle"]; 
+                        endif;
+                    ?>
+                    </div>
+                    <div id="sideArticle" class="col-md-4 vh-100 sticky-top border-top border-light-subtle">
+                    <?php 
+                    if(isset($templateParams["sideArticle"])):
+                        echo $templateParams["sideArticle"]; 
                     endif;
-                ?>
-                </div>
-                <div id="sideArticle" class="col-md-4 vh-100 sticky-top border-top border-light-subtle">
-                <?php 
-                if(isset($templateParams["sideArticle"])):
-                    echo $templateParams["sideArticle"]; 
-                endif;
-                ?>
-                </div>
-                <!--<div class="col-md-1"></div>-->
-            </main>
+                    ?>
+                    </div>
+                    <!--<div class="col-md-1"></div>-->
+                </main>
+            </div>
         </div>
         <div class="col-md-1"></div>
     </div>
