@@ -146,7 +146,7 @@ class DatabaseHelper{
     **/
     public function getPublicUserDetails($userId, $followerId, $checkFollow){
         if($checkFollow || $this->checkFollow($followerId, $userId, false)){
-            $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, COUNT(F.id) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = 6 AND F.following = 6) WHERE U.id = 6';
+            $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, COUNT(F.id) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = ? AND F.following = ?) WHERE U.id = ?';
             $stmt = $this->db->prepare($query);
             $stmt->bind_param('sss', $followerId, $userId, $userId);
             $stmt->execute();
@@ -230,6 +230,26 @@ class DatabaseHelper{
                 $stmt->bind_param('ss', $followerId, $postId);
                 $stmt->execute();
             }
+        }
+    }
+
+    /**
+     * Function that registers a follow.
+     * @param $followerId - id of the follower
+     * @param $followedId - id of the user to be followed
+     * @param $register - true to register follow, false to delete
+     **/
+    public function changeFollowState($followerId, $followId, $register){
+        if($register){
+            $query = 'INSERT INTO `follows` (`id`, `follower`, `following`) VALUES (NULL, '11', '7');';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ss', $followerId, $postId);
+            $stmt->execute();
+        } else {
+            $query = 'DELETE FROM `likes` WHERE `likes`.`userId` = ? AND `likes`.`postsId` = ?';
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('ss', $followerId, $postId);
+            $stmt->execute();
         }
     }
 
