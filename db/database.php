@@ -142,12 +142,13 @@ class DatabaseHelper{
     *  Function that returns a user's public details.
     *  @param $userId - id of the user requesting the data
     *  @param $followerId - id of the user to get details of
+    *  @param $checkFollow - id of the user to get details of
     **/
-    public function getPublicUserDetails($userId, $followerId){
-        if($this->checkFollow($followerId, $userId, false)){
-            $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath FROM users U WHERE U.id = ?';
+    public function getPublicUserDetails($userId, $followerId, $checkFollow){
+        if($checkFollow || $this->checkFollow($followerId, $userId, false)){
+            $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, COUNT(F.id) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = 6 AND F.following = 6) WHERE U.id = 6';
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('s', $userId);
+            $stmt->bind_param('sss', $followerId, $userId, $userId);
             $stmt->execute();
             $result = $stmt->get_result();
             return $result->fetch_all(MYSQLI_ASSOC);
