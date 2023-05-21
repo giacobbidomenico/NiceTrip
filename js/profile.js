@@ -6,9 +6,20 @@ let posts = [];
 let maxScroll = window.innerHeight;
 let lastViewed = 0;
 let ids;
+let author;
 
 
 document.getElementById("mainArticle").innerHTML = `<div id="feed" class="container-fluid5"></div>`;
+
+//requests author's profile image and username
+const formData = new FormData();
+formData.append('userId', userProfile);
+formData.append('checkFollow', 'true');
+axios.post('api-user-details-list.php', formData).then(response => {
+    author = response;
+    document.getElementById("author-image").src += response.data[0].photoPath;
+    document.getElementById("author-username").innerHTML = response.data[0].userName;
+});
 
 //posts id request
 axios.get('api-post-id-list.php?userProfile='+userProfile).then(response => {
