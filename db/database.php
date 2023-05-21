@@ -113,8 +113,9 @@ class DatabaseHelper{
     }
 
     /**
-    *   returns the followed users' posts id, sorteded starting from the most recent
-    **/
+    *  Function returns the followed users' posts id, sorteded starting from the most recent.
+    *  @param $followerId - id of the followed user
+    */
     public function getFollowsPosts($followerId){
         $query = 'SELECT P.id FROM posts P, follows F WHERE F.follower = ? AND F.following = P.userId AND P.id NOT IN (SELECT V.postId FROM visualizations V WHERE V.userId = F.follower)';
         $stmt = $this->db->prepare($query);
@@ -125,8 +126,9 @@ class DatabaseHelper{
     }
 
     /**
-    *  returns a list of posts of a given user
-    **/
+    *  Function that returns a list of posts of a given user.
+    *  @param $userId - id of the given user
+    */
     public function getUserPosts($userId){
         $query = 'SELECT P.id FROM posts P WHERE P.userId = ?';
         $stmt = $this->db->prepare($query);
@@ -137,7 +139,9 @@ class DatabaseHelper{
     }
 
     /**
-    *   returns a user's public details
+    *  Function that returns a user's public details.
+    *  @param $userId - id of the user requesting the data
+    *  @param $followerId - id of the user to get details of
     **/
     public function getPublicUserDetails($userId, $followerId){
         if($this->checkFollow($followerId, $userId, false)){
@@ -153,7 +157,9 @@ class DatabaseHelper{
     }
 
     /**
-     * returns the images of a given post
+     * Function that returns the images of a given post.
+     * @param $postId - id of the post to get images of
+     * @param $followerId - id of the user requesting the data
      **/
     public function getPostImages($postId, $followerId){
         if($this->checkFollow($followerId, $postId, true)){
@@ -169,7 +175,9 @@ class DatabaseHelper{
     }
 
     /**
-     *   returns title, userId, description, time, date, likes number, comments number of a given post
+     * Function that returns title, userId, description, time, date, likes number, comments number of a given post.
+     * @param $postId - id of the post to get details of
+     * @param $followerId - id of the user requesting the data
      **/
     public function getPostDetails($postId, $followerId){
         if($this->checkFollow($followerId, $postId, true)){
@@ -185,7 +193,9 @@ class DatabaseHelper{
     }
 
     /**
-     *   registers that $followerId has visualized $postId
+     * Function that registers a post visualization.
+     * @param $postId - id of the post visualized
+     * @param $followerId - id of the user 
      **/
     public function notifyVisual($postId, $followerId){
         if($this->checkFollow($followerId, $postId, true)){
@@ -201,7 +211,10 @@ class DatabaseHelper{
     }
 
     /**
-     *   registers that $followerId reacted to $psotId post
+     * Function that registers a like to a post.
+     * @param $postId - id of the post liked
+     * @param $followerId - id of the user 
+     * @param $register - true to register like, false to delete
      **/
     public function notifyLike($postId, $followerId, $register){
         if($this->checkFollow($followerId, $postId, true)){
@@ -219,18 +232,6 @@ class DatabaseHelper{
         }
     }
 
-    public function deletePost($userId, $postId){
-        $query = 'DELETE FROM `posts` WHERE `posts`.`id` = ? AND `posts`.`userId` = ?;';
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss', $postId, $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result;
-    }
-
-    /**
-    * returs false if $id is not $followerId's following person nor a following person's post
-    */
     private function checkFollow($followerId, $id, $isIdAPost){
         if($isIdAPost){
             $query = 'SELECT COUNT(F.id) FROM follows F, Posts P WHERE F.follower = ? AND P.id = ? AND P.userId = F.following';
