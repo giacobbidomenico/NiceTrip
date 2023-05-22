@@ -21,22 +21,17 @@
                 <label class="fw-bold" for="destination">Add destination:</label>
             </div>
             <div class="row">
-                <div id="searchBoxContainer" class="col-4">
-                    <input class="form-control" type='text' id='searchBox' autocomplete="on"/>
+                <div id="search-field-container" class="col-4">
+                    <input class="form-control" type='text' id='search-field' autocomplete="on"/>
                 </div>
                 <div class="col-4 ms-1">
-                    <button class="btn btn-primary" type="button" id="add-button">Add</button>
+                    <button class="btn btn-primary" type="button" id="add-destination-button">Add</button>
                 </div>
             </div>
         </div>
         <div class="row pt-4 ps-3">
             <div class="col-8">
-                <ul class="list-group">
-                    <li class="list-group-item">fedfe</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
+                <ul id="destinations-list" class="list-group">
                 </ul>
             </div>
         </div>
