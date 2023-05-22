@@ -360,5 +360,29 @@ class DatabaseHelper{
 
         return $stmt->execute();
     }
+
+    /**
+    *  Function that returns a list of followers (id, profile image, name)
+    *   @param $userId - id of the user to get followers of 
+    */
+    public function getFollowers($userId){
+        $query = "SELECT F.following, U.userName, U.photoPath FROM follows F, users U WHERE F.following = 3 AND U.id = F.follower";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $userId);
+
+        return $stmt->execute();
+    }
+
+    /**
+    *  Function that returns a list of followers (id, profile image, name)
+    *   @param $userId - id of the user to get follow of 
+    */
+    public function getFollow($userId){
+        $query = "SELECT F.following, U.userName, U.photoPath FROM follows F, users U WHERE F.follower = ? AND U.id = F.following";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $userId);
+
+        return $stmt->execute();
+    }
 }
 ?>
