@@ -15,19 +15,24 @@
         <div class="row">
             <p  class="fw-bold fs-4 text-primary" >Destinations:</p>
         </div>
-        <div class="row">
-            <div class="col-4 ps-4">
+
+        <div class="row ps-3">
+            <div class="row">
                 <label class="fw-bold" for="destination">Add destination:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" aria-label="Text input with checkbox">
-                    <input class="btn btn-primary" type="submit" value="Post" name="signup" id="post-submit" autocomplete="on">
+            </div>
+            <div class="row">
+                <div id="searchBoxContainer" class="col-4">
+                    <input class="form-control" type='text' id='searchBox' autocomplete="on"/>
+                </div>
+                <div class="col-4 ms-1">
+                    <button class="btn btn-primary" type="button" id="add-button">Add</button>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-8 pt-4 ps-4">
+        <div class="row pt-4 ps-3">
+            <div class="col-8">
                 <ul class="list-group">
-                    <li class="list-group-item" aria-current="true">fedfe</li>
+                    <li class="list-group-item">fedfe</li>
                     <li class="list-group-item">A second item</li>
                     <li class="list-group-item">A third item</li>
                     <li class="list-group-item">A fourth item</li>
