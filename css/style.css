@@ -5,3 +5,11 @@
 .desktop-icon{
     width: 25px;
 }
+
+.profile-icon{
+    width: 13%;
+}
+
+.follow-card{
+    max-height: 33vh;
+}
