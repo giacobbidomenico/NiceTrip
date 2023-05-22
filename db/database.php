@@ -366,7 +366,7 @@ class DatabaseHelper{
     *  @param $userId - id of the user to get followers of 
     */
     public function getFollowers($userId){
-        $query = "SELECT F.following, U.userName, U.photoPath FROM follows F, users U WHERE F.following = 3 AND U.id = F.follower";
+        $query = "SELECT F.follower, U.userName, U.photoPath FROM follows F, users U WHERE F.following = 3 AND U.id = F.follower";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $userId);
 
@@ -378,7 +378,7 @@ class DatabaseHelper{
     *  @param $userId - id of the user to get follow of 
     */
     public function getFollows($userId){
-        $query = "SELECT F.following, U.userName, U.photoPath FROM follows F, users U WHERE F.follower = ? AND U.id = F.following";
+        $query = "SELECT F.following, U.userName, U.photoPath FROM follows F, users U WHERE F.following = 3 AND U.id = F.follower";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $userId);
 
