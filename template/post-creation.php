@@ -24,13 +24,15 @@
                 <div id="search-field-container" class="col-4">
                     <input class="form-control" type='text' id='search-field' autocomplete="on"/>
                 </div>
+
+
                 <div class="col-4 ms-1">
                     <button class="btn btn-primary" type="button" id="add-destination-button">Add</button>
                 </div>
             </div>
         </div>
-        <div class="row pt-4 ps-3">
-            <div id="destination-list-container" class="col-8">
+        <div class="row">
+            <div id="destinations-table-container">
                 <p class="fw-bold fs-6 text-danger">For the moment there are no destinations</p>
             </div>
         </div>
