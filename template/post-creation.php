@@ -30,11 +30,11 @@
             </div>
         </div>
         <div class="row pt-4 ps-3">
-            <div class="col-8">
-                <ul id="destinations-list" class="list-group">
-                </ul>
+            <div id="destination-list-container" class="col-8">
+                <p class="fw-bold fs-6 text-danger">For the moment there are no destinations</p>
             </div>
         </div>
+        
     </div>
 
     <div class="col-12">
