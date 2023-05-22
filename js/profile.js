@@ -7,19 +7,10 @@ let maxScroll = window.innerHeight;
 let lastViewed = 0;
 let ids;
 let author;
+let follow = false;
 
 
 document.getElementById("mainArticle").innerHTML = `<div id="feed" class="container-fluid5"></div>`;
-
-//requests author's profile image and username
-const formData = new FormData();
-formData.append('userId', userProfile);
-formData.append('checkFollow', 'true');
-axios.post('api-user-details-list.php', formData).then(response => {
-    author = response;
-    document.getElementById("author-image").src += response.data[0].photoPath;
-    document.getElementById("author-username").innerHTML = response.data[0].userName;
-});
 
 //posts id request
 axios.get('api-post-id-list.php?userProfile='+userProfile).then(response => {
@@ -31,6 +22,63 @@ axios.get('api-post-id-list.php?userProfile='+userProfile).then(response => {
         }
     });
 });
+
+
+//requests author's profile image and username
+const formData = new FormData();
+formData.append('userId', userProfile);
+formData.append('checkFollow', 'true');
+axios.post('api-user-details-list.php', formData).then(response => {
+    author = response;
+    document.getElementById("author-image").src += response.data[0].photoPath;
+    document.getElementById("author-username").innerHTML = response.data[0].userName;
+    //if current page is another user's profile page, adds and  
+    if (!ids.data["isMyProfile"]) {
+        follow = response.data[0].follow == 1;
+        changeFollowButton(follow);
+        document.getElementById("b-follow").addEventListener("click", changeFollowState);
+    } else {
+        document.getElementById("b-follow").classList.add("d-none");
+    }
+});
+
+
+
+/**
+ * Changes state of the follow button
+ * @param {Boolean} follow - true to follow, false to unfollow
+ */
+function changeFollowButton(follow) {
+    if (follow) {
+        document.getElementById("b-follow").childNodes[1].innerHTML = "Already followed";
+        document.getElementById("b-follow").childNodes[3].classList.remove("d-none");
+        document.getElementById("b-follow").classList.remove("btn-primary");
+        document.getElementById("b-follow").classList.add("btn-light");
+
+    } else {
+        document.getElementById("b-follow").childNodes[3].classList.add("d-none");
+        document.getElementById("b-follow").childNodes[1].innerHTML = "Follow";
+        document.getElementById("b-follow").classList.remove("btn-light");
+        document.getElementById("b-follow").classList.add("btn-primary");
+    }
+}
+
+/**
+ * Changes follow state
+ */
+function changeFollowState() {
+    const formData = new FormData();
+    if (follow) {
+        follow = false;
+        formData.append('register', 'false');
+    } else {
+        follow = true;
+        formData.append('register', 'true');
+    }
+    formData.append('userId', userProfile);
+    axios.post('api-follow.php', formData).then(response => { });
+    changeFollowButton(follow);
+}
 
 
 // checks whether the user has reached the bottom of the page
