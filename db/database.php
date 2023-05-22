@@ -1,6 +1,180 @@
 <?php
-class DatabaseHelper{
+/**
+* Represents every interaction with database
+*/
+abstract class DatabaseHelper
+{
     private $db;
+    /**
+     * Check if email/username matches a user's account.
+     * 
+     * @param $email_username
+     *        user email/username       
+     */
+    abstract public function checkEmailOrUsername($email_username);
+
+    /**
+     * Check if email/username matches a user's account.
+     * 
+     * @param $email
+     *        user email
+     */
+    abstract public function checkEmail($email);
+
+    /**
+     * Check if username matches a user's account.
+     * 
+     * @param $username
+     *        user username
+     */
+    abstract public function checkUsername($username);
+
+    /**
+     * Function that check if the user's account has been activated, by seeing if the activation_code field is NULL
+     * 
+     * @param $email_username
+     *        user email/username
+     */
+    abstract public function isAccountActivated($email_username);
+
+    /**
+     * Function that returns the user that corresponds to the credentials entered during login.
+     * 
+     * @param $email_username
+     *        user email/username
+     * @param $password
+     *        user password
+     */
+    abstract public function checkLogin($email_username, $password);
+
+    /**
+    *  Function returns the followed users' posts id, sorteded starting from the most recent.
+    *  @param $followerId - id of the followed user
+    */
+    abstract public function getFollowsPosts($followerId);
+
+    /**
+    *  Function that returns a list of posts of a given user.
+    *  @param $userId - id of the given user
+    */
+    abstract public function getUserPosts($userId);
+
+    /**
+    *  Function that returns a user's public details.
+    *  @param $userId - id of the user requesting the data
+    *  @param $followerId - id of the user to get details of
+    *  @param $checkFollow - id of the user to get details of
+    **/
+    abstract public function getPublicUserDetails($userId, $followerId, $checkFollow);
+
+     /**
+     * Function that returns the images of a given post.
+     * @param $postId - id of the post to get images of
+     * @param $followerId - id of the user requesting the data
+     **/
+    abstract public function getPostImages($postId, $followerId);
+
+    /**
+     * Function that returns title, userId, description, time, date, likes number, comments number of a given post.
+     * @param $postId - id of the post to get details of
+     * @param $followerId - id of the user requesting the data
+     **/
+    abstract public function getPostDetails($postId, $followerId);
+
+    /**
+     * Function that registers a post visualization.
+     * @param $postId - id of the post visualized
+     * @param $followerId - id of the user 
+     **/
+    abstract public function notifyVisual($postId, $followerId);
+
+    /**
+     * Function that registers a like to a post.
+     * @param $postId - id of the post liked
+     * @param $followerId - id of the user 
+     * @param $register - true to register like, false to delete
+     **/
+    abstract public function notifyLike($postId, $followerId, $register);
+
+    /**
+     * Function that registers a follow.
+     * @param $followerId - id of the follower
+     * @param $followId - id of the user to be followed
+     * @param $register - true to register follow, false to delete
+     **/
+    abstract public function changeFollowState($followerId, $followId, $register);
+
+    /*
+     * Function that associates a new code to the user, which is also present in the cookie and will 
+     * allow him to maintain his session even after closing the browser.
+     * 
+     * @param $session_extension_code
+     *        code to restore the session after closing the browser through a cookie
+     * @param $user_id
+     *        user id
+     */
+    abstract public function updateSessionExtensionCode($session_extension_code, $user_id);
+
+    /**
+     * Function that returns the user from a code associated with him and also present in a cookie in 
+     * the user's browser.
+     * 
+     * @param $session_extension_code
+     *        code to restore the session after closing the browser through a cookie
+     */
+    abstract public function getUsersBySessionExtensionCode($session_extension_code);
+
+    /**
+     * Function that returns the user corresponding to a code assigned to activate the account.
+     * 
+     * @param $activation_code
+     *        activation code
+     */
+    abstract public function getUsersByActivationCode($activation_code);
+
+    /**
+     * Function that sign up a new user into the database.
+     * 
+     * @param $username
+     *        user username
+     * @param $name
+     *        user name
+     * @param $last_name
+     *        user last name
+     * @param $email
+     *        user email
+     * @param $password
+     *        user password
+     * @param $activation_code
+     *        user activation code
+     */
+    abstract public function signUpUser($username, $name, $last_name, $email, $password, $activation_code);
+
+    /**
+     * Function that takes care of activating an account.
+     * 
+     * @param $activation_code
+     *        activation code
+     */
+    abstract public function activateAccount($activation_code);
+
+    /**
+    *  Function that returns a list of followers (id, profile image, name)
+    *  @param $userId - id of the user to get followers of 
+    */
+    abstract public function getFollowers($userId);
+
+    /**
+    *  Function that returns a list of followers (id, profile image, name)
+    *  @param $userId - id of the user to get follow of 
+    */
+    abstract public function getFollows($userId);
+}
+
+/**
+* Implements DatabaseHelper
+*/
+class ConcreteDatabaseHelper extends DatabaseHelper{
 
     /**
      * Buld a new DatabaseHelper.
@@ -253,19 +427,6 @@ class DatabaseHelper{
         }
     }
 
-    private function checkFollow($followerId, $id, $isIdAPost){
-        if($isIdAPost){
-            $query = 'SELECT COUNT(F.id) FROM follows F, Posts P WHERE F.follower = ? AND P.id = ? AND P.userId = F.following';
-        } else {
-            $query = 'SELECT COUNT(F.id) FROM follows F WHERE F.follower = ? AND F.following = ?';
-        }
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss', $followerId, $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return count($result->fetch_all(MYSQLI_ASSOC)) == 0? false : true;
-    }
-
     /*
      * Function that associates a new code to the user, which is also present in the cookie and will 
      * allow him to maintain his session even after closing the browser.
@@ -387,6 +548,132 @@ class DatabaseHelper{
         $result = $stmt->get_result();
 
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+}
+
+abstract class DatabaseHelperDecorator extends DatabaseHelper
+{
+    protected $databaseHelper;
+}
+
+class checkFollowDecorator extends DatabaseHelperDecorator{
+    
+    public function __construct($databaseHelper){
+        $this->databaseHelper = $databaseHelper;
+    }
+
+    private function checkFollow($followerId, $id, $isIdAPost){
+        if($isIdAPost){
+            $query = 'SELECT COUNT(F.id) FROM follows F, Posts P WHERE F.follower = ? AND P.id = ? AND P.userId = F.following';
+        } else {
+            $query = 'SELECT COUNT(F.id) FROM follows F WHERE F.follower = ? AND F.following = ?';
+        }
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $followerId, $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return count($result->fetch_all(MYSQLI_ASSOC)) == 0? false : true;
+    }
+
+        public function checkEmailOrUsername($email_username)
+    {
+        $this->databaseHelper->checkEmailOrUsername($email_username);
+    }
+
+    public function checkEmail($email)
+    {
+        $this->databaseHelper->checkEmail($email);
+    }
+
+    public function checkUsername($username)
+    {
+        $this->databaseHelper->checkUsername($username);
+    }
+
+    public function isAccountActivated($email_username)
+    {
+        $this->databaseHelper->isAccountActivated($email_username);
+    }
+
+    public function checkLogin($email_username, $password)
+    {
+        $this->databaseHelper->checkLogin($email_username, $password);
+    }
+    
+    public function getFollowsPosts($followerId)
+    {
+        $this->databaseHelper->getFollowsPosts($followerId);
+    }
+
+    public function getUserPosts($userId)
+    {
+        $this->databaseHelper->getUserPosts($userId);
+    }
+
+    public function getPublicUserDetails($userId, $followerId, $checkFollow)
+    {
+        $this->databaseHelper->getPublicUserDetails($userId, $followerId, $checkFollow);
+    }
+
+    public function getPostImages($postId, $followerId)
+    {
+        $this->databaseHelper->getPostImages($postId, $followerId);
+    }
+
+    public function getPostDetails($postId, $followerId)
+    {
+        $this->databaseHelper->getPostDetails($postId, $followerId);
+    }
+
+    public function notifyVisual($postId, $followerId)
+    {
+        $this->databaseHelper->notifyVisual($postId, $followerId);
+    }
+
+    public function notifyLike($postId, $followerId, $register)
+    {
+        $this->databaseHelper->notifyLike($postId, $followerId, $register);
+    }
+
+    public function changeFollowState($followerId, $followId, $register)
+    {
+        $this->databaseHelper->changeFollowState($followerId, $followId, $register);
+    }
+
+    public function updateSessionExtensionCode($session_extension_code, $user_id)
+    {
+        $this->databaseHelper->updateSessionExtensionCode($session_extension_code, $user_id);
+    }
+
+    public function getUsersBySessionExtensionCode($session_extension_code)
+    {
+        $this->databaseHelper->getUsersBySessionExtensionCode($session_extension_code);
+    }
+
+    public function getUsersByActivationCode($activation_code)
+    {
+        $this->databaseHelper->getUsersByActivationCode($activation_code);
+    }
+
+    public function signUpUser($username, $name, $last_name, $email, $password, $activation_code)
+    {
+        $this->databaseHelper->signUpUser($username, $name, $last_name, $email, $password, $activation_code);
+    }
+
+    public function activateAccount($activation_code)
+    {
+        $this->databaseHelper->activateAccount($activation_code);
+    }
+
+    public function getFollowers($userId)
+    {
+        $this->databaseHelper->getFollowers($userId);
+    }
+
+    public function getFollows($userId)
+    {
+        $this->databaseHelper->getFollows($userId);
     }
 }
 ?>
