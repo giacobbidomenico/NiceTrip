@@ -236,19 +236,19 @@ class DatabaseHelper{
     /**
      * Function that registers a follow.
      * @param $followerId - id of the follower
-     * @param $followedId - id of the user to be followed
+     * @param $followId - id of the user to be followed
      * @param $register - true to register follow, false to delete
      **/
     public function changeFollowState($followerId, $followId, $register){
         if($register){
-            $query = 'INSERT INTO `follows` (`id`, `follower`, `following`) VALUES (NULL, '11', '7');';
+            $query = 'INSERT INTO `follows` (`id`, `follower`, `following`) VALUES (NULL, ?, ?);';
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ss', $followerId, $postId);
+            $stmt->bind_param('ss', $followerId, $followId);
             $stmt->execute();
         } else {
-            $query = 'DELETE FROM `likes` WHERE `likes`.`userId` = ? AND `likes`.`postsId` = ?';
+            $query = 'DELETE FROM `follows` WHERE `follows`.`follower` = ? AND `follows`.`following` = ?';
             $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ss', $followerId, $postId);
+            $stmt->bind_param('ss', $followerId, $followId);
             $stmt->execute();
         }
     }
