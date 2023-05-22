@@ -12,6 +12,7 @@
 
 	$templateParams["title"] = "YourProfile";
 	$templateParams["introduction"] = "profileIntroduction.php";
+	$templateParams["sideArticle"] = "side-follow.php";
 	$navBarParams["profile"] = "";
 	$navBarParams["logOut"] = "";
 	$navBarParams["feed"] = "feed.php";
