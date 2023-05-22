@@ -366,11 +366,13 @@ class DatabaseHelper{
     *  @param $userId - id of the user to get followers of 
     */
     public function getFollowers($userId){
-        $query = "SELECT F.follower, U.userName, U.photoPath FROM follows F, users U WHERE F.following = 3 AND U.id = F.follower";
+        $query = "SELECT U.id, U.userName, U.photoPath FROM follows F, users U WHERE F.following = ? AND U.id = F.follower";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        return $stmt->execute();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     /**
@@ -378,11 +380,13 @@ class DatabaseHelper{
     *  @param $userId - id of the user to get follow of 
     */
     public function getFollows($userId){
-        $query = "SELECT F.following, U.userName, U.photoPath FROM follows F, users U WHERE F.following = 3 AND U.id = F.follower";
+        $query = "SELECT U.id, U.userName, U.photoPath FROM follows F, users U WHERE F.follower = ? AND U.id = F.following";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        return $stmt->execute();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 }
 ?>
