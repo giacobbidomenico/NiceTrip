@@ -22,12 +22,12 @@
             </div>
             <div class="row mt-2">
                 <div class="col-4">
-                    <label class="fw-bold" for="start-time">Start Time:</label>
-                    <input class="form-control" type='datetime-local' id='start-time' autocomplete="on"/>
+                    <label class="fw-bold" for="start-time-field">Start Time:</label>
+                    <input class="form-control" type='datetime-local' id='start-time-field' autocomplete="on"/>
                 </div>
                 <div class="col-4">
-                    <label class="fw-bold" for="end-time">End Time:</label>
-                    <input class="form-control" type='datetime-local' id='end-time' autocomplete="on"/>
+                    <label class="fw-bold" for="end-time-field">End Time:</label>
+                    <input class="form-control" type='datetime-local' id='end-time-field' autocomplete="on"/>
                 </div>
             </div>
             <div class="row mt-3">
@@ -35,7 +35,8 @@
                     <button class="btn btn-primary align-bottom" type="button" id="add-destination-button">Add</button>
                 </div>
             </div>
-            <div class="destinations-table-container">
+            <div class="row mt-3" id="destinations-table-container">
+                <p class="fw-bold fs-7 text-danger">No destinations have been entered at the moment!</p>
             </div>
         </div>
     </div>

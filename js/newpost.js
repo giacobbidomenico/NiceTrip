@@ -1,10 +1,12 @@
 const add_destination_button = document.getElementById("add-destination-button");
 const search_field = document.getElementById("search-field");
 const destinations_table_container = document.getElementById("destinations-table-container");
+const start_time_field = document.getElementById("start-time-field");
+const end_time_field = document.getElementById("end-time-field");
+
 let lastResult = null;
 
 add_destination_button.addEventListener("click", event=> addDestination());
-
 
 function autosuggest() {
     Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', {
@@ -29,9 +31,6 @@ function autosuggest() {
 
 
 function addDestination() {
-    if(lastResult === null || search_field.value === '') {
-        return;
-    }
 
     if(destinations_table_container.getElementsByTagName("table").length === 0) {
         destinations_table_container.innerHTML = `
@@ -53,6 +52,10 @@ function addDestination() {
         `;
     }
 
+    if(lastResult === null || search_field.value === '') {
+        return;
+    }
+
     const destinations_table = document.getElementById("destinations-table");
 
     if(destinations_table.rows.length > 1) {
@@ -67,8 +70,8 @@ function addDestination() {
         <tr>
             <th scope="row"></th>
             <td data-type="name-destination" data-value='${lastResult.entityId}'>${search_field.value}</td>
-            <td></td>
-            <td></td>
+            <td>${start_time_field.value}</td>
+            <td>${end_time_field.value}</td>
             <td>
                 <button class="btn btn-primary-outline">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
