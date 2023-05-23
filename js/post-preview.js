@@ -171,7 +171,7 @@ function Post(id, editable) {
 		axios.post('api-post-details.php', formData).then(response => {
 			this.createPostPreview(response);
 			this.authorId = response.data[0].userId;
-			let authorData = this.requestAuthorDetails(this.authorId, this.id);
+			let authorData = this.requestAuthorDetails(this.authorId);
 			let images = this.requestPostImages(this.id);
 		});
 	}
