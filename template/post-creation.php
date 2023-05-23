@@ -12,24 +12,30 @@
     </div>
 
     <div class="row mt-2">
-        <div class="row">
-            <p class="fw-bold fs-4 text-primary">Destinations:</p>
-            <div class="col-3">
-                <label class="fw-bold" for="destination">Add destination:</label>
-                <input class="form-control" type='text' id='search-field' autocomplete="on"/>
+        <p class="fw-bold fs-4 text-primary">Destinations:</p>
+        <div class="border border-light-subtle pt-1 pb-4">
+            <div class="row pt-3">
+                <div id="search-field-container" class="col-11">
+                    <label class="fw-bold" for="destination">Add destination:</label>
+                    <input class="form-control" type='text' id='search-field' autocomplete="on"/>
+                </div>
             </div>
-            <div class="col-4">
-                <label class="fw-bold" for="start-time">Start Time:</label>
-                <input class="form-control" type='datetime-local' id='start-time' autocomplete="on"/>
+            <div class="row mt-2">
+                <div class="col-4">
+                    <label class="fw-bold" for="start-time">Start Time:</label>
+                    <input class="form-control" type='datetime-local' id='start-time' autocomplete="on"/>
+                </div>
+                <div class="col-4">
+                    <label class="fw-bold" for="end-time">End Time:</label>
+                    <input class="form-control" type='datetime-local' id='end-time' autocomplete="on"/>
+                </div>
             </div>
-            <div class="col-4">
-                <label class="fw-bold" for="end-time">End Time:</label>
-                <input class="form-control" type='datetime-local' id='end-time' autocomplete="on"/>
+            <div class="row mt-3">
+                <div class="col-4">
+                    <button class="btn btn-primary align-bottom" type="button" id="add-destination-button">Add</button>
+                </div>
             </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-1">
-                <button class="btn btn-primary" type="button" id="add-destination-button">Add</button>
+            <div class="destinations-table-container">
             </div>
         </div>
     </div>
