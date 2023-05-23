@@ -5,6 +5,9 @@
 abstract class DatabaseHelper
 {
     private $db;
+
+    abstract public function prepareStmt($query);
+
     /**
      * Check if email/username matches a user's account.
      * 
@@ -63,9 +66,8 @@ abstract class DatabaseHelper
     *  Function that returns a user's public details.
     *  @param $userId - id of the user requesting the data
     *  @param $followerId - id of the user to get details of
-    *  @param $checkFollow - id of the user to get details of
     **/
-    abstract public function getPublicUserDetails($userId, $followerId, $checkFollow);
+    abstract public function getPublicUserDetails($userId, $followerId);
 
      /**
      * Function that returns the images of a given post.
@@ -197,6 +199,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         } 
     }
 
+    public function prepareStmt($query)
+    {
+        return $this->db->prepare($query);
+    }
+
     /**
      * Check if email/username matches a user's account.
      * 
@@ -318,17 +325,13 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     *  @param $followerId - id of the user to get details of
     *  @param $checkFollow - id of the user to get details of
     **/
-    public function getPublicUserDetails($userId, $followerId, $checkFollow){
-        if($checkFollow || $this->checkFollow($followerId, $userId, false)){
-            $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, COUNT(F.id) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = ? AND F.following = ?) WHERE U.id = ?';
-            $stmt = $this->db->prepare($query);
-            $stmt->bind_param('sss', $followerId, $userId, $userId);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);
-        } else {
-            return array();
-        }
+    public function getPublicUserDetails($userId, $followerId){
+        $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, COUNT(F.id) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = ? AND F.following = ?) WHERE U.id = ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sss', $followerId, $userId, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     /**
@@ -337,16 +340,12 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
      * @param $followerId - id of the user requesting the data
      **/
     public function getPostImages($postId, $followerId){
-        if($this->checkFollow($followerId, $postId, true)){
-            $query = 'SELECT * FROM images I WHERE I.postsId = ?';
-            $stmt = $this->db->prepare($query);
-            $stmt->bind_param('s', $postId);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);        
-        } else {
-            return array();
-        }
+        $query = 'SELECT * FROM images I WHERE I.postsId = ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $postId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);        
     }
 
     /**
@@ -355,16 +354,12 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
      * @param $followerId - id of the user requesting the data
      **/
     public function getPostDetails($postId, $followerId){
-        if($this->checkFollow($followerId, $postId, true)){
-            $query = 'SELECT PS.*, Comm.`commentNumber`, Likes.`likeNumber`, COUNT(LU.userId) AS liked FROM posts PS, ( SELECT P.id AS postId, COUNT(C.postsId) AS `commentNumber` FROM posts P LEFT OUTER JOIN comments C ON (C.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Comm, ( SELECT P.id AS postId, COUNT(L.postsId) AS `likeNumber` FROM posts P LEFT OUTER JOIN likes L ON (L.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Likes LEFT OUTER JOIN likes LU ON (LU.postsId = Likes.postId AND LU.userId = ?) WHERE PS.id = Likes.postId AND PS.id = Comm.postId';
-            $stmt = $this->db->prepare($query);
-            $stmt->bind_param('sss', $postId, $postId, $followerId);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);
-        } else {
-            return array();
-        }
+        $query = 'SELECT PS.*, Comm.`commentNumber`, Likes.`likeNumber`, COUNT(LU.userId) AS liked FROM posts PS, ( SELECT P.id AS postId, COUNT(C.postsId) AS `commentNumber` FROM posts P LEFT OUTER JOIN comments C ON (C.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Comm, ( SELECT P.id AS postId, COUNT(L.postsId) AS `likeNumber` FROM posts P LEFT OUTER JOIN likes L ON (L.postsId = P.id) WHERE P.id = ? GROUP BY P.id ) AS Likes LEFT OUTER JOIN likes LU ON (LU.postsId = Likes.postId AND LU.userId = ?) WHERE PS.id = Likes.postId AND PS.id = Comm.postId';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('sss', $postId, $postId, $followerId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     /**
@@ -373,16 +368,12 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
      * @param $followerId - id of the user 
      **/
     public function notifyVisual($postId, $followerId){
-        if($this->checkFollow($followerId, $postId, true)){
-            $query = 'INSERT INTO `visualizations` (`id`, `userId`, `postId`) VALUES (NULL, ?, ?);';
-            $stmt = $this->db->prepare($query);
-            $stmt->bind_param('ss', $followerId, $postId);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_all(MYSQLI_ASSOC);
-        } else {
-            return array();
-        }
+        $query = 'INSERT INTO `visualizations` (`id`, `userId`, `postId`) VALUES (NULL, ?, ?);';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $followerId, $postId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     /**
@@ -392,19 +383,14 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
      * @param $register - true to register like, false to delete
      **/
     public function notifyLike($postId, $followerId, $register){
-        if($this->checkFollow($followerId, $postId, true)){
-            if($register){
-                $query = 'INSERT INTO `likes` (`userId`, `postsId`) VALUES (?, ?);';
-                $stmt = $this->db->prepare($query);
-                $stmt->bind_param('ss', $followerId, $postId);
-                $stmt->execute();
-            } else {
-                $query = 'DELETE FROM `likes` WHERE `likes`.`userId` = ? AND `likes`.`postsId` = ?';
-                $stmt = $this->db->prepare($query);
-                $stmt->bind_param('ss', $followerId, $postId);
-                $stmt->execute();
-            }
+        if($register){
+            $query = 'INSERT INTO `likes` (`userId`, `postsId`) VALUES (?, ?);';
+        } else {
+            $query = 'DELETE FROM `likes` WHERE `likes`.`userId` = ? AND `likes`.`postsId` = ?';
         }
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $followerId, $postId);
+        $stmt->execute();
     }
 
     /**
@@ -552,128 +538,163 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
 }
 
+/**
+* Represents a decorator for a DatabaseHelper
+*/
 abstract class DatabaseHelperDecorator extends DatabaseHelper
 {
     protected $databaseHelper;
 }
 
-class checkFollowDecorator extends DatabaseHelperDecorator{
+/**
+* Decorates a DatabaseHelper by checking whether the requested data concerns a followed user
+*/
+class checkFollowDecorator extends DatabaseHelperDecorator
+{
     
-    public function __construct($databaseHelper){
+    public function __construct($databaseHelper)
+    {
         $this->databaseHelper = $databaseHelper;
     }
 
-    private function checkFollow($followerId, $id, $isIdAPost){
-        if($isIdAPost){
-            $query = 'SELECT COUNT(F.id) FROM follows F, Posts P WHERE F.follower = ? AND P.id = ? AND P.userId = F.following';
-        } else {
-            $query = 'SELECT COUNT(F.id) FROM follows F WHERE F.follower = ? AND F.following = ?';
-        }
-        $stmt = $this->db->prepare($query);
+    public function prepareStmt($query)
+    {
+        return $this->databaseHelper->prepareStmt($query);
+    }
+
+    private function checkFollow($followerId, $id)
+    {
+        $query = 'SELECT COUNT(F.id) FROM follows F WHERE F.follower = ? AND F.following = ?';
+        $stmt = $this->prepareStmt($query);
         $stmt->bind_param('ss', $followerId, $id);
         $stmt->execute();
         $result = $stmt->get_result();
         return count($result->fetch_all(MYSQLI_ASSOC)) == 0? false : true;
     }
 
-        public function checkEmailOrUsername($email_username)
+    private function checkFollowPost($followerId, $id)
     {
-        $this->databaseHelper->checkEmailOrUsername($email_username);
+        $query = 'SELECT COUNT(F.id) FROM follows F, Posts P WHERE F.follower = ? AND P.id = ? AND P.userId = F.following';
+        $stmt = $this->prepareStmt($query);
+        $stmt->bind_param('ss', $followerId, $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return count($result->fetch_all(MYSQLI_ASSOC)) == 0? false : true;
+    }
+
+    public function checkEmailOrUsername($email_username)
+    {
+        return $this->databaseHelper->checkEmailOrUsername($email_username);
     }
 
     public function checkEmail($email)
     {
-        $this->databaseHelper->checkEmail($email);
+        return $this->databaseHelper->checkEmail($email);
     }
 
     public function checkUsername($username)
     {
-        $this->databaseHelper->checkUsername($username);
+        return $this->databaseHelper->checkUsername($username);
     }
 
     public function isAccountActivated($email_username)
     {
-        $this->databaseHelper->isAccountActivated($email_username);
+        return $this->databaseHelper->isAccountActivated($email_username);
     }
 
     public function checkLogin($email_username, $password)
     {
-        $this->databaseHelper->checkLogin($email_username, $password);
+        return $this->databaseHelper->checkLogin($email_username, $password);
     }
     
     public function getFollowsPosts($followerId)
     {
-        $this->databaseHelper->getFollowsPosts($followerId);
+        return $this->databaseHelper->getFollowsPosts($followerId);
     }
 
     public function getUserPosts($userId)
     {
-        $this->databaseHelper->getUserPosts($userId);
+        return $this->databaseHelper->getUserPosts($userId);
     }
 
-    public function getPublicUserDetails($userId, $followerId, $checkFollow)
+    public function getPublicUserDetails($userId, $followerId)
     {
-        $this->databaseHelper->getPublicUserDetails($userId, $followerId, $checkFollow);
+        if($this->checkFollow($userId, $followerId)){
+            return $this->databaseHelper->getPublicUserDetails($userId, $followerId);
+        }
+        return [];
     }
 
     public function getPostImages($postId, $followerId)
     {
-        $this->databaseHelper->getPostImages($postId, $followerId);
+        if($this->checkFollowPost($postId, $followerId)){
+            return $this->databaseHelper->getPostImages($postId, $followerId);
+        }
+        return array();
     }
 
     public function getPostDetails($postId, $followerId)
     {
-        $this->databaseHelper->getPostDetails($postId, $followerId);
+        if($this->checkFollowPost($followerId, $postId)){
+            return $this->databaseHelper->getPostDetails($postId, $followerId);
+        }
+        return [];
     }
 
     public function notifyVisual($postId, $followerId)
     {
-        $this->databaseHelper->notifyVisual($postId, $followerId);
+        if($this->checkFollowPost($postId, $followerId)){
+            return $this->databaseHelper->notifyVisual($postId, $followerId);
+        }
+        return [];
     }
 
     public function notifyLike($postId, $followerId, $register)
     {
-        $this->databaseHelper->notifyLike($postId, $followerId, $register);
+        if($this->checkFollowPost($postId, $followerId)){
+            return $this->databaseHelper->notifyLike($postId, $followerId, $register);
+        }
+        return [];
     }
 
     public function changeFollowState($followerId, $followId, $register)
     {
-        $this->databaseHelper->changeFollowState($followerId, $followId, $register);
+        return $this->databaseHelper->changeFollowState($followerId, $followId, $register);
     }
 
     public function updateSessionExtensionCode($session_extension_code, $user_id)
     {
-        $this->databaseHelper->updateSessionExtensionCode($session_extension_code, $user_id);
+        return $this->databaseHelper->updateSessionExtensionCode($session_extension_code, $user_id);
     }
 
     public function getUsersBySessionExtensionCode($session_extension_code)
     {
-        $this->databaseHelper->getUsersBySessionExtensionCode($session_extension_code);
+        return $this->databaseHelper->getUsersBySessionExtensionCode($session_extension_code);
     }
 
     public function getUsersByActivationCode($activation_code)
     {
-        $this->databaseHelper->getUsersByActivationCode($activation_code);
+        return $this->databaseHelper->getUsersByActivationCode($activation_code);
     }
 
     public function signUpUser($username, $name, $last_name, $email, $password, $activation_code)
     {
-        $this->databaseHelper->signUpUser($username, $name, $last_name, $email, $password, $activation_code);
+        return $this->databaseHelper->signUpUser($username, $name, $last_name, $email, $password, $activation_code);
     }
 
     public function activateAccount($activation_code)
     {
-        $this->databaseHelper->activateAccount($activation_code);
+        return $this->databaseHelper->activateAccount($activation_code);
     }
 
     public function getFollowers($userId)
     {
-        $this->databaseHelper->getFollowers($userId);
+        return $this->databaseHelper->getFollowers($userId);
     }
 
     public function getFollows($userId)
     {
-        $this->databaseHelper->getFollows($userId);
+        return $this->databaseHelper->getFollows($userId);
     }
 }
 ?>
