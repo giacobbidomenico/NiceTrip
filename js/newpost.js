@@ -33,7 +33,7 @@ function addDestination() {
         return;
     }
 
-    if(destinations_table_container.getElementsByTagName("table")) {
+    if(destinations_table_container.getElementsByTagName("table").length === 0) {
         destinations_table_container.innerHTML = `
             <table id="destinations-table" class="table">
                 <thead>
@@ -55,16 +55,19 @@ function addDestination() {
 
     const destinations_table = document.getElementById("destinations-table");
 
-    const lastElement = destinations_table.rows[ destinations_table.rows.length - 1 ];
-    if(destinations_table.rows.length !== 0 && lastElement === search_field.value) {
-        return;
+    if(destinations_table.rows.length > 1) {
+        const lastElement = destinations_table.rows[ destinations_table.rows.length - 1 ].querySelectorAll("[data-type=name-destination]")[0];
+
+        if(lastElement.getAttribute("data-value") === lastResult.entityId) {
+            return;
+        }
     }
 
-    destinations_table.insertRow(destinations_table.rows.length).innerHTML += `
+    destinations_table.tBodies[0].innerHTML += `
         <tr>
-            <th scope="row">1</th>
+            <th scope="row"></th>
+            <td data-type="name-destination" data-value='${lastResult.entityId}'>${search_field.value}</td>
             <td></td>
-            <td>${search_field.value}</td>
             <td></td>
             <td>
                 <button class="btn btn-primary-outline">
@@ -89,5 +92,7 @@ function addDestination() {
             </td>
         </tr>
     `;
+
+    search_field.value = '';
     lastResult = null;
 }
