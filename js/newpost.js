@@ -5,6 +5,7 @@ const start_time_field = document.getElementById("start-time-field");
 const end_time_field = document.getElementById("end-time-field");
 
 let lastResult = null;
+let lastIndex = 1;
 
 add_destination_button.addEventListener("click", event=> addDestination());
 
@@ -32,6 +33,10 @@ function autosuggest() {
 
 function addDestination() {
 
+    if(lastResult === null || search_field.value === '' || start_time_field.value === '' || end_time_field.value === '') {
+        return;
+    }
+
     if(destinations_table_container.getElementsByTagName("table").length === 0) {
         destinations_table_container.innerHTML = `
             <table id="destinations-table" class="table">
@@ -39,8 +44,10 @@ function addDestination() {
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Destination</th>
+                        <th scope="col">Start Date</th>
                         <th scope="col">Start Time</th>
-                        <th scope="col">End time</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">End Time</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col"></th>
@@ -50,10 +57,6 @@ function addDestination() {
                 </tbody>
             </table>
         `;
-    }
-
-    if(lastResult === null || search_field.value === '') {
-        return;
     }
 
     const destinations_table = document.getElementById("destinations-table");
@@ -66,12 +69,17 @@ function addDestination() {
         }
     }
 
+    const start = new Date(start_time_field.value);
+    const end = new Date(end_time_field.value);
+
     destinations_table.tBodies[0].innerHTML += `
         <tr>
-            <th scope="row"></th>
+            <th scope="row">${lastIndex}</th>
             <td data-type="name-destination" data-value='${lastResult.entityId}'>${search_field.value}</td>
-            <td>${start_time_field.value}</td>
-            <td>${end_time_field.value}</td>
+            <td>${start.toLocaleDateString()}</td>
+            <td>${start.toLocaleTimeString()}</td>
+            <td>${end.toLocaleDateString()}</td>
+            <td>${end.toLocaleTimeString()}</td>
             <td>
                 <button class="btn btn-primary-outline">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
@@ -87,7 +95,7 @@ function addDestination() {
                 </button>
             </td>
             <td>
-                <button class="btn btn-primary-outline">
+                <button id="trash${lastIndex}" class="btn btn-primary-outline">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                         <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                     </svg>
@@ -96,6 +104,9 @@ function addDestination() {
         </tr>
     `;
 
+    lastIndex++;
     search_field.value = '';
+    start_time_field.value = '';
+    end_time_field.value = '';
     lastResult = null;
 }
