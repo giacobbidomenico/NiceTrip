@@ -39,23 +39,25 @@ function addDestination() {
 
     if(destinations_table_container.getElementsByTagName("table").length === 0) {
         destinations_table_container.innerHTML = `
-            <table id="destinations-table" class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Destination</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">Start Time</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">End Time</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table id="destinations-table" class="table w-100">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Destination</th>
+                                <th scope="col">Start Time</th>
+                                <th scope="col">End Time</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         `;
     }
 
@@ -76,10 +78,8 @@ function addDestination() {
         <tr>
             <th scope="row">${lastIndex}</th>
             <td data-type="name-destination" data-value='${lastResult.entityId}'>${search_field.value}</td>
-            <td>${start.toLocaleDateString()}</td>
-            <td>${start.toLocaleTimeString()}</td>
-            <td>${end.toLocaleDateString()}</td>
-            <td>${end.toLocaleTimeString()}</td>
+            <td>${start.toLocaleDateString()}<br/>${start.toLocaleTimeString()}</td>
+            <td>${end.toLocaleDateString()}<br/>${end.toLocaleTimeString()}</td>
             <td>
                 <button class="btn btn-primary-outline">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
