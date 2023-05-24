@@ -131,14 +131,14 @@
                 </section>
                 <main class="row d-flex flex-md-nowrap">
                     <!--<div class="col-md-1"></div>-->
-                    <div id="sideArticle" class="col-md-4 order-md-2 vh-100 sticky-md-top border-top border-light-subtle">
+                    <div id="sideArticle" class="col-md-5 order-md-2 vh-100 sticky-md-top border-top border-light-subtle">
                     <?php 
                         if(isset($templateParams["sideArticle"])){
                             require($templateParams["sideArticle"]);
                         } 
                     ?>
                     </div>
-                    <div id="mainArticle" class="col-md-8 order-md-1 border-end border-top border-light-subtle ">
+                    <div id="mainArticle" class="col-md-7 order-md-1 border-end border-top border-light-subtle ">
                     <?php 
                         if(isset($templateParams["mainArticle"])):
                             require_once $templateParams["mainArticle"]; 
