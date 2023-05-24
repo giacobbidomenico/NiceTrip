@@ -1,0 +1,1 @@
+<h1 class="fw-bold  fs-1 text-primary"><?php echo $templateParams['introductionTitle'];?></h1>

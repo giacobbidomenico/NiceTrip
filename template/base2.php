@@ -125,7 +125,7 @@
                 <section id="introduction" class="row test titleHighlight">
                     <?php 
                         if(isset($templateParams["introduction"])){
-                            require($templateParams["introduction"]);
+                            require_once $templateParams["introduction"];
                         } 
                     ?>
                 </section>
@@ -141,7 +141,7 @@
                     <div id="sideArticle" class="col-md-4 vh-100 sticky-top border-top border-light-subtle">
                     <?php 
                         if(isset($templateParams["sideArticle"])){
-                            require($templateParams["sideArticle"]);
+                            require_once $templateParams["sideArticle"];
                         } 
                     ?>
                     </div>
