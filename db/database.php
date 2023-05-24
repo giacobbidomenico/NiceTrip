@@ -171,6 +171,12 @@ abstract class DatabaseHelper
     *  @param $userId - id of the user to get follow of 
     */
     abstract public function getFollows($userId);
+
+    /**
+    *  Function that returns comments of a post.
+    *  @param $postId - id of the post to get comments of
+    */
+    abstract public function getComments($postId);
 }
 
 /**
@@ -202,6 +208,17 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     public function prepareStmt($query)
     {
         return $this->db->prepare($query);
+    }
+
+    public function getComments($postId, $offset)
+    {
+        $query = 'SELECT C.*, U.userName, U.photoPath FROM comments C, users U WHERE C.postsId = ? AND C.userId = U.id ORDER BY C.date, C.time LIMIT 10 OFFSET ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $postId, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     /**
@@ -557,11 +574,6 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         $this->databaseHelper = $databaseHelper;
     }
 
-    public function prepareStmt($query)
-    {
-        return $this->databaseHelper->prepareStmt($query);
-    }
-
     private function checkFollow($followerId, $id)
     {
         $query = 'SELECT COUNT(F.id) FROM follows F WHERE F.follower = ? AND F.following = ?';
@@ -580,6 +592,16 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         $stmt->execute();
         $result = $stmt->get_result();
         return count($result->fetch_all(MYSQLI_ASSOC)) == 0? false : true;
+    }
+
+    public function getComments($postId, $offset)
+    {
+        return $this->databaseHelper->getComments($postId, $offset);
+    }
+
+    public function prepareStmt($query)
+    {
+        return $this->databaseHelper->prepareStmt($query);
     }
 
     public function checkEmailOrUsername($email_username)
