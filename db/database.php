@@ -176,7 +176,7 @@ abstract class DatabaseHelper
     *  Function that returns comments of a post.
     *  @param $postId - id of the post to get comments of
     */
-    abstract public function getComments($postId);
+    abstract public function getComments($postId, $offset);
 }
 
 /**
