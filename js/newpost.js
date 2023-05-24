@@ -1,6 +1,6 @@
 const add_destination_button = document.getElementById("add-destination-button");
 const search_field = document.getElementById("search-field");
-const destinations_table_container = document.getElementById("destinations-table-container");
+const destinations_container = document.getElementById("destinations-container");
 const start_time_field = document.getElementById("start-time-field");
 const end_time_field = document.getElementById("end-time-field");
 
@@ -30,7 +30,68 @@ function autosuggest() {
     }
 }
 
+function createDestinationsList() {
+    return `
+        <div class="row">
+            <div class="col gy-4">
+                <div class="card">
+                    <ul id="destinations-list" class="list-group list-group-flush">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    `;
+}
 
+function newDestinationListElement(id, place, start, end) {
+    return `
+        <li data-value="${id}" class="list-group-item list-group-item-action container-fluid">
+            <div class="row">
+                <p class="mb-1">${start.toLocaleDateString()} - ${end.toLocaleDateString()}</p>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-9 pe-0">
+                    <h5 class="mb-1">${place}</h5>
+                </div>
+                <div class="col-12 col-lg-3 p-lg-0">
+                    <small>${start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small>
+                </div>
+            </div>
+        </li>
+    `;
+}
+
+function addDestination() {
+    if(lastResult === null || search_field.value === '' || start_time_field.value === '' || end_time_field.value === '') {
+        return;
+    }
+
+    if(destinations_container.getElementsByTagName("ul").length === 0) {
+        destinations_container.innerHTML = createDestinationsList();
+    }
+
+    const destinations_list = document.getElementById("destinations-list");
+    if(destinations_list.getElementsByClassName("li").length > 1) {
+        const lastElement = destinations_list.lastElementChild;
+
+        if(lastElement.getAttribute("data-value") === lastResult.entityId) {
+            return;
+        }
+    }
+
+    const start = new Date(start_time_field.value);
+    const end = new Date(end_time_field.value);
+
+    destinations_list.innerHTML += newDestinationListElement(lastResult.entityId, search_field.value, start, end);
+
+    lastIndex++;
+    search_field.value = '';
+    start_time_field.value = '';
+    end_time_field.value = '';
+    lastResult = null;
+}
+
+/*
 function addDestination() {
 
     if(lastResult === null || search_field.value === '' || start_time_field.value === '' || end_time_field.value === '') {
@@ -109,4 +170,4 @@ function addDestination() {
     start_time_field.value = '';
     end_time_field.value = '';
     lastResult = null;
-}
+}*/

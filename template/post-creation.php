@@ -35,12 +35,12 @@
                     <button class="btn btn-primary align-bottom" type="button" id="add-destination-button">Add</button>
                 </div>
             </div>
-            <div class="row mt-3" id="destinations-table-container">
+            <div class="row mt-3" id="destinations-container">
                 <p class="fw-bold fs-7 text-danger">No destinations have been entered at the moment!</p>
             </div>
         </div>
     </div>
-
+    
     <div class="row mt-5">
         <div class="col-9"></div>
         <div class="col-3 d-grid pe-1 float-end">
