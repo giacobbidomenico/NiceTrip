@@ -45,6 +45,28 @@
         </section>
         <section class="my-4">
 			<!-- Comments -->
+			<div class="container-fluid p-0">
+				<div class="card mb-3" >
+					<div class="row g-0">
+						<div class="col-2 ">
+							<div class="m-2">
+								<div class="ratio ratio-1x1">
+									<div class="border d-flex align-items-center">
+										<img src="profilePhotos/genericProfilePhoto.jpg" class="img-fluid" alt="...">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card-body">
+								<h5 class="card-title">Domebbi Giaconico</h5>
+								<p class="card-text"><small class="text-body-secondary">20/22/2022 - 13:30</small></p>
+								<p class="card-text">SO sad this band is going away. They've got an awesome sound, and are outright iconic to anyone born in the mid to late 2000s. Brendon has an incredible voice, and I will forever regret not seeing them live when I had the chance. Thank you for the memories, Panic! at the Disco</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
         </section>
     </article>
 </div>
