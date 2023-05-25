@@ -9,12 +9,6 @@ abstract class DatabaseHelper
     abstract public function prepareStmt($query);
 
     /**
-    *  Function that deletes a comment.
-    *  @param $id - id of the post to be deleted
-    */
-    abstract public function deleteComment($id);
-
-    /**
      * Check if email/username matches a user's account.
      * 
      * @param $email_username
@@ -181,7 +175,7 @@ abstract class DatabaseHelper
     *  Function that returns comments of a post.
     *  @param $postId - id of the post to get comments of
     */
-    abstract public function getComments($postId, $offset);
+    abstract public function getComments($ids);
 
     /**
     *  Function that registers a comment.
@@ -190,6 +184,20 @@ abstract class DatabaseHelper
     *  @return the id of the comment registered
     */
     abstract public function setComment($postId, $userId, $date, $time, $description);
+
+    /**
+    *  Function that deletes a comment.
+    *  @param $id - id of the post to be deleted
+    */
+    abstract public function deleteComment($id);
+
+    /**
+    *  Function that returns a list of comments id, ordered by Date and time of publication.
+    *  @param $postId - id of the post to get comments of
+    */
+    abstract public function getListOfCommentsId($postId);
+
+    }
 }
 
 /**
@@ -221,27 +229,6 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     public function prepareStmt($query)
     {
         return $this->db->prepare($query);
-    }
-
-    public function deleteComment($id){
-        $query = 'SELECT C.*, U.userName, U.photoPath FROM comments C, users U WHERE C.postsId = ? AND C.userId = U.id ORDER BY C.date, C.time LIMIT 10 OFFSET ?';
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss', $postId, $offset);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function getComments($postId, $offset)
-    {
-        $query = 'SELECT C.*, U.userName, U.photoPath FROM comments C, users U WHERE C.postsId = ? AND C.userId = U.id ORDER BY C.date, C.time LIMIT 10 OFFSET ?';
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss', $postId, $offset);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     /**
@@ -431,6 +418,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ss', $followerId, $postId);
         $stmt->execute();
+        $stmt = $this->db->prepare("SELECT L.postsId, COUNT(L.postsId) number FROM likes L WHERE L.postsId = ? ");
+        $stmt->bind_param('s', $postId);
+        $stmt->execute();
+        $result["likes"] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         return $result;
     }
 
@@ -587,6 +578,37 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    public function getListOfCommentsId($postId)
+    {
+        $query = "SELECT C.id FROM `comments` C WHERE C.postsId = ? ORDER BY C.date, C.time";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $postId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function deleteComment($id){
+        $query = 'SELECT C.*, U.userName, U.photoPath FROM comments C, users U WHERE C.postsId = ? AND C.userId = U.id ORDER BY C.date, C.time LIMIT 10 OFFSET ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $postId, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getComments($postId, $offset)
+    {
+        $query = 'SELECT C.id, C.description, C.date, C.time, C.userId FROM `comments` C WHERE C.id IN(1,2,3,4) ORDER BY C.date, C.time';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $postId, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 
 }
 
