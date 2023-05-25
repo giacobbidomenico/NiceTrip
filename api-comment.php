@@ -14,6 +14,10 @@
         case 'get':
             $result = $dbh->getComments($_POST["commentIds"]);
 		    break;
+        case 'list':
+            $postId = $_POST["postId"];
+            $result = $dbh->getListOfCommentsId($postId);
+		    break;
     }
 
     echo json_encode($result);
