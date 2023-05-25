@@ -17,7 +17,9 @@
             <div class="row pt-3">
                 <div id="search-field-container" class="col-11">
                     <label class="fw-bold" for="destination">Add destination:</label>
-                    <input class="form-control" type='text' id='search-field' autocomplete="on"/>
+                    <input list="destinations-suggests" class="form-control" type='text' id='search-field' autocomplete="off"/>
+                    <datalist id="destinations-suggests">
+                    </datalist>
                 </div>
             </div>
             <div class="row mt-2">
