@@ -197,7 +197,7 @@ abstract class DatabaseHelper
     */
     abstract public function getListOfCommentsId($postId);
 
-    }
+    
 }
 
 /**
@@ -599,11 +599,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getComments($postId, $offset)
+    public function getComments($ids)
     {
-        $query = 'SELECT C.id, C.description, C.date, C.time, C.userId FROM `comments` C WHERE C.id IN(1,2,3,4) ORDER BY C.date, C.time';
+        $query = 'SELECT C.id, C.description, C.date, C.time, C.userId FROM `comments` C WHERE C.id IN(?'.str_repeat(", ?", count($ids)-1).') ORDER BY C.date, C.time';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss', $postId, $offset);
+        $stmt->bind_param(str_repeat("s", count($ids)), ...$ids);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -651,6 +651,11 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return count($result->fetch_all(MYSQLI_ASSOC)) == 0? false : true;
     }
 
+     public function getListOfCommentsId($postId)
+    {
+        return $this->databaseHelper->getListOfCommentsId($postId);
+    }
+
     /**
     *  Function that deletes a comment.
     *  @param $id - id of the post to be deleted
@@ -667,9 +672,9 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     }
 
 
-    public function getComments($postId, $offset)
+    public function getComments($ids)
     {
-        return $this->databaseHelper->getComments($postId, $offset);
+        return $this->databaseHelper->getComments($ids);
     }
 
     public function prepareStmt($query)
