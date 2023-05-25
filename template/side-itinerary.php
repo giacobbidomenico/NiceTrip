@@ -1,6 +1,6 @@
 <div class="container-fluid">
-	<div class="row ">
-		<div class="col gy-4">
+	<div class="row vh-100">
+		<div class="col gy-4 mh-100">
 			<div class="card" style="max-height:60%">
 				<ul class="list-group list-group-flush overflow-y-scroll">
 					<li class="list-group-item list-group-item-action active container-fluid">
