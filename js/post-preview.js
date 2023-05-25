@@ -89,7 +89,7 @@ function Post(id, editable) {
 				</div>` +
 				scheme +
 				`<div class="dropdown d-inline">
-					<button id="likes" class="btn btn-light my-2 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+					<button id="likes" class="btn btn-light my-2" type="button" data-bs-toggle="dropdown">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-three-dots desktop-icon" viewBox="0 0 16 16">
 							<path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
 						</svg>
@@ -215,25 +215,19 @@ function Post(id, editable) {
 	this.notifyLike = function () {
 		const formData = new FormData();
 		formData.append('postId', this.id);
-		if (!this.like) {
-			this.like = true;
-			this.likesNumber++;
-			console.log("like");
-			formData.append('like', 'true');
-			axios.post('api-post-like.php', formData).then(response => { });
-			document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.add("d-none");
-			document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.remove("d-none");
-			document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
-		} else {
-			this.like = false;
-			this.likesNumber--;
-			console.log("dislike: " + this.id );
-			formData.append('like', 'false');
-			axios.post('api-post-like.php', formData).then(response => { console.log(response) });
-			document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.remove("d-none");
-			document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.add("d-none");
-			document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
-        }
+		axios.post('api-post-like.php', formData).then(response => {
+			if (response.data["insert"]) {
+				this.likesNumber++;
+				document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.add("d-none");
+				document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.remove("d-none");
+				document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
+			} else {
+				this.likesNumber--;
+				document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.remove("d-none");
+				document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.add("d-none");
+				document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
+            }
+		});
 	}
 
 	/**
