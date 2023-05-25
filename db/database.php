@@ -9,6 +9,12 @@ abstract class DatabaseHelper
     abstract public function prepareStmt($query);
 
     /**
+    *  Function that deletes a comment.
+    *  @param $id - id of the post to be deleted
+    */
+    abstract public function deleteComment($id);
+
+    /**
      * Check if email/username matches a user's account.
      * 
      * @param $email_username
@@ -177,6 +183,14 @@ abstract class DatabaseHelper
     *  @param $postId - id of the post to get comments of
     */
     abstract public function getComments($postId, $offset);
+
+    /**
+    *  Function that registers a comment.
+    *  @param $postId - post to register the comment to
+    *  @param $userId - id of the author of the comment
+    *  @return the id of the comment registered
+    */
+    abstract public function setComment($postId, $userId, $date, $time, $description);
 }
 
 /**
@@ -208,6 +222,16 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     public function prepareStmt($query)
     {
         return $this->db->prepare($query);
+    }
+
+    public function deleteComment($id){
+        $query = 'SELECT C.*, U.userName, U.photoPath FROM comments C, users U WHERE C.postsId = ? AND C.userId = U.id ORDER BY C.date, C.time LIMIT 10 OFFSET ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $postId, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function getComments($postId, $offset)
@@ -553,6 +577,17 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function setComment($postId, $userId, $date, $time, $description){
+        $query = "INSERT INTO `comments` (`id`, `description`, `date`, `time`, `postsId`, `userId`) VALUES (NULL, ?, ?, ?, ?, ?); ";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $description, $date, $time, $postId, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $stmt->insert_id;
+    }
+
+
 }
 
 /**
@@ -593,6 +628,22 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         $result = $stmt->get_result();
         return count($result->fetch_all(MYSQLI_ASSOC)) == 0? false : true;
     }
+
+    /**
+    *  Function that deletes a comment.
+    *  @param $id - id of the post to be deleted
+    */
+    public function deleteComment($id)
+    {
+        return $this->databaseHelper->deleteComment($id);
+    }
+
+
+    public function setComment($postId, $userId, $date, $time, $description)
+    {
+        return $this->databaseHelper->setComment($postId, $userId);
+    }
+
 
     public function getComments($postId, $offset)
     {
