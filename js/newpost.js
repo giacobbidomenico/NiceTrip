@@ -7,7 +7,6 @@ const destination_suggests = document.getElementById("destinations-suggests");
 let suggestions = [];
 let suggestionsManager;
 
-//let lastResult = null;
 let lastIndex = 1;
 
 add_destination_button.addEventListener("click", event=> addDestination());
@@ -31,9 +30,14 @@ function autosuggest() {
 
 function showAutoSuggest() {
     suggestionsManager.getSuggestions(search_field.value, function(suggestionResult) {
+        if(suggestionResult.length === 0) {
+            return;
+        }
+
         destination_suggests.innerHTML = '';
         let newSuggestions = [];
         for(i=0; i < suggestionResult.length;i++) {
+            console.log(search_field.value + ' - ' + suggestionResult[i].formattedSuggestion);
             if(search_field.value === suggestionResult[i].formattedSuggestion) {
                 suggestions =  [];
                 suggestions.push(suggestionResult[i]);
