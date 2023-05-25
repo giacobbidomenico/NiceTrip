@@ -97,12 +97,11 @@ abstract class DatabaseHelper
     abstract public function notifyVisual($postId, $followerId);
 
     /**
-     * Function that registers a like to a post.
+     * Registers a like if absent, deletes it if present
      * @param $postId - id of the post liked
      * @param $followerId - id of the user 
-     * @param $register - true to register like, false to delete
      **/
-    abstract public function notifyLike($postId, $followerId, $register);
+    abstract public function notifyLike($postId, $followerId);
 
     /**
      * Function that registers a follow.
@@ -417,21 +416,22 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    /**
-     * Function that registers a like to a post.
-     * @param $postId - id of the post liked
-     * @param $followerId - id of the user 
-     * @param $register - true to register like, false to delete
-     **/
-    public function notifyLike($postId, $followerId, $register){
-        if($register){
-            $query = 'INSERT INTO `likes` (`userId`, `postsId`) VALUES (?, ?);';
-        } else {
+    public function notifyLike($postId, $followerId){
+        $query = 'SELECT * FROM `likes` L WHERE L.userId = ? AND L.postsId = ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ss', $followerId, $postId);
+        $stmt->execute();
+        if(count($stmt->get_result()->fetch_all(MYSQLI_ASSOC))){
             $query = 'DELETE FROM `likes` WHERE `likes`.`userId` = ? AND `likes`.`postsId` = ?';
+            $result["insert"] = false;
+        } else {
+            $query = 'INSERT INTO `likes` (`userId`, `postsId`) VALUES (?, ?);';
+            $result["insert"] = true;
         }
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ss', $followerId, $postId);
         $stmt->execute();
+        return $result;
     }
 
     /**
@@ -580,7 +580,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     public function setComment($postId, $userId, $date, $time, $description){
         $query = "INSERT INTO `comments` (`id`, `description`, `date`, `time`, `postsId`, `userId`) VALUES (NULL, ?, ?, ?, ?, ?); ";
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $description, $date, $time, $postId, $userId);
+        $stmt->bind_param('sssss', $description, $date, $time, $postId, $userId);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -641,7 +641,7 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     public function setComment($postId, $userId, $date, $time, $description)
     {
-        return $this->databaseHelper->setComment($postId, $userId);
+        return $this->databaseHelper->setComment($postId, $userId, $date, $time, $description);
     }
 
 
@@ -722,10 +722,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return [];
     }
 
-    public function notifyLike($postId, $followerId, $register)
+    public function notifyLike($postId, $followerId)
     {
         if($this->checkFollowPost($postId, $followerId)){
-            return $this->databaseHelper->notifyLike($postId, $followerId, $register);
+            return $this->databaseHelper->notifyLike($postId, $followerId);
         }
         return [];
     }
