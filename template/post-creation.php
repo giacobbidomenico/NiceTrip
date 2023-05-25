@@ -1,4 +1,4 @@
-<form class="g-3 mt-4 ps-4 pe-4" method="POST">
+<form class="g-3 mt-4 ps-4 pe-4 needs-validation" method="POST" novalidate>
     <div class="row">
         <label for="email-username" class="form-label fw-bold fs-4 text-primary">Title</label>
         <input type="text" class="form-control" id="email-username" name="email-username" required>
@@ -17,19 +17,22 @@
             <div class="row pt-3">
                 <div id="search-field-container" class="col-11">
                     <label class="fw-bold" for="destination">Add destination:</label>
-                    <input list="destinations-suggests" class="form-control" type='text' id='search-field' autocomplete="off"/>
+                    <input name="destinations" list="destinations-suggests" class="form-control" type='text' id='search-field' autocomplete="off"/>
                     <datalist id="destinations-suggests">
                     </datalist>
+                    <div class="invalid-feedback"></div>
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col-4">
                     <label class="fw-bold" for="start-time-field">Start Time:</label>
-                    <input class="form-control" type='datetime-local' id='start-time-field' autocomplete="on"/>
+                    <input class="form-control" name="start-time" type='datetime-local' id='start-time-field' autocomplete="on"/>
+                    <div class="invalid-feedback"></div>
                 </div>
                 <div class="col-4">
                     <label class="fw-bold" for="end-time-field">End Time:</label>
-                    <input class="form-control" type='datetime-local' id='end-time-field' autocomplete="on"/>
+                    <input class="form-control" name="end-time" type='datetime-local' id='end-time-field' autocomplete="on"/>
+                    <div class="invalid-feedback"></div>
                 </div>
             </div>
             <div class="row mt-3">

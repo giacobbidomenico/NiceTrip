@@ -95,10 +95,30 @@ function newDestinationListElement(id, place, start, end) {
 }
 
 function addDestination() {
+
     let selectedSuggestion = getSelectedSuggestion();
 
-    if(selectedSuggestion.length === 0 ||  search_field.value === '' || start_time_field.value === '' || end_time_field.value === '') {
+    if(search_field.value === '' || start_time_field.value === '' || end_time_field.value === '') {
+        showIfEmptyField(search_field);
+        showIfEmptyField(start_time_field);
+        showIfEmptyField(end_time_field);
         return;
+    }
+
+    if(selectedSuggestion.length === 0) {
+        showFieldInvalid(search_field, "No destination has been selected");
+    }
+
+    const start = new Date(start_time_field.value);
+    const end = new Date(end_time_field.value);
+
+    if(start.getTime() > end.getTime()) {
+        showFieldInvalid(start_time_field, "Error, the start time cannot be after the end time");
+        showFieldInvalid(end_time_field, "Error, it is not possible that the end time is before the end time");
+        return;
+    } else {
+        showFieldWithoutValidation(start_time_field);
+        showFieldWithoutValidation(end_time_field);
     }
 
     if(destinations_container.getElementsByTagName("ul").length === 0) {
@@ -114,8 +134,7 @@ function addDestination() {
         }
     }
 
-    const start = new Date(start_time_field.value);
-    const end = new Date(end_time_field.value);
+    
 
     destinations_list.innerHTML += newDestinationListElement(selectedSuggestion[0].entityId, search_field.value, start, end);
 
@@ -124,4 +143,8 @@ function addDestination() {
     start_time_field.value = '';
     end_time_field.value = '';
     suggestions = [];
+    
+    showFieldWithoutValidation(search_field);
+    showFieldWithoutValidation(start_time_field);
+    showFieldWithoutValidation(end_time_field);
 }

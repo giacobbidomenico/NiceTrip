@@ -34,6 +34,17 @@ function verifyAccount(field, order, type, message_error) {
     });
 }
 
+
+function showFieldWithoutValidation(field) {
+    if(field.classList.contains("is-valid")) {
+        field.classList.remove("is-valid");
+    }
+
+    if(field.classList.contains("is-invalid")) {
+        field.classList.remove("is-invalid");
+    }
+}
+
 /**
  * Function that shows an error message if a form field has not been filled in and returns true, 
  * otherwise if desired, prints a success message and returns false.

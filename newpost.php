@@ -22,7 +22,8 @@
 	$templateParams["js"] = array(array("https://unpkg.com/axios/dist/axios.min.js"),
 								  array("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"),
 								  array("https://www.bing.com/api/maps/mapcontrol?key=ApfT2xvKFGN88pRenIxehg4qyZ5OULOFUQhbXvP3jVvShecLtAsdF1oDFUjmI2XA&callback=autosuggest", array("async", "defer")), 
-								  array("js/newpost.js"));
+								  array("js/newpost.js"),
+								  array("js/common.js"));
 
 	require 'template/base2.php';
 ?>
