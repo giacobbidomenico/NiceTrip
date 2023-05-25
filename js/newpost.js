@@ -35,6 +35,9 @@ function showAutoSuggest() {
         let newSuggestions = [];
         for(i=0; i < suggestionResult.length;i++) {
             if(search_field.value === suggestionResult[i].formattedSuggestion) {
+                suggestions =  [];
+                suggestions.push(suggestionResult[i]);
+                console.log(suggestions);
                 return;
             }
             destination_suggests.innerHTML += `
@@ -99,7 +102,7 @@ function addDestination() {
     }
 
     const destinations_list = document.getElementById("destinations-list");
-    if(destinations_list.getElementsByClassName("li").length > 1) {
+    if(destinations_list.getElementsByTagName("li").length > 0) {
         const lastElement = destinations_list.lastElementChild;
 
         if(lastElement.getAttribute("data-value") === selectedSuggestion[0].entityId) {
