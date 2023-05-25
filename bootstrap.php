@@ -7,7 +7,7 @@ define("TIME_SESSION_EXTENSION", "86400 * 30");
 
 require_once "db/database.php";
 
-$dbh = new DatabaseHelper("localhost", "root", "", "nicetrip", 3306);
+$dbh = new ConcreteDatabaseHelper("localhost", "root", "", "nicetrip", 3306);
 
 require_once "utils/functions.php";
 
