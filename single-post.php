@@ -17,7 +17,7 @@
 	$navBarParams["notifications"] = "";
 	$navBarParams["newPost"] = "newPost.php";
 	$navBarParams["options"] = "";
-	$templateParams["jsVars"] = array("const postId = ".$_GET["postId"]);
+	$templateParams["jsVars"] = array("const postId = ".$_GET["postId"].";", "const userId = ".$_SESSION["id"].";");
 	$templateParams["js"] = array(
 		"https://unpkg.com/axios/dist/axios.min.js",
 		"js/single-post.js",
