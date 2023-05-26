@@ -651,7 +651,7 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return count($result->fetch_all(MYSQLI_ASSOC)) == 0? false : true;
     }
 
-    private function checkIfOwnPost($commentId)
+    private function checkIfOwnComment($commentId)
     {
         $commentDetails = $this->DatabaseHelper->getComments($commentId);
         return $commentDetails[0]["userId"] == $_SESSION["id"];
@@ -668,7 +668,7 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     */
     public function deleteComment($id)
     {
-        if($this->checkIfOwnPost($id)){
+        if($this->checkIfOwnComment($id)){
             return $this->databaseHelper->deleteComment($id);
         } else {
             return [];
