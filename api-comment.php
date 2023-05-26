@@ -8,8 +8,8 @@
             $result = $dbh->setComment($postId, $id, date("Y-m-d"), date("H:i:s"), $_POST["description"]);
 		    break;
 	    case 'remove':
-            $postId = $_POST["postId"];
-            $result = $dbh->deleteComment($postId);
+            $commentId = $_POST["commentId"];
+            $result = $dbh->deleteComment($commentId);
 		    break;
         case 'get':
             $commentIds = json_decode($_POST["commentIds"]);
