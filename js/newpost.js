@@ -5,6 +5,7 @@ const destination_suggests = document.getElementById("destinations-suggests");
 
 let suggestions = [];
 let suggestionsManager;
+let lastDestinationIndex = 0;
 
 add_destination_button.addEventListener("click", event=> addDestination());
 search_field.addEventListener("input", event => showAutoSuggest());
@@ -93,29 +94,29 @@ function newDestinationListElement(id, place, start, end) {
     `;
 }*/
 
-function newDestinationListElement(id, place) {
-    return `
-        <li data-value='${id}' class="list-group-item list-group-item-action container-fluid">
+function newDestinationListElement(destination_list, id, place) {
+    var newElement = `
+        <li id="destination-${lastDestinationIndex}" data-value='${id}' class="list-group-item list-group-item-action container-fluid">
             <div class="row">
                 <div class="row">
                     <h5 class="mb-1">${place}</h5>
                 </div>
                 <div class="row p-0">
                     <div class="col-12 p-0">
-                        <button class="btn btn-transparent float-end">
+                        <button data-value="trash-${lastDestinationIndex}" data-type="trash" class="btn btn-transparent float-end">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
                                 <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
                             </svg>
                         </button>
-                        <button class="btn btn-transparent float-end">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
-                            </svg>
-                        </button>
-                        <button class="btn btn-transparent float-end">
+                        <button data-value="chrevron-down-${lastDestinationIndex}" data-type="chrevron-down" class="btn btn-transparent float-end">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </button>
+                        <button data-value="chrevron-up-${lastDestinationIndex}" data-type="chrevron-up" class="btn btn-transparent float-end">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
                             </svg>
                         </button>
                     </div>
@@ -123,6 +124,15 @@ function newDestinationListElement(id, place) {
             </div>
         </li>
     `;
+
+    document.getElementById("trash"+i).addEventListener("click", event => deleteListElement(destination_list, lastDestinationIndex, 'dme'));
+
+    lastDestinationIndex++;
+    return newElement;
+}
+
+function deleteListElement(list, index, message_error='') {
+    
 }
 
 

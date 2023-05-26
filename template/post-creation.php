@@ -17,7 +17,7 @@
             <div class="row pt-3">
                 <div id="search-field-container" class="col-11">
                     <label class="fw-bold" for="destination">Add destination:</label>
-                    <input name="destinations" list="destinations-suggests" class="form-control" type='text' id='search-field' autocomplete="off"/>
+                    <input name="destinations" list="destinations-suggests" class="form-control" type='text' id='search-field' autocomplete="off" required/>
                     <datalist id="destinations-suggests">
                     </datalist>
                     <div class="invalid-feedback"></div>
@@ -37,7 +37,7 @@
     <div class="row mt-5">
         <div class="col-9"></div>
         <div class="col-3 d-grid pe-1 float-end">
-            <input class="btn btn-primary btn-lg" type="submit" value="Post" name="signup" id="post-submit" autocomplete="on">
+            <input class="btn btn-primary btn-lg" type="submit" value="Post" name="signup" id="post-submit" autocomplete="on" required/>
         </div>
     </div>
 </form>
