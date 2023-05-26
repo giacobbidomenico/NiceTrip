@@ -1,7 +1,6 @@
 <?php
 	
-	//$postId = $_GET["postId"]; 
-	$postId = 6;
+	$postId = $_GET["postId"]; 
 	$postDetails = $dbh->getPostDetails($postId, $_SESSION["id"]);
 	$authorDetails = $dbh->getPublicUserDetails($postDetails[0]["userId"], $_SESSION["id"]);
 	$postImages = $dbh->getPostImages($postId, $_SESSION["id"]);
