@@ -63,6 +63,12 @@ abstract class DatabaseHelper
     abstract public function getUserPosts($userId);
 
     /**
+    *  Function that sends a request to database to delete a post.
+    *  @param $postId - post to be deleted.
+    */
+    abstract public function deletePost($postId);
+
+    /**
     *  Function that returns a user's public details.
     *  @param $userId - id of the user requesting the data
     *  @param $followerId - id of the user to get details of
@@ -356,6 +362,15 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, COUNT(F.id) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = ? AND F.following = ?) WHERE U.id = ?';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('sss', $followerId, $userId, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function deletePost($postId){
+        $query = 'DELETE FROM `posts` WHERE `posts`.`id` = ?;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', postId);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -657,6 +672,12 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return $commentDetails[0]["userId"] == $_SESSION["id"];
     }
 
+    private function checkIfOwnPost($postId)
+    {
+        $postDetails = $this->DatabaseHelper->getPostDetails($postId, $_SESSION["id"]);
+        return $postDetails[0]["userId"] == $_SESSION["id"];
+    }
+
     public function getListOfCommentsId($postId)
     {
         return $this->databaseHelper->getListOfCommentsId($postId);
@@ -741,6 +762,13 @@ class checkFollowDecorator extends DatabaseHelperDecorator
             return $this->databaseHelper->getPostImages($postId, $followerId);
         }
         return array();
+    }
+
+    public function deletePost($postId){
+        if(checkIfOwnPost($postId)){
+            return $this->DatabaseHelper->deletePost($postId);
+        }
+        return [];
     }
 
     public function getPostDetails($postId, $followerId)
