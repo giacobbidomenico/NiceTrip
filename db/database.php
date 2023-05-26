@@ -370,10 +370,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     public function deletePost($postId){
         $query = 'DELETE FROM `posts` WHERE `posts`.`id` = ?;';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', postId);
+        $stmt->bind_param('s', $postId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 
     /**
@@ -674,7 +674,7 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     private function checkIfOwnPost($postId)
     {
-        $postDetails = $this->DatabaseHelper->getPostDetails($postId, $_SESSION["id"]);
+        $postDetails = $this->databaseHelper->getPostDetails($postId, $_SESSION["id"]);
         return $postDetails[0]["userId"] == $_SESSION["id"];
     }
 
@@ -765,8 +765,8 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     }
 
     public function deletePost($postId){
-        if(checkIfOwnPost($postId)){
-            return $this->DatabaseHelper->deletePost($postId);
+        if($this->checkIfOwnPost($postId)){
+            return $this->databaseHelper->deletePost($postId);
         }
         return [];
     }
