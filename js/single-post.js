@@ -1,5 +1,5 @@
 // number of comments to be extracted at a time
-const COMMENTS_NUM = 2;
+const COMMENTS_NUM = 20;
 // tracks the number of comments showed
 let showedCommentsCounter = 0;
 // list of id of the comments to be showed
@@ -47,19 +47,24 @@ function commentsButton() {
  * Sends a post request to database to get details of some posts, then displays them.
  * */
 function getComments() {
-	const formData = new FormData();
-	formData.append('postId', postId);
-	formData.append('option', 'get');
-	formData.append('commentIds', JSON.stringify(commentIdList.slice(showedCommentsCounter, showedCommentsCounter + COMMENTS_NUM)));
-	showedCommentsCounter += COMMENTS_NUM;
-	axios.post('api-comment.php', formData).then(response => {
-		for (comment of response.data) {
-			console.log(comment);
-			displayPost(comment);
-			setAuthorDetails(comment);
-		}
-		if (showedCommentsCounter < commentIdList.length) {
-			button = `<div id="c-add" class="d-grid gap-2">
+	if (commentIdList.length == 0) {
+		noCommentsDisplay();
+    }
+
+	if (showedCommentsCounter < commentIdList.length){
+		const formData = new FormData();
+		formData.append('postId', postId);
+		formData.append('option', 'get');
+		formData.append('commentIds', JSON.stringify(commentIdList.slice(showedCommentsCounter, showedCommentsCounter + COMMENTS_NUM)));
+		showedCommentsCounter += COMMENTS_NUM;
+		axios.post('api-comment.php', formData).then(response => {
+			for (comment of response.data) {
+				console.log(comment);
+				displayPost(comment);
+				setAuthorDetails(comment);
+			}
+			if (showedCommentsCounter < commentIdList.length) {
+				button = `<div id="c-add" class="d-grid gap-2">
 					<button id="c-add-button" class="btn btn-light" type="button">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="desktop-icon bi bi-plus-circle" viewBox="0 0 16 16">
 						  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -67,10 +72,11 @@ function getComments() {
 						</svg>
 					</button>
 				</div>`;
-			document.getElementById("commentSection").insertAdjacentHTML("beforeend", button);
-			document.getElementById("c-add").addEventListener("click", commentsButton);
-		}
-	});
+				document.getElementById("commentSection").insertAdjacentHTML("beforeend", button);
+				document.getElementById("c-add").addEventListener("click", commentsButton);
+			}
+		});
+    }
 }
 /**
  * Extract an author's details of a post from database and displays them into the proper comment.
@@ -137,7 +143,11 @@ function displayPost(details) {
 		</div>
 	</article>`;
 
-	
 	document.getElementById("commentSection").insertAdjacentHTML("beforeend", scheme);
 	//document.getElementById("c-" + details.id + "-delete").addEventListener("click", deleteComment);
+}
+
+function noCommentsDisplay() {
+	displayEmpty = `<div class="p-5 mx-auto bg-light text-center"> No comments yet.</div>`;
+	document.getElementById("commentSection").insertAdjacentHTML("beforeend", displayEmpty);
 }
