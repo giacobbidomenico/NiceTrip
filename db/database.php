@@ -595,7 +595,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
     public function getListOfCommentsId($postId)
     {
-        $query = "SELECT C.id FROM `comments` C WHERE C.postsId = ? ORDER BY C.date DESC, C.time ASC";
+        $query = "SELECT C.id FROM `comments` C WHERE C.postsId = ? ORDER BY C.date DESC, C.time DESC";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $postId);
         $stmt->execute();
@@ -616,7 +616,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
     public function getComments($ids)
     {
-        $query = 'SELECT C.id, C.description, C.date, C.time, C.userId FROM `comments` C WHERE C.id IN(?'.str_repeat(", ?", is_array($ids)? count($ids)-1 : 0).') ORDER BY C.date DESC, C.time ASC';
+        $query = 'SELECT C.id, C.description, C.date, C.time, C.userId FROM `comments` C WHERE C.id IN(?'.str_repeat(", ?", is_array($ids)? count($ids)-1 : 0).') ORDER BY C.date DESC, C.time DESC';
         $stmt = $this->db->prepare($query);
         if(is_array($ids)){
             $stmt->bind_param(str_repeat("s", count($ids)), ...$ids);
