@@ -1,7 +1,6 @@
 <?php
 	
-	//$postId = $_GET["postId"]; 
-	$postId = 6;
+	$postId = $_GET["postId"]; 
 	$postDetails = $dbh->getPostDetails($postId, $_SESSION["id"]);
 	$authorDetails = $dbh->getPublicUserDetails($postDetails[0]["userId"], $_SESSION["id"]);
 	$postImages = $dbh->getPostImages($postId, $_SESSION["id"]);
@@ -74,84 +73,15 @@
 					<h2>Comments</h2>
 					<form>
 						<div class="form-floating">
-							<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-							<label for="floatingTextarea2" hidden>Comments</label>
+							<textarea class="form-control" placeholder="Leave a comment here" id="c-area" style="height: 100px"></textarea>
+							<label for="c-area" hidden>Comments</label>
 						</div>
-						<button type="submit" class="my-3 btn btn-primary float-end">Add comment</button>
+						<button id="c-submit" type="button" class="my-3 btn btn-primary float-end">Add comment</button>
 					</form>
 				</div>
-				<article class="border border-light-subtle">
-					<div class="card border-0 mb-3" >
-						<div class="row g-0">
-							<div class="col-2 ">
-								<div class="m-2">
-									<div class="ratio ratio-1x1">
-										<div class="border d-flex align-items-center">
-											<img src="profilePhotos/genericProfilePhoto.jpg" class="img-fluid" alt="...">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col">
-								<div class="card-body container-fluid">
-									<div class="row" >
-										<div class="col">
-											<h5 class="card-title">Domebbi Giaconico</h5>
-											<p class="card-text"><small class="text-body-secondary">20/22/2022 - 13:30</small></p>
-										</div>
-										<div class="col-4">
-											<div class="dropdown d-inline">
-												<button id="likes" class="float-end btn btn btn-light my-2" type="button" data-bs-toggle="dropdown">
-													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-														<path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-													</svg>
-												</button>
-												<ul class="dropdown-menu">
-													<li>
-														<form method="post" action="newpost.php" class="inline">
-															<input type="hidden" name="postToEdit" value="` + this.id + `">
-																<button type="submit" name="submit_param" value="submit_value" class="dropdown-item">
-																	Edit post
-																</button>
-														</form>
-													</li>
-													<li>
-														<button id="p-` + this.id + `-delete" type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
-															Delete post
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="row" >
-										<p class="card-text">SO sad this band is going away. They've got an awesome sound, and are outright iconic to anyone born in the mid to late 2000s. Brendon has an incredible voice, and I will forever regret not seeing them live when I had the chance. Thank you for the memories, Panic! at the Disco</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="card border-0 mb-3" >
-						<div class="row g-0">
-							<div class="col-2 ">
-								<div class="m-2">
-									<div class="ratio ratio-1x1">
-										<div class="border d-flex align-items-center">
-											<img src="profilePhotos/genericProfilePhoto.jpg" class="img-fluid" alt="...">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col">
-								<div class="card-body">
-									<h5 class="card-title">Domebbi Giaconico</h5>
-									<p class="card-text"><small class="text-body-secondary">20/22/2022 - 13:30</small></p>
-									<p class="card-text">SO sad this band is going away. They've got an awesome sound, and are outright iconic to anyone born in the mid to late 2000s. Brendon has an incredible voice, and I will forever regret not seeing them live when I had the chance. Thank you for the memories, Panic! at the Disco</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</article>
+				<section id="commentSection" class="border border-light-subtle">
+				</section>
+				
 
 			</div>
         </section>

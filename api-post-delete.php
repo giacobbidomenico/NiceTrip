@@ -1,7 +1,8 @@
 <?php
     require_once 'bootstrap.php';
     $id = $_SESSION["id"];
-    $result = $dbh->deletePost($id, $_POST["postId"]);
+    $dbh = new checkFollowDecorator($dbh);
+    $result = $dbh->deletePost($_POST["postId"]);
     
     echo json_encode($result);
 

@@ -63,6 +63,12 @@ abstract class DatabaseHelper
     abstract public function getUserPosts($userId);
 
     /**
+    *  Function that sends a request to database to delete a post.
+    *  @param $postId - post to be deleted.
+    */
+    abstract public function deletePost($postId);
+
+    /**
     *  Function that returns a user's public details.
     *  @param $userId - id of the user requesting the data
     *  @param $followerId - id of the user to get details of
@@ -361,6 +367,15 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function deletePost($postId){
+        $query = 'DELETE FROM `posts` WHERE `posts`.`id` = ?;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $postId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result;
+    }
+
     /**
      * Function that returns the images of a given post.
      * @param $postId - id of the post to get images of
@@ -580,7 +595,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
     public function getListOfCommentsId($postId)
     {
-        $query = "SELECT C.id FROM `comments` C WHERE C.postsId = ? ORDER BY C.date, C.time";
+        $query = "SELECT C.id FROM `comments` C WHERE C.postsId = ? ORDER BY C.date DESC, C.time DESC";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $postId);
         $stmt->execute();
@@ -590,20 +605,24 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
     public function deleteComment($id){
-        $query = 'SELECT C.*, U.userName, U.photoPath FROM comments C, users U WHERE C.postsId = ? AND C.userId = U.id ORDER BY C.date, C.time LIMIT 10 OFFSET ?';
+        $query = 'DELETE FROM `comments` WHERE `comments`.`id` = ?';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss', $postId, $offset);
+        $stmt->bind_param('s', $id);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 
     public function getComments($ids)
     {
-        $query = 'SELECT C.id, C.description, C.date, C.time, C.userId FROM `comments` C WHERE C.id IN(?'.str_repeat(", ?", count($ids)-1).') ORDER BY C.date, C.time';
+        $query = 'SELECT C.id, C.description, C.date, C.time, C.userId FROM `comments` C WHERE C.id IN(?'.str_repeat(", ?", is_array($ids)? count($ids)-1 : 0).') ORDER BY C.date DESC, C.time DESC';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param(str_repeat("s", count($ids)), ...$ids);
+        if(is_array($ids)){
+            $stmt->bind_param(str_repeat("s", count($ids)), ...$ids);
+        } else {
+            $stmt->bind_param("s", $ids);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -651,7 +670,19 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return count($result->fetch_all(MYSQLI_ASSOC)) == 0? false : true;
     }
 
-     public function getListOfCommentsId($postId)
+    private function checkIfOwnComment($commentId)
+    {
+        $commentDetails = $this->databaseHelper->getComments($commentId);
+        return $commentDetails[0]["userId"] == $_SESSION["id"];
+    }
+
+    private function checkIfOwnPost($postId)
+    {
+        $postDetails = $this->databaseHelper->getPostDetails($postId, $_SESSION["id"]);
+        return $postDetails[0]["userId"] == $_SESSION["id"];
+    }
+
+    public function getListOfCommentsId($postId)
     {
         return $this->databaseHelper->getListOfCommentsId($postId);
     }
@@ -662,7 +693,11 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     */
     public function deleteComment($id)
     {
-        return $this->databaseHelper->deleteComment($id);
+        if($this->checkIfOwnComment($id)){
+            return $this->databaseHelper->deleteComment($id);
+        } else {
+            return [];
+        }
     }
 
 
@@ -731,6 +766,13 @@ class checkFollowDecorator extends DatabaseHelperDecorator
             return $this->databaseHelper->getPostImages($postId, $followerId);
         }
         return array();
+    }
+
+    public function deletePost($postId){
+        if($this->checkIfOwnPost($postId)){
+            return $this->databaseHelper->deletePost($postId);
+        }
+        return [];
     }
 
     public function getPostDetails($postId, $followerId)
