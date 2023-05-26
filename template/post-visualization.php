@@ -73,10 +73,10 @@
 					<h2>Comments</h2>
 					<form>
 						<div class="form-floating">
-							<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-							<label for="floatingTextarea2" hidden>Comments</label>
+							<textarea class="form-control" placeholder="Leave a comment here" id="c-area" style="height: 100px"></textarea>
+							<label for="c-area" hidden>Comments</label>
 						</div>
-						<button type="submit" class="my-3 btn btn-primary float-end">Add comment</button>
+						<button id="c-submit" type="button" class="my-3 btn btn-primary float-end">Add comment</button>
 					</form>
 				</div>
 				<section id="commentSection" class="border border-light-subtle">
