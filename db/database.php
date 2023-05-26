@@ -605,9 +605,9 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
     public function deleteComment($id){
-        $query = 'SELECT C.*, U.userName, U.photoPath FROM comments C, users U WHERE C.postsId = ? AND C.userId = U.id ORDER BY C.date DESC, C.time ASC LIMIT 10 OFFSET ?';
+        $query = 'DELETE FROM `comments` WHERE `comments`.`id` = ?';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss', $postId, $offset);
+        $stmt->bind_param('s', $id);
         $stmt->execute();
         $result = $stmt->get_result();
 
