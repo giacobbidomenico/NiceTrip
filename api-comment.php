@@ -12,7 +12,8 @@
             $result = $dbh->deleteComment($postId);
 		    break;
         case 'get':
-            $result = $dbh->getComments($_POST["commentIds"]);
+            $commentIds = json_decode($_POST["commentIds"]);
+            $result = $dbh->getComments($commentIds);
 		    break;
         case 'list':
             $postId = $_POST["postId"];
