@@ -71,7 +71,7 @@ function Post(id, editable) {
 											</button>`;
 		if (this.editable) {
 			scheme = `
-				<div id="p-` + postDetails.data[0].id + `-deleteConfirm" class="modal" tabindex="-1">
+				<div id="p-` + postDetails.data[0].id + `-modal" class="modal" tabindex="-1">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -83,7 +83,7 @@ function Post(id, editable) {
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
+								<button id="p-` + postDetails.data[0].id + `-deleteConfirm" type="button" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
 							</div>
 						</div>
 					</div>
@@ -105,7 +105,7 @@ function Post(id, editable) {
 							</form>
 						</li>
 						<li>
-							<button id="p-` + this.id + `-delete" type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#p-` + postDetails.data[0].id + `-deleteConfirm">
+							<button id="p-` + this.id + `-delete" type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#p-` + postDetails.data[0].id + `-modal">
 								Delete post
 							</button>
 						</li>
