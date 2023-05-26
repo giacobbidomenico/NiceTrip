@@ -1,13 +1,10 @@
 const add_destination_button = document.getElementById("add-destination-button");
 const search_field = document.getElementById("search-field");
 const destinations_container = document.getElementById("destinations-container");
-const start_time_field = document.getElementById("start-time-field");
-const end_time_field = document.getElementById("end-time-field");
 const destination_suggests = document.getElementById("destinations-suggests");
+
 let suggestions = [];
 let suggestionsManager;
-
-let lastIndex = 1;
 
 add_destination_button.addEventListener("click", event=> addDestination());
 search_field.addEventListener("input", event => showAutoSuggest());
@@ -35,6 +32,7 @@ function showAutoSuggest() {
         }
 
         destination_suggests.innerHTML = '';
+
         let newSuggestions = [];
         for(i=0; i < suggestionResult.length;i++) {
             console.log(search_field.value + ' - ' + suggestionResult[i].formattedSuggestion);
@@ -95,7 +93,7 @@ function newDestinationListElement(id, place, start, end) {
     `;
 }*/
 
-function newDestinationListElement(id, place, start, end) {
+function newDestinationListElement(id, place) {
     return `
         <li data-value='${id}' class="list-group-item list-group-item-action container-fluid">
             <div class="row">
@@ -132,27 +130,13 @@ function addDestination() {
 
     let selectedSuggestion = getSelectedSuggestion();
 
-    if(search_field.value === '' || start_time_field.value === '' || end_time_field.value === '') {
+    if(search_field.value === '') {
         showIfEmptyField(search_field);
-        showIfEmptyField(start_time_field);
-        showIfEmptyField(end_time_field);
         return;
     }
 
     if(selectedSuggestion.length === 0) {
         showFieldInvalid(search_field, "No destination has been selected");
-    }
-
-    const start = new Date(start_time_field.value);
-    const end = new Date(end_time_field.value);
-
-    if(start.getTime() > end.getTime()) {
-        showFieldInvalid(start_time_field, "Error, the start time cannot be after the end time");
-        showFieldInvalid(end_time_field, "Error, it is not possible that the end time is before the end time");
-        return;
-    } else {
-        showFieldWithoutValidation(start_time_field);
-        showFieldWithoutValidation(end_time_field);
     }
 
     if(destinations_container.getElementsByTagName("ul").length === 0) {
@@ -171,15 +155,10 @@ function addDestination() {
 
     
 
-    destinations_list.innerHTML += newDestinationListElement(selectedSuggestion[0].entityId, search_field.value, start, end);
+    destinations_list.innerHTML += newDestinationListElement(selectedSuggestion[0].entityId, search_field.value);
 
-    lastIndex++;
     search_field.value = '';
-    start_time_field.value = '';
-    end_time_field.value = '';
     suggestions = [];
-    
+
     showFieldWithoutValidation(search_field);
-    showFieldWithoutValidation(start_time_field);
-    showFieldWithoutValidation(end_time_field);
 }

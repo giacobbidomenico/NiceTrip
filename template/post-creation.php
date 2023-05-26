@@ -23,18 +23,6 @@
                     <div class="invalid-feedback"></div>
                 </div>
             </div>
-            <div class="row mt-2">
-                <div class="col-4">
-                    <label class="fw-bold" for="start-time-field">Start Time:</label>
-                    <input class="form-control" name="start-time" type='datetime-local' id='start-time-field' autocomplete="on"/>
-                    <div class="invalid-feedback"></div>
-                </div>
-                <div class="col-4">
-                    <label class="fw-bold" for="end-time-field">End Time:</label>
-                    <input class="form-control" name="end-time" type='datetime-local' id='end-time-field' autocomplete="on"/>
-                    <div class="invalid-feedback"></div>
-                </div>
-            </div>
             <div class="row mt-3">
                 <div class="col-4">
                     <button class="btn btn-primary align-bottom" type="button" id="add-destination-button">Add</button>
