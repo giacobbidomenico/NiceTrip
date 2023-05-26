@@ -580,7 +580,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
     public function getListOfCommentsId($postId)
     {
-        $query = "SELECT C.id FROM `comments` C WHERE C.postsId = ? ORDER BY C.date, C.time";
+        $query = "SELECT C.id FROM `comments` C WHERE C.postsId = ? ORDER BY C.date DESC, C.time ASC";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('s', $postId);
         $stmt->execute();
@@ -590,7 +590,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
     public function deleteComment($id){
-        $query = 'SELECT C.*, U.userName, U.photoPath FROM comments C, users U WHERE C.postsId = ? AND C.userId = U.id ORDER BY C.date, C.time LIMIT 10 OFFSET ?';
+        $query = 'SELECT C.*, U.userName, U.photoPath FROM comments C, users U WHERE C.postsId = ? AND C.userId = U.id ORDER BY C.date DESC, C.time ASC LIMIT 10 OFFSET ?';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('ss', $postId, $offset);
         $stmt->execute();
@@ -601,7 +601,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
     public function getComments($ids)
     {
-        $query = 'SELECT C.id, C.description, C.date, C.time, C.userId FROM `comments` C WHERE C.id IN(?'.str_repeat(", ?", count($ids)-1).') ORDER BY C.date, C.time';
+        $query = 'SELECT C.id, C.description, C.date, C.time, C.userId FROM `comments` C WHERE C.id IN(?'.str_repeat(", ?", count($ids)-1).') ORDER BY C.date, C.time ASC';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param(str_repeat("s", count($ids)), ...$ids);
         $stmt->execute();
