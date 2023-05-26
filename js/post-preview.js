@@ -14,6 +14,7 @@ function Post(id, editable) {
 	this.like = false;
 	this.likesNumber = 0;
 	this.authorId;
+	this.deleted = false;
 
 	/**
 	 * @returns true if the entire post has been added
@@ -70,7 +71,7 @@ function Post(id, editable) {
 											</button>`;
 		if (this.editable) {
 			scheme = `
-				<div id="exampleModal" class="modal" tabindex="-1">
+				<div id="p-` + postDetails.data[0].id + `-deleteConfirm" class="modal" tabindex="-1">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -82,7 +83,7 @@ function Post(id, editable) {
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Delete</button>
+								<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
 							</div>
 						</div>
 					</div>
@@ -104,7 +105,7 @@ function Post(id, editable) {
 							</form>
 						</li>
 						<li>
-							<button id="p-` + this.id + `-delete" type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
+							<button id="p-` + this.id + `-delete" type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#p-` + postDetails.data[0].id + `-deleteConfirm">
 								Delete post
 							</button>
 						</li>
@@ -116,7 +117,7 @@ function Post(id, editable) {
 		if (!this.editable) {
 			document.getElementById("p-" + postDetails.data[0].id + "-likes").addEventListener("click", event => { this.notifyLike(); });
 		} else {
-			document.getElementById("p-" + this.id + "-delete").addEventListener("click", event => { this.deletePost(); });
+			document.getElementById("p-" + this.id + "-deleteConfirm").addEventListener("click", event => { this.deletePost(); });
         }
 		console.log(document.getElementById("p-" + this.id + "-likes"));
 
@@ -236,7 +237,10 @@ function Post(id, editable) {
 	this.deletePost = function () {
 		const formData = new FormData();
 		formData.append('postId', this.id);
-		axios.post('api-post-delete.php', formData).then(response => { console.log(response) });
+		axios.post('api-post-delete.php', formData).then(response => {
+			this.deleted = true;
+			document.getElementById("p-" + this.id).remove();
+		});
 	}
 }
 
