@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 21, 2023 alle 23:36
+-- Creato il: Mag 25, 2023 alle 20:03
 -- Versione del server: 10.4.25-MariaDB
 -- Versione PHP: 8.1.10
 
@@ -44,7 +44,31 @@ CREATE TABLE `comments` (
 
 INSERT INTO `comments` (`id`, `description`, `date`, `time`, `postsId`, `userId`) VALUES
 (1, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
-(2, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7);
+(2, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(3, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(4, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
+(5, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(6, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
+(7, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(8, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(9, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
+(10, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(11, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
+(12, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(13, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(14, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
+(15, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(16, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
+(17, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(18, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(19, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
+(20, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(21, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(22, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(23, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
+(24, 'SES', '2020-12-05', '12:14:22', 6, 3),
+(25, 'SES', '2020-12-05', '12:14:22', 6, 3),
+(26, 'SES', '2020-12-05', '12:14:22', 6, 3);
 
 -- --------------------------------------------------------
 
@@ -77,10 +101,9 @@ CREATE TABLE `follows` (
 --
 
 INSERT INTO `follows` (`id`, `follower`, `following`) VALUES
-(5, 3, 5),
+(15, 3, 5),
 (6, 6, 5),
-(7, 7, 5),
-(8, 11, 7);
+(7, 7, 5);
 
 -- --------------------------------------------------------
 
@@ -121,7 +144,8 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`userId`, `postsId`) VALUES
-(3, 6);
+(3, 6),
+(5, 6);
 
 -- --------------------------------------------------------
 
@@ -224,6 +248,15 @@ CREATE TABLE `visualizations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dump dei dati per la tabella `visualizations`
+--
+
+INSERT INTO `visualizations` (`id`, `userId`, `postId`) VALUES
+(354, 3, 6),
+(355, 3, 7),
+(356, 3, 8);
+
+--
 -- Indici per le tabelle scaricate
 --
 
@@ -310,7 +343,7 @@ ALTER TABLE `visualizations`
 -- AUTO_INCREMENT per la tabella `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT per la tabella `destinations`
@@ -322,7 +355,7 @@ ALTER TABLE `destinations`
 -- AUTO_INCREMENT per la tabella `follows`
 --
 ALTER TABLE `follows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT per la tabella `images`
@@ -352,7 +385,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `visualizations`
 --
 ALTER TABLE `visualizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=307;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=357;
 
 --
 -- Limiti per le tabelle scaricate

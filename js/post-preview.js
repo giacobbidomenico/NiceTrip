@@ -34,8 +34,8 @@ function Post(id, editable) {
 		console.log("liked: " + postDetails.data[0].liked);
 		this.like = postDetails.data[0].liked === 1 ? true : false;
 		let scheme = `
-						<div class="row gy-4 my-3">
-							<article id="p-` + postDetails.data[0].id + `" class="card w-75 mx-auto p-0">
+						<div class="row gy-4 m-3">
+							<article id="p-` + postDetails.data[0].id + `" class="card mx-auto p-0">
 								<div class="card-header">
 									<h4 id="p-` + postDetails.data[0].id + `-title" class="card-title">
 										<a id="post-title" class="link-dark link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="">` + postDetails.data[0].title + `</a>
@@ -89,7 +89,7 @@ function Post(id, editable) {
 				</div>` +
 				scheme +
 				`<div class="dropdown d-inline">
-					<button id="likes" class="btn btn-light my-2 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+					<button id="likes" class="btn btn-light my-2" type="button" data-bs-toggle="dropdown">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-three-dots desktop-icon" viewBox="0 0 16 16">
 							<path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
 						</svg>
@@ -171,7 +171,7 @@ function Post(id, editable) {
 		axios.post('api-post-details.php', formData).then(response => {
 			this.createPostPreview(response);
 			this.authorId = response.data[0].userId;
-			let authorData = this.requestAuthorDetails(this.authorId, this.id);
+			let authorData = this.requestAuthorDetails(this.authorId);
 			let images = this.requestPostImages(this.id);
 		});
 	}
@@ -215,25 +215,19 @@ function Post(id, editable) {
 	this.notifyLike = function () {
 		const formData = new FormData();
 		formData.append('postId', this.id);
-		if (!this.like) {
-			this.like = true;
-			this.likesNumber++;
-			console.log("like");
-			formData.append('like', 'true');
-			axios.post('api-post-like.php', formData).then(response => { });
-			document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.add("d-none");
-			document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.remove("d-none");
-			document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
-		} else {
-			this.like = false;
-			this.likesNumber--;
-			console.log("dislike: " + this.id );
-			formData.append('like', 'false');
-			axios.post('api-post-like.php', formData).then(response => { console.log(response) });
-			document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.remove("d-none");
-			document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.add("d-none");
-			document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
-        }
+		axios.post('api-post-like.php', formData).then(response => {
+			if (response.data["insert"]) {
+				this.likesNumber++;
+				document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.add("d-none");
+				document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.remove("d-none");
+				document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
+			} else {
+				this.likesNumber--;
+				document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.remove("d-none");
+				document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.add("d-none");
+				document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
+            }
+		});
 	}
 
 	/**
