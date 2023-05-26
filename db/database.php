@@ -611,14 +611,18 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 
     public function getComments($ids)
     {
-        $query = 'SELECT C.id, C.description, C.date, C.time, C.userId FROM `comments` C WHERE C.id IN(?'.str_repeat(", ?", count($ids)-1).') ORDER BY C.date DESC, C.time ASC';
+        $query = 'SELECT C.id, C.description, C.date, C.time, C.userId FROM `comments` C WHERE C.id IN(?'.str_repeat(", ?", is_array($ids)? count($ids)-1 : 0).') ORDER BY C.date DESC, C.time ASC';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param(str_repeat("s", count($ids)), ...$ids);
+        if(is_array($ids)){
+            $stmt->bind_param(str_repeat("s", count($ids)), ...$ids);
+        } else {
+            $stmt->bind_param("s", $ids);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -668,7 +672,7 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     private function checkIfOwnComment($commentId)
     {
-        $commentDetails = $this->DatabaseHelper->getComments($commentId);
+        $commentDetails = $this->databaseHelper->getComments($commentId);
         return $commentDetails[0]["userId"] == $_SESSION["id"];
     }
 
