@@ -4,11 +4,65 @@ const COMMENTS_NUM = 20;
 let showedCommentsCounter = 0;
 // list of id of the comments to be showed
 let commentIdList;
-
+// id of the comment to be deleted
+let commentToBeDeleted;
 document.getElementById("p-likes").addEventListener("click", notifyLike);
 const d = new Date();
-let date = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay();
-let time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+
+let commentArea = document.getElementById("c-area");
+
+document.getElementById("c-submit").addEventListener("click", commentSub);
+
+function commentSub() {
+	formData.append('option', 'push');
+	formData.append('description', commentArea.value);
+	axios.post('api-comment.php', formData).then(response => {
+		showedCommentsCounter++;
+		commentIdList.push(response.data);
+		formData.append('option', 'get');
+		formData.append('commentIds', JSON.stringify(response.data));
+		axios.post('api-comment.php', formData).then(response => {
+			comment = response.data[0];
+			displayPost(comment, true);
+			setAuthorDetails(comment);
+		});
+	});
+}
+
+// modal to manage comment deletion
+confirmModal = `
+				<div id="c-m-deletion" class="modal" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Are you sure?</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<p>You cannot restore posts that have been deleted.</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								<button id="c-deleteConfirm" type="button" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
+							</div>
+						</div>
+					</div>
+				</div>`;
+document.getElementById("commentSection").insertAdjacentHTML("beforeend", confirmModal);
+//detect whether it has been confirmed a comment deletion
+document.getElementById("c-deleteConfirm").addEventListener("click", event => {
+	formData.append('commentId', commentToBeDeleted);
+	formData.append('option', 'remove');
+	showedCommentsCounter += COMMENTS_NUM;
+	axios.post('api-comment.php', formData).then(response => {
+		//remove comment from DOM
+		document.getElementById("c-" + commentToBeDeleted).remove();
+		//reduce counter of showed comments
+		showedCommentsCounter--;
+		//removes id of the comment from comment id list
+		commentIdList.pop(commentIdList.indexOf(commentToBeDeleted));
+	});
+});
 
 /**
 * updates database, registers that the user has liked the post
@@ -60,7 +114,7 @@ function getComments() {
 		axios.post('api-comment.php', formData).then(response => {
 			for (comment of response.data) {
 				console.log(comment);
-				displayPost(comment);
+				displayPost(comment,false);
 				setAuthorDetails(comment);
 			}
 			if (showedCommentsCounter < commentIdList.length) {
@@ -94,9 +148,10 @@ function setAuthorDetails(comment) {
 /**
  * Creates the html elements to show a single post
  * @param {any} response - comment data
+ * @param {Boolean} top - true if comment has to be showed at the top of the list, false at the bottom
  */
-function displayPost(details) {
-	let scheme = `<article class="">
+function displayPost(details, top) {
+	let scheme = `<article id="c-` + details.id + `" class="">
 					<div class="card border-0 mb-3" >
 						<div class="row g-0">
 							<div class="col-2 ">
@@ -125,7 +180,7 @@ function displayPost(details) {
 						</button>
 						<ul class="dropdown-menu">
 							<li>
-								<button id="c-` + details.id + `-delete" type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
+								<button id="c-` + details.id + `-delete" type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#c-m-deletion">
 									Delete post
 								</button>
 							</li>
@@ -135,7 +190,7 @@ function displayPost(details) {
 	}
 	scheme += `</div>
 						<div class="row" >
-							<p class="card-text">-` + details.description + `-</p>
+							<pre class="card-text">` + details.description + `</pre>
 						</div>
 					</div>
 				</div>
@@ -143,8 +198,10 @@ function displayPost(details) {
 		</div>
 	</article>`;
 
-	document.getElementById("commentSection").insertAdjacentHTML("beforeend", scheme);
-	//document.getElementById("c-" + details.id + "-delete").addEventListener("click", deleteComment);
+	document.getElementById("commentSection").insertAdjacentHTML(top ? "afterbegin" : "beforeend", scheme);
+	if (userId == details.userId) {
+		document.getElementById("c-" + details.id + "-delete").addEventListener("click", event => { commentToBeDeleted = details.id });
+	}
 }
 
 function noCommentsDisplay() {
