@@ -1,5 +1,7 @@
+window.addEventListener("load", noDestinations);
+
 const add_destination_button = document.getElementById("add-destination-button");
-const search_field = document.getElementById("search-field");
+const search_field = document.querySelectorAll("[list]")[0];
 const destinations_container = document.getElementById("destinations-container");
 const destination_suggests = document.getElementById("destinations-suggests");
 
@@ -9,6 +11,11 @@ let lastIndex = 0;
 
 add_destination_button.addEventListener("click", event=> addDestination());
 search_field.addEventListener("input", event => showAutoSuggest());
+
+function noDestinations() {
+    destinations_container.innerHTML = "<p id='message'></p>"
+    showMessage('No destinations have been entered at the moment!', 'error');
+}
 
 function autosuggest() {
     Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', {
@@ -75,25 +82,6 @@ function createDestinationsList() {
     `;
 }
 
-/*
-function newDestinationListElement(id, place, start, end) {
-    return `
-        <li data-value='${id}' class="list-group-item list-group-item-action container-fluid">
-            <div class="row">
-                <p class="mb-1">${start.toLocaleDateString()} - ${end.toLocaleDateString()}</p>
-            </div>
-            <div class="row">
-                <div class="col-12 col-lg-9 pe-0">
-                    <h5 class="mb-1">${place}</h5>
-                </div>
-                <div class="col-12 col-lg-3 p-lg-0">
-                    <small>${start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small>
-                </div>
-            </div>
-        </li>
-    `;
-}*/
-
 function newDestinationListElement(id, place) {
     return `
         <li id="destination-${lastIndex}" data-value='${id}' class="list-group-item list-group-item-action container-fluid">
@@ -149,6 +137,8 @@ function addDestination() {
     }
 
     const destinations_list = document.getElementById("destinations-list");
+    
+    /*
     if(destinations_list.getElementsByTagName("li").length > 0) {
         const lastElement = destinations_list.lastElementChild;
 
@@ -156,18 +146,25 @@ function addDestination() {
             showFieldInvalid(search_field, "");
             return;
         }
-    }
+    }*/
 
     
 
     destinations_list.innerHTML += newDestinationListElement(selectedSuggestion[0].entityId, search_field.value);
     
-    Array.from(document.getElementsByTagName("li"))
-        .forEach(item => item.querySelectorAll("[data-type=trash]")[0].addEventListener("click", event=> item.remove()));
+    Array.from(destinations_list.getElementsByTagName("li"))
+        .forEach(item => item.querySelectorAll("[data-type=trash]")[0].addEventListener("click", event=> {
+            item.remove();
+            if(destinations_list.getElementsByTagName("li").length === 0) {
+                destinations_container.children[0].remove();
+                noDestinations();
+            }
+        }));
 
     lastIndex++;
     search_field.value = '';
     suggestions = [];
+    destination_suggests.innerHTML = '';
 
     showFieldWithoutValidation(search_field);
 }

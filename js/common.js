@@ -163,6 +163,7 @@ function disableAllFields(completeForm) {
 function showMessage(message, type) {
     const elementMessage = document.getElementById("message");
     elementMessage.classList = '';
+    elementMessage.classList.add("fw-bold");
     if(type==='error') {
         elementMessage.classList.add('text-danger');
     } else {

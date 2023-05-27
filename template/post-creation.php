@@ -29,7 +29,6 @@
                 </div>
             </div>
             <div class="row mt-3" id="destinations-container">
-                <p class="fw-bold fs-7 text-danger">No destinations have been entered at the moment!</p>
             </div>
         </div>
     </div>
