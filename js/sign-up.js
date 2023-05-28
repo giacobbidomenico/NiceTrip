@@ -55,10 +55,11 @@ function sign_up() {
 
     //Sending data to server
     axios.post('api-signup.php', formData).then(response => {
+        const message = document.getElementById("message");
         if(response.data["error"]) {
-            showMessage("Error, your account has not been registered", 'error');
+            showMessage(message, "Error, your account has not been registered", 'error');
         }else {
-            showMessage("A link has been sent by email, click it to verify your account", 'success');
+            showMessage(message, "A link has been sent by email, click it to verify your account", 'success');
         }
     });
 }

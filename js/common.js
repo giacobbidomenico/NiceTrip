@@ -160,8 +160,7 @@ function disableAllFields(completeForm) {
  * @param {*} type
  *            message type
  */
-function showMessage(message, type) {
-    const elementMessage = document.getElementById("message");
+function showMessage(elementMessage, message, type) {
     elementMessage.classList = '';
     elementMessage.classList.add("fw-bold");
     if(type==='error') {

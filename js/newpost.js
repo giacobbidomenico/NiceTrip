@@ -1,4 +1,7 @@
-window.addEventListener("load", noDestinations);
+window.addEventListener("load", event => {
+    noDestinations();
+    noImages();
+});
 
 const add_destination_button = document.getElementById("add-destination-button");
 const add_image_button = document.getElementById("add-image-button");
@@ -22,8 +25,13 @@ search_field.addEventListener("input", event => showAutoSuggest());
 
 
 function noDestinations() {
-    destinations_container.innerHTML = "<p id='message'></p>"
-    showMessage('No destinations have been entered at the moment!', 'error');
+    destinations_container.innerHTML = "<p id='message1'></p>"
+    showMessage(document.getElementById("message1"), 'No destinations have been entered at the moment!', 'error');
+}
+
+function noImages() {
+    images_container.innerHTML = "<p id='message2'></p>"
+    showMessage(document.getElementById("message2"), 'No images have been entered at the moment!', 'error');
 }
 
 function autosuggest() {
