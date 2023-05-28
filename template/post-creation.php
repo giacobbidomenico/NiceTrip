@@ -39,17 +39,17 @@
             <div class="row pt-3">
                 <div class="col-11">
                     <label class="fw-bold form-label" for="images">Add image:</label>
-                    <input class="form-control" type="file" id="formFileMultiple" multiple>
+                    <input id="images-field" class="form-control" type="file" id="formFileMultiple" multiple>
                     <div class="invalid-feedback"></div>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-4">
-                    <button class="btn btn-primary align-bottom" type="button" id="add-images-button">Add</button>
+                    <button class="btn btn-primary align-bottom" type="button" id="add-image-button">Add</button>
                 </div>
             </div>
             <div class="row mt-3" id="images-container">
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-12 gy-4">
                         <div class="card">
                             <ul id="destinations-list" class="list-group list-group-flush  pt-3">
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
     
