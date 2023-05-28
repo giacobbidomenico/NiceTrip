@@ -86,6 +86,15 @@ function getSelectedSuggestion() {
 }
 
 
+function swap(nodeA, nodeB) {
+    const parentA = nodeA.parentNode;
+    const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
+
+    nodeB.parentNode.insertBefore(nodeA, nodeB);
+
+    parentA.insertBefore(nodeB, siblingA);
+}
+
 function createList(name_list) {
     return `
         <div class="row">
@@ -103,7 +112,7 @@ function newDestinationListElement(id, place) {
     return `
         <li id="destination-${lastIndex}" data-value='${id}' class="list-group-item list-group-item-action container-fluid">
             <div class="row">
-                <div class="row">
+                <div data-type="content" class="row">
                     <h5 class="mb-1">${place}</h5>
                 </div>
                 <div class="row p-0">
@@ -133,8 +142,8 @@ function newDestinationListElement(id, place) {
 
 function newImageElement(src_image, file_name_image) {
     return `
-        <li class="list-group-item list-group-item-action container-fluid">
-            <div class="row">
+        <li id="image-${lastIndex}" class="list-group-item list-group-item-action container-fluid">
+            <div data-type="content"class="row">
                 <div class="col-4">
                     <img class="img-fluid" src="${src_image}"/>
                 </div>
@@ -183,6 +192,36 @@ function deleteListElement(list, list_container, f_error) {
     }));
 }
 
+function swapUpElement(list) {
+    Array.from(list.getElementsByTagName("li"))
+    .forEach(item => item.querySelectorAll("[data-type=chrevron-up]")[0].addEventListener("click", event=> {
+        const actualContent = item.querySelectorAll("[data-type=content]")[0];
+        const prev = item.previousElementSibling;
+
+        if(prev === null) {
+            const last = list.lastElementChild.querySelectorAll("[data-type=content]")[0];
+            swap(actualContent, last);
+        } else {
+            swap(actualContent, prev.querySelectorAll("[data-type=content]")[0]);
+        }
+    }));
+}
+
+function swapDownElement(list) {
+    Array.from(list.getElementsByTagName("li"))
+    .forEach(item => item.querySelectorAll("[data-type=chrevron-down]")[0].addEventListener("click", event=> {
+        const actualContent = item.querySelectorAll("[data-type=content]")[0];
+        const next = item.nextElementSibling;
+
+        if(next === null) {
+            const last = list.firstElementChild.querySelectorAll("[data-type=content]")[0];
+            swap(actualContent, last);
+        } else {
+            swap(actualContent, next.querySelectorAll("[data-type=content]")[0]);
+        }
+    }));
+}
+
 
 function addDestination() {
 
@@ -203,20 +242,11 @@ function addDestination() {
 
     const destinations_list = document.getElementById("destinations-list");
 
-    /*
-    if(destinations_list.getElementsByTagName("li").length > 0) {
-        const lastElement = destinations_list.lastElementChild;
-
-
-        if(lastElement.getAttribute("data-value") === selectedSuggestion[0].entityId) {
-            showFieldInvalid(search_field, "");
-            return;
-        }
-    }*/
-
     destinations_list.innerHTML += newDestinationListElement(selectedSuggestion[0].entityId, search_field.value);
     
     deleteListElement(destinations_list, destinations_container, noDestinations);
+    swapUpElement(destinations_list);
+    swapDownElement(destinations_list);
 
     lastIndex++;
     search_field.value = '';
@@ -241,15 +271,18 @@ function addImage() {
         reader = new FileReader();
         reader.fileName = images_field.files[i].name;
         reader.onload = function(e) {
-            console.log(e);
             images_list.innerHTML += newImageElement(e.target.result, e.target.fileName);
             deleteListElement(images_list, images_container, noImages);
+            swapUpElement(images_list);
+            swapDownElement(images_list);
+            lastIndex++;
         }
 
         reader.readAsDataURL(images_field.files[i]);
     }
 
     images_field.value = '';
+    
     showFieldWithoutValidation(images_field);
-    lastIndex++;
+    
 }
