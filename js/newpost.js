@@ -240,6 +240,7 @@ function addImage() {
         reader.readAsDataURL(images_field.files[i]);
     }
 
-    
+    images_field.value = '';
+    showFieldWithoutValidation(images_field);
     lastIndex++;
 }
