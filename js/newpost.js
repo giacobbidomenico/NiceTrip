@@ -172,8 +172,15 @@ function getLastImage() {
     return document.getElementById("images-list").lastElementChild.getElementsByTagName("img")[0];
 }
 
-function deleteListElement(list, lastIndex, message_error='') {
-
+function deleteListElement(list, list_container, f_error) {
+    Array.from(list.getElementsByTagName("li"))
+    .forEach(item => item.querySelectorAll("[data-type=trash]")[0].addEventListener("click", event=> {
+        item.remove();
+        if(list.getElementsByTagName("li").length === 0) {
+            list_container.children[0].remove();
+            f_error();
+        }
+    }));
 }
 
 
@@ -209,14 +216,7 @@ function addDestination() {
 
     destinations_list.innerHTML += newDestinationListElement(selectedSuggestion[0].entityId, search_field.value);
     
-    Array.from(destinations_list.getElementsByTagName("li"))
-        .forEach(item => item.querySelectorAll("[data-type=trash]")[0].addEventListener("click", event=> {
-            item.remove();
-            if(destinations_list.getElementsByTagName("li").length === 0) {
-                destinations_container.children[0].remove();
-                noDestinations();
-            }
-        }));
+    deleteListElement(destinations_list, destinations_container, noDestinations);
 
     lastIndex++;
     search_field.value = '';
@@ -243,6 +243,7 @@ function addImage() {
         reader.onload = function(e) {
             console.log(e);
             images_list.innerHTML += newImageElement(e.target.result, e.target.fileName);
+            deleteListElement(images_list, images_container, noImages);
         }
 
         reader.readAsDataURL(images_field.files[i]);
