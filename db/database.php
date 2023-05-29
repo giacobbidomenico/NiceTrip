@@ -203,7 +203,11 @@ abstract class DatabaseHelper
     */
     abstract public function getListOfCommentsId($postId);
 
-    
+    /**
+    *  Function that returns a list of posts which title contains all tokens given.
+    *  @param $tokens - tokens to be matched
+    */
+    abstract public function getPostsFromTitle($tokens);
 }
 
 /**
@@ -629,6 +633,23 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+
+    public function getPostsFromTitle($tokens)
+    {
+        $query = 'SELECT P.id FROM posts P WHERE P.title LIKE ? '.str_repeat("AND  P.title LIKE ?", is_array($tokens)? count($ids)-1 : 0).';';
+        $stmt = $this->db->prepare($query);
+        if(is_array($tokens)){
+            $vars = array_map(fn($token) => "%".$token."%", $token);
+            $stmt->bind_param(str_repeat("s", count($vars)), ...$vars);
+        } else {
+            $var = "%".$tokens."%";
+            $stmt->bind_param("s", $var);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }
 
 /**
@@ -838,5 +859,11 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     {
         return $this->databaseHelper->getFollows($userId);
     }
+
+    public function getPostsFromTitle($tokens)
+    {
+        return $this->databaseHelper->getPostsFromTitle($tokens);
+    }
+
 }
 ?>
