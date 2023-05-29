@@ -8,7 +8,8 @@
 
     <div class="row mt-2">
         <label class="fw-bold fs-4 mb-1 text-primary" for="description">Description:</label>
-        <textarea class="form-control" id="description" style="height: 100px"></textarea>
+        <textarea class="form-control" id="description" name="description" style="height: 100px" required></textarea>
+        <div class="invalid-feedback"></div>
     </div>
 
     <div class="row mt-2">
@@ -17,7 +18,7 @@
             <div class="row pt-3">
                 <div id="search-field-container" class="col-11">
                     <label class="fw-bold" for="destination">Add destination:</label>
-                    <input name="destinations" list="destinations-suggests" class="form-control" type='text' id='search-field' autocomplete="off" required/>
+                    <input name="destinations" list="destinations-suggests" class="form-control" type='text' id='search-field' autocomplete="off"/>
                     <datalist id="destinations-suggests">
                     </datalist>
                     <div class="invalid-feedback"></div>
@@ -39,7 +40,7 @@
             <div class="row pt-3">
                 <div class="col-11">
                     <label class="fw-bold form-label" for="images">Add image:</label>
-                    <input id="images-field" class="form-control" type="file" id="formFileMultiple" multiple>
+                    <input id="images-field" class="form-control" type="file" id="formFileMultiple" multiple/>
                     <div class="invalid-feedback"></div>
                 </div>
             </div>
@@ -56,7 +57,7 @@
     <div class="row mt-5">
         <div class="col-9"></div>
         <div class="col-3 d-grid pe-1 float-end">
-            <input class="btn btn-primary btn-lg" type="submit" value="Post" name="signup" id="post-submit" autocomplete="on" required/>
+            <input class="btn btn-primary btn-lg" type="submit" value="Post" name="post-submit" id="post-submit" required/>
         </div>
     </div>
 </form>

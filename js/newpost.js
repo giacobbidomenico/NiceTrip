@@ -14,6 +14,9 @@ const destination_suggests = document.getElementById("destinations-suggests");
 
 const images_container = document.getElementById("images-container");
 
+const post_submit = document.getElementById("post-submit");
+const form =  document.getElementsByTagName("form")[0];
+
 let suggestions = [];
 let suggestionsManager;
 let lastIndex = 0;
@@ -23,6 +26,10 @@ add_image_button.addEventListener("click", event => addImage());
 
 search_field.addEventListener("input", event => showAutoSuggest());
 
+post_submit.addEventListener("click", event => {
+    event.preventDefault();
+    publish_post();
+});
 
 function noDestinations() {
     destinations_container.innerHTML = "<p id='message1'></p>"
@@ -285,4 +292,9 @@ function addImage() {
     
     showFieldWithoutValidation(images_field);
     
+}
+
+function publish_post() {
+    alert("Hello");
+    showEmptyFields(form);
 }
