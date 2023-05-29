@@ -23,7 +23,7 @@ function commentSub() {
 		formData.append('commentIds', JSON.stringify(response.data));
 		axios.post('api-comment.php', formData).then(response => {
 			comment = response.data[0];
-			displayPost(comment, true);
+			displayComment(comment, true);
 			setAuthorDetails(comment);
 		});
 	});
@@ -114,7 +114,7 @@ function getComments() {
 		axios.post('api-comment.php', formData).then(response => {
 			for (comment of response.data) {
 				console.log(comment);
-				displayPost(comment,false);
+				displayComment(comment,false);
 				setAuthorDetails(comment);
 			}
 			if (showedCommentsCounter < commentIdList.length) {
@@ -146,11 +146,11 @@ function setAuthorDetails(comment) {
 }
 
 /**
- * Creates the html elements to show a single post
+ * Creates the html elements to show a single comment
  * @param {any} response - comment data
  * @param {Boolean} top - true if comment has to be showed at the top of the list, false at the bottom
  */
-function displayPost(details, top) {
+function displayComment(details, top) {
 	let scheme = `<article id="c-` + details.id + `" class="">
 					<div class="card border-0 mb-3" >
 						<div class="row g-0">
@@ -163,7 +163,7 @@ function displayPost(details, top) {
 									</div>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col-10">
 								<div class="card-body container-fluid">
 									<div class="row" >
 										<div class="col">
@@ -190,7 +190,7 @@ function displayPost(details, top) {
 	}
 	scheme += `</div>
 						<div class="row" >
-							<pre class="card-text">` + details.description + `</pre>
+							<p class="card-text">` + details.description + `</p>
 						</div>
 					</div>
 				</div>
