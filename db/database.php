@@ -208,6 +208,12 @@ abstract class DatabaseHelper
     *  @param $tokens - tokens to be matched
     */
     abstract public function getPostsFromTitle($tokens);
+
+    /**
+    *  Function that returns a list of users id whose name or username matches the one given.
+    *  @param $name - name to be searched
+    */
+    abstract public function getUsersByMatch($name);
 }
 
 /**
@@ -650,6 +656,19 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getUsersByMatch($name)
+    {
+        $query = 'SELECT U.id FROM users U WHERE U.name LIKE ? OR U.userName LIKE ? OR U.lastName LIKE ?';
+        $stmt = $this->db->prepare($query);
+        $param = "%".$name."%";
+        $stmt->bind_param("sss", $param, $param, $param);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 }
 
 /**
@@ -863,6 +882,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     public function getPostsFromTitle($tokens)
     {
         return $this->databaseHelper->getPostsFromTitle($tokens);
+    }
+
+    public function getUsersByMatch($name){
+        return $this->databaseHelper->getUsersByMatch($name);
     }
 
 }
