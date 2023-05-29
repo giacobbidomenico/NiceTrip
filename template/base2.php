@@ -11,7 +11,7 @@
 <body class="container-fluid " >
     <!-- top mobile navbar -->
     <div class="row d-block d-md-none">
-        <div class="container-fluid">
+        <div class="container-fluid p-0 overflow-hidden">
             <nav id="top-nav" class="row fixed-top bg-light">
                 <div class="col-3">
                     <a class="m-2 btn btn-light" href="<?php echo $navBarParams["profile"] ?>">

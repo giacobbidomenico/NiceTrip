@@ -3,6 +3,9 @@ window.addEventListener("load", event => {
     noImages();
 });
 
+const title_field = document.getElementById("title");
+const description_field = document.getElementById("description");
+
 const add_destination_button = document.getElementById("add-destination-button");
 const add_image_button = document.getElementById("add-image-button");
 
@@ -120,7 +123,7 @@ function newDestinationListElement(id, place) {
         <li id="destination-${lastIndex}" data-value='${id}' class="list-group-item list-group-item-action container-fluid">
             <div class="row">
                 <div data-type="content" class="row">
-                    <h5 class="mb-1">${place}</h5>
+                    <p class="fw-bold fs-7 mb-1">${place}</p>
                 </div>
                 <div class="row p-0">
                     <div class="col-12 p-0">
@@ -289,12 +292,51 @@ function addImage() {
     }
 
     images_field.value = '';
-    
     showFieldWithoutValidation(images_field);
     
 }
 
+function getDestinations() {
+    return Array.from(destinations_container.getElementsByTagName("p"))
+        .filter(item => !item.classList.contains("text-danger"))
+        .map(item => item.innerHTML);
+}
+
+function getImages() {
+    return Array.from(images_container.getElementsByTagName("img")).map(item => item.src);
+}
+
 function publish_post() {
-    alert("Hello");
     showEmptyFields(form);
+
+    if(title_field.value !== '') {
+        showFieldValid(title_field);
+        if(description_field !== '') {
+            showFieldValid(description_field);
+        } else {
+            return;
+        }
+    } else {
+        return;
+    }
+
+    const formData = new FormData();
+    
+    const destinations = getDestinations();
+    const images = getImages();
+
+    formData.append("title", title_field.value);
+    formData.append("description", description_field.value);
+
+    if(destinations.length != 0) {
+        destinations.forEach(item => formData.append("destinations[]", item));
+    }
+    
+    if(images.length != 0) {
+        images.forEach(item => formData.append("images[]", item));
+    }
+
+    axios.post('api-post-publication.php', formData).then(response => {
+        console.log(response);
+    });
 }
