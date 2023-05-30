@@ -4,7 +4,11 @@
     $postId = $_POST["postId"];
     $dbh = new checkFollowDecorator($dbh);
     $result = $dbh->getPostDetails($postId, $id);
-    
+    if($result[0]["userId"] == $_SESSION["id"]){
+        $result["ownPost"] = true;
+    } else {
+        $result["ownPost"] = false;
+    }
     echo json_encode($result);
 
 ?>
