@@ -642,10 +642,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
     public function getPostsFromTitle($tokens)
     {
-        $query = 'SELECT P.id FROM posts P WHERE P.title LIKE ? '.str_repeat("AND  P.title LIKE ?", is_array($tokens)? count($ids)-1 : 0).';';
+        $query = 'SELECT P.id FROM posts P WHERE P.title LIKE ? '.str_repeat("AND  P.title LIKE ?", is_array($tokens)? count($tokens)-1 : 0).';';
         $stmt = $this->db->prepare($query);
         if(is_array($tokens)){
-            $vars = array_map(fn($token) => "%".$token."%", $token);
+            $vars = array_map(fn($token) => "%".$token."%", $tokens);
             $stmt->bind_param(str_repeat("s", count($vars)), ...$vars);
         } else {
             $var = "%".$tokens."%";
