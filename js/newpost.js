@@ -333,7 +333,7 @@ function publish_post() {
     }
     
     if(images.length != 0) {
-        images.forEach(item => formData.append("images[]", item));
+        images.forEach(item => formData.append("images[]", new File([""], item)));
     }
 
     axios.post('api-post-publication.php', formData).then(response => {
