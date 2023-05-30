@@ -155,7 +155,7 @@ function newImageElement(src_image, file_name_image) {
         <li id="image-${lastIndex}" class="list-group-item list-group-item-action container-fluid">
             <div data-type="content"class="row">
                 <div class="col-4">
-                    <img class="img-fluid" src="${src_image}"/>
+                    <img class="img-fluid" src="${src_image}" img-name="${file_name_image}"/>
                 </div>
                 <div class="col-8">
                     <p class="fw-bold fs-7">${file_name_image}</p>
@@ -281,6 +281,7 @@ function addImage() {
         reader = new FileReader();
         reader.fileName = images_field.files[i].name;
         reader.onload = function(e) {
+            console.log(e);
             images_list.innerHTML += newImageElement(e.target.result, e.target.fileName);
             deleteListElement(images_list, images_container, noImages);
             swapUpElement(images_list);
@@ -303,7 +304,7 @@ function getDestinations() {
 }
 
 function getImages() {
-    return Array.from(images_container.getElementsByTagName("img")).map(item => item.src);
+    return Array.from(images_container.getElementsByTagName("img")).map(item => item.getAttribute("img-name"));
 }
 
 function publish_post() {
@@ -333,7 +334,7 @@ function publish_post() {
     }
     
     if(images.length != 0) {
-        images.forEach(item => formData.append("images[]", new File([""], item)));
+        images.forEach(item => formData.append("images[]", new File([item], item)));
     }
 
     axios.post('api-post-publication.php', formData).then(response => {
