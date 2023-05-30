@@ -32,7 +32,7 @@ function Post(id, editable) {
 	 */
 	this.createPostPreview = function (postDetails) {
 		this.likesNumber = postDetails.data[0].likeNumber;
-		console.log("liked: " + postDetails.data[0].liked);
+		//console.log(postDetails);
 		this.like = postDetails.data[0].liked === 1 ? true : false;
 		let scheme = `
 						<div class="row gy-4 m-3">
@@ -114,10 +114,11 @@ function Post(id, editable) {
         }
 		scheme += `</div></div></div></article></div>`;
 		document.getElementById("feed").insertAdjacentHTML("beforeend", scheme);
-		if (!this.editable) {
-			document.getElementById("p-" + postDetails.data[0].id + "-likes").addEventListener("click", event => { this.notifyLike(); });
-		} else {
+		if (this.editable) {
 			document.getElementById("p-" + this.id + "-deleteConfirm").addEventListener("click", event => { this.deletePost(); });
+		}
+		if (!postDetails.data.ownPost) {
+			document.getElementById("p-" + postDetails.data[0].id + "-likes").addEventListener("click", event => { this.notifyLike(); });
         }
 		console.log(document.getElementById("p-" + this.id + "-likes"));
 
