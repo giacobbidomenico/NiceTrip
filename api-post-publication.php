@@ -24,7 +24,7 @@ if(isset($_POST["title"]) && isset($_POST["description"])){
                 }while(file_exists($newFilePath));
 
                 if(move_uploaded_file($tmpNames[$i], $newFilePath)) {
-                    var_dump($newFilePath);
+                    $dbh->publishPost($_POST["title"], $_POST["description"], $_SESSION["id"]);
                 }
             }
         }

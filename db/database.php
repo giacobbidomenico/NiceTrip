@@ -197,7 +197,7 @@ abstract class DatabaseHelper
     */
     abstract public function getListOfCommentsId($postId);
 
-    
+    abstract public function publishPost($title, $description, $user_id);
 }
 
 /**
@@ -610,6 +610,16 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function publishPost($title, $description, $user_id) {
+        $query = 'INSERT INTO `posts`(`title`, `description`, `userId`, `time`, `date`) VALUES (?, ?, ?, CURRENT_TIME(), CURRENT_DATE())';
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bind_param('sss', $title, $description, $user_id);
+
+        return $stmt->execute();
+    }
+
 }
 
 /**
@@ -795,6 +805,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     public function getFollows($userId)
     {
         return $this->databaseHelper->getFollows($userId);
+    }
+
+    public function publishPost($title, $description, $user_id) {
+        return $this->databaseHelper->publishPost($title, $description, $user_id);
     }
 }
 ?>
