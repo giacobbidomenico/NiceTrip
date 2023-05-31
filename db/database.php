@@ -73,7 +73,7 @@ abstract class DatabaseHelper
     *  @param $userId - id of the user requesting the data
     *  @param $followerId - id of the user to get details of
     **/
-    abstract public function getPublicUserDetails($userId, $followerId);
+    abstract public function getPublicUserDetails($usersId, $followerId);
 
      /**
      * Function that returns the images of a given post.
@@ -364,14 +364,17 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
     /**
     *  Function that returns a user's public details.
-    *  @param $userId - id of the user requesting the data
+    *  @param $usersId - id of the user requesting the data
     *  @param $followerId - id of the user to get details of
-    *  @param $checkFollow - id of the user to get details of
     **/
-    public function getPublicUserDetails($userId, $followerId){
-        $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, COUNT(F.id) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = ? AND F.following = ?) WHERE U.id = ?';
+    public function getPublicUserDetails($usersId, $followerId){
+        $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, (F.id IS NOT NULL) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = ? AND F.following = U.id)  WHERE U.id IN (?'.str_repeat(", ?", is_array($usersId)? count($usersId)-1 : 0).')';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('sss', $followerId, $userId, $userId);
+        if(is_array($usersId)){
+            $stmt->bind_param(str_repeat("s", count($usersId)+1 ), $followerId, ...$usersId);
+        } else {
+            $stmt->bind_param("ss", $followerId, $usersId);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -692,12 +695,16 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     private function checkFollow($followerId, $id)
     {
-        $query = 'SELECT COUNT(F.id) FROM follows F WHERE F.follower = ? AND F.following = ?';
+        $query = 'SELECT U.id, (F.id IS NOT NULL) AS follow FROM users U LEFT OUTER JOIN follows F ON (U.id = F.following AND F.follower = ?) WHERE U.id IN  (?'.str_repeat(", ?", is_array($id)? count($id)-1 : 0).')';
         $stmt = $this->prepareStmt($query);
-        $stmt->bind_param('ss', $followerId, $id);
+        if(is_array($id)){
+            $stmt->bind_param(str_repeat("s", count($id)+1 ), $followerId, ...$id);
+        } else {
+            $stmt->bind_param("ss", $followerId, $id);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
-        return count($result->fetch_all(MYSQLI_ASSOC)) == 0? false : true;
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     private function checkFollowPost($followerId, $id)
@@ -792,10 +799,11 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return $this->databaseHelper->getUserPosts($userId);
     }
 
-    public function getPublicUserDetails($userId, $followerId)
+    public function getPublicUserDetails($usersId, $followerId)
     {
-        if($this->checkFollow($userId, $followerId)){
-            return $this->databaseHelper->getPublicUserDetails($userId, $followerId);
+        
+        if(array_reduce($this->checkFollow($followerId, $usersId), fn($carry, $value) => $carry = $value["follow"] == 0 ? false : $carry, $carry = true)){
+            return $this->databaseHelper->getPublicUserDetails($usersId, $followerId);
         }
         return [];
     }
