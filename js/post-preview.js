@@ -195,7 +195,7 @@ function Post(id, editable) {
 	 */
 	this.requestAuthorDetails = function(follow) {
 		const formData = new FormData();
-		formData.append('userId', follow);
+		formData.append('userId', JSON.stringify(follow));
 		formData.append('checkFollow', 'false');
 		axios.post('api-user-details-list.php', formData).then(response => {
 			this.setAuthorDetails(response.data);
@@ -246,4 +246,25 @@ function Post(id, editable) {
 }
 
 
+function retrieveAndShowUsers(userIds, elementId) {
+	const formData = new FormData();
+	formData.append('userId', JSON.stringify(userIds));
+	formData.append('checkFollow', false);
+	axios.post('api-user-details-list.php', formData).then(response => {
+		showUsers(response.data, elementId);
+	});
+}
 
+function showUsers(usersData, elementId) {
+	let scheme = ``;
+	for (let user of usersData) {
+		scheme += `<li class="list-group-item">
+			<div id="r-` + user.id + `" class="">
+				<img id="r-` + user.id + `-image" class="desktop-icon" src="profilePhotos/` + user.photoPath + `">
+				<a id="r-` + user.id + `-name" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=` + user.id + `">` + user.userName + `</a>
+			</div>
+		</li>`;
+	}
+	document.getElementById(elementId).insertAdjacentHTML("beforeend", scheme);
+
+}
