@@ -27,7 +27,7 @@ axios.get('api-post-id-list.php?userProfile='+userProfile).then(response => {
 //requests author's profile image and username
 const formData = new FormData();
 formData.append('userId', userProfile);
-formData.append('checkFollow', 'true');
+formData.append('checkFollow', 'false');
 axios.post('api-user-details-list.php', formData).then(response => {
     author = response;
     document.getElementById("author-image").src += response.data[0].photoPath;
@@ -104,10 +104,9 @@ function updateFeed() {
 }
 
 function addEmptyFeed() {
-    let scheme = `<article class="card mx-auto" style="width: 18rem;">
+    let scheme = `<article class="card my-3">
         <div class="card-body">
-            <h4 class="card-title">Ooopss!</h4>
-            <p class="card-text">Your feed is empty.</p>
+            <p class="card-text text-center">No posts yet.</p>
         </div>
     </article>`;
     document.getElementById("feed").innerHTML = scheme;
