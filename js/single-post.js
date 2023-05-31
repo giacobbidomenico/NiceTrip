@@ -138,7 +138,7 @@ function getComments() {
  */
 function setAuthorDetails(comment) {
 	formData.append('checkFollow', "false");
-	formData.append('userId', comment["userId"]);
+	formData.append('userId', JSON.stringify(comment["userId"]));
 	axios.post('api-user-details-list.php', formData).then(response => {
 		document.getElementById("c-" + comment.id + "-image").src += response.data[0].photoPath;
 		document.getElementById("c-" + comment.id + "-author").innerHTML = response.data[0].userName;

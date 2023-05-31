@@ -26,7 +26,7 @@ axios.get('api-post-id-list.php?userProfile='+userProfile).then(response => {
 
 //requests author's profile image and username
 const formData = new FormData();
-formData.append('userId', userProfile);
+formData.append('userId', JSON.stringify(userProfile));
 formData.append('checkFollow', 'false');
 axios.post('api-user-details-list.php', formData).then(response => {
     author = response;
