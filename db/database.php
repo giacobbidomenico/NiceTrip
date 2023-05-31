@@ -198,6 +198,7 @@ abstract class DatabaseHelper
     abstract public function getListOfCommentsId($postId);
 
     abstract public function publishPost($title, $description, $user_id);
+    abstract public function insertImage($postId, $name);
 }
 
 /**
@@ -611,11 +612,24 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
     public function publishPost($title, $description, $user_id) {
-        $query = 'INSERT INTO `posts`(`title`, `description`, `userId`, `time`, `date`) VALUES (?, ?, ?, CURRENT_TIME(), CURRENT_DATE())';
+        $query = 'INSERT INTO `posts`(`id`, `title`, `description`, `userId`, `time`, `date`) VALUES (NULL, ?, ?, ?, CURRENT_TIME(), CURRENT_DATE());';
 
         $stmt = $this->db->prepare($query);
 
         $stmt->bind_param('sss', $title, $description, $user_id);
+
+        if(!$stmt->execute()) {
+            die("Error in post publication");
+        }
+        return $stmt->insert_id;
+    }
+
+    public function insertImage($postId, $name) {
+        $query = 'INSERT INTO `images` (`id`, `postsId`, `name`) VALUES (NULL, ?, ?);';
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bind_param('ss', $postId, $name);
 
         return $stmt->execute();
     }
@@ -809,6 +823,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     public function publishPost($title, $description, $user_id) {
         return $this->databaseHelper->publishPost($title, $description, $user_id);
+    }
+
+    public function insertImage($postId, $name) {
+        return $this->databaseHelper->insertImage($postId, $name);
     }
 }
 ?>

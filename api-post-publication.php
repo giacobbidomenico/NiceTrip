@@ -15,16 +15,21 @@ if(isset($_POST["title"]) && isset($_POST["description"])){
         $fileNames = $_FILES["images"]["name"];
         $tmpNames = $_FILES["images"]["tmp_name"];
 
+
+        $postId = $dbh->publishPost($_POST["title"], $_POST["description"], $_SESSION["id"]);
+
         for($i=0; $i < count($fileNames); $i++) {
             
             $extension = strtolower(pathinfo($fileNames[$i], PATHINFO_EXTENSION));
             if(in_array($extension, $allowedTypes)) {
                 do {
-                    $newFilePath = IMAGES_DIR . random_str() . '.' .$extension;
+                    $newFileName = random_str() . '.' .$extension;
+                    $newFilePath = IMAGES_DIR . $newFileName;
                 }while(file_exists($newFilePath));
 
                 if(move_uploaded_file($tmpNames[$i], $newFilePath)) {
-                    $dbh->publishPost($_POST["title"], $_POST["description"], $_SESSION["id"]);
+                    $dbh->insertImage($postId, $newFileName);
+                    $result["post"] = $postId;
                 }
             }
         }
