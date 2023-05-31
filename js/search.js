@@ -61,6 +61,7 @@ function search() {
         usersCounter = 0;
         users.length = 0;
         userIds = response;
+        showUsersResult();
     });
 }
 
@@ -105,31 +106,17 @@ function showEmptyUserSearch() {
             <p class="card-text">No reults found.</p>
         </div>
     </article>`;
-    document.getElementById("feed").innerHTML = scheme;
+    document.getElementById("users").innerHTML = scheme;
 }
 
 function showUsersResult() {
-    let scheme = `<ul class="list-group list-group-flush overflow-y-scroll"></ul >`;
-    document.getElementById("users").innerHTML = scheme;
-    if (usersId.data.length == 0) {
+    if (userIds.data.length == 0) {
         showEmptyUserSearch();
     } else {
-        let maxId = postCounter + ADDED_PREV_PER_TIME;
-        for (let i = postCounter; i < maxId && i < postIds.data.length; i++) {
-            console.log("post Loading: " + i);
-            posts.push(new Post(postIds.data[i].id, false));
-            posts[i].requestPostDetails();
-            postCounter++;
-        }
+        let scheme = `<ul id="r-user" class="list-group list-group-flush overflow-y-scroll"></ul >`;
+        document.getElementById("users").innerHTML = scheme;
+        retrieveAndShowUsers(userIds.data.map((x) => x.id), "r-user");
     }
-    let scheme = `
-        <li class="list-group-item">
-            <div id="" class="">
-                <img id="" class="desktop-icon" src="profilePhotos/" />
-                <a id="" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href=""></a>
-		    </div>
-		</li>`;
-
 }
 
 function User(userId, elementId) {
