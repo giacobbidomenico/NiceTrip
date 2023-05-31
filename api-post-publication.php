@@ -10,17 +10,26 @@ if(isset($_POST["title"]) && isset($_POST["description"])){
         $result["ris"] = 'j';
     }
     if(isset($_FILES["images"])) {
-        $allowedTypes = ['jpeg', 'jpg', 'png'];
+        $allowedTypes = ['jpeg', 'jpg', 'png', 'gif', 'bmp' , 'pdf' , 'doc' , 'ppt'];
 
         $fileNames = $_FILES["images"]["name"];
+        $tmpNames = $_FILES["images"]["tmp_name"];
+
         for($i=0; $i < count($fileNames); $i++) {
-            $extension = pathinfo($fileNames[$i], PATHINFO_EXTENSION);
+            
+            $extension = strtolower(pathinfo($fileNames[$i], PATHINFO_EXTENSION));
             if(in_array($extension, $allowedTypes)) {
-                $result["ris"]  = 'ok';
+                do {
+                    $newFilePath = IMAGES_DIR . random_str() . '.' .$extension;
+                }while(file_exists($newFilePath));
+
+                if(move_uploaded_file($tmpNames[$i], $newFilePath)) {
+                    var_dump($newFilePath);
+                }
             }
         }
     }
-}else {
+} else {
     $result["error"] = true;
 }
 

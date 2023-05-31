@@ -23,6 +23,7 @@ const form =  document.getElementsByTagName("form")[0];
 let suggestions = [];
 let suggestionsManager;
 let lastIndex = 0;
+let dataImages = new Array();
 
 add_destination_button.addEventListener("click", event => addDestination());
 add_image_button.addEventListener("click", event => addImage());
@@ -152,7 +153,7 @@ function newDestinationListElement(id, place) {
 
 function newImageElement(src_image, file_name_image) {
     return `
-        <li id="image-${lastIndex}" class="list-group-item list-group-item-action container-fluid">
+        <li id="image-${lastIndex}" data-index="${lastIndex}" class="list-group-item list-group-item-action container-fluid">
             <div data-type="content"class="row">
                 <div class="col-4">
                     <img class="img-fluid" src="${src_image}" img-name="${file_name_image}"/>
@@ -280,6 +281,7 @@ function addImage() {
     for(let i = 0; i < images_field.files.length; i++) {
         reader = new FileReader();
         reader.fileName = images_field.files[i].name;
+        dataImages.push(new Array(lastIndex ,images_field.files[i]));
         reader.onload = function(e) {
             console.log(e);
             images_list.innerHTML += newImageElement(e.target.result, e.target.fileName);
@@ -304,7 +306,7 @@ function getDestinations() {
 }
 
 function getImages() {
-    return Array.from(images_container.getElementsByTagName("img")).map(item => item.getAttribute("img-name"));
+    return Array.from(images_container.getElementsByTagName("li")).map(item => dataImages.filter(item2 => item2[0] == item.getAttribute("data-index")));
 }
 
 function publish_post() {
@@ -334,7 +336,7 @@ function publish_post() {
     }
     
     if(images.length != 0) {
-        images.forEach(item => formData.append("images[]", new File([item], item)));
+        images.map(item => item[0][1]).forEach(item => formData.append("images[]", item));
     }
 
     axios.post('api-post-publication.php', formData).then(response => {
