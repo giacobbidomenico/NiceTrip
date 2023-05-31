@@ -1,7 +1,7 @@
 <?php
     require_once 'bootstrap.php';
     $id = $_SESSION["id"];
-    $userId = $_POST["userId"];
+    $userId = json_decode($_POST["userId"]);
     if($_POST["checkFollow"] == "true"){
         $dbh = new checkFollowDecorator($dbh);
     }
