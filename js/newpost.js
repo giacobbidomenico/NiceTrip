@@ -340,6 +340,8 @@ function publish_post() {
     }
 
     axios.post('api-post-publication.php', formData).then(response => {
-        console.log(response);
+        if(!response.data["error"]) {
+            window.location.replace("profile.php");
+        }
     });
 }

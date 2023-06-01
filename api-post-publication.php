@@ -34,6 +34,8 @@ if(isset($_POST["title"]) && isset($_POST["description"])){
                     $dbh->insertImage($postId, $newFileName);
                     $result["post"] = $postId;
                 }
+            } else {
+                $result["error"] = true;
             }
         }
     }
@@ -43,4 +45,5 @@ if(isset($_POST["title"]) && isset($_POST["description"])){
 
 header('Content-Type: application/json');
 echo json_encode($result);
+
 ?>
