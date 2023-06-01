@@ -217,7 +217,7 @@ abstract class DatabaseHelper
 
     /**
     *  Function that returns a random list of users id.
-    *  @param 
+    *  @param $number - number of rows to get
     */
     abstract public function getRandomUsersId($number);
 }
@@ -678,6 +678,18 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+
+    public function getRandomUsersId($number)
+    {
+        $query = 'SELECT U.id FROM users U ORDER BY RAND() LIMIT ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $number);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 }
 
 /**
@@ -902,5 +914,9 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return $this->databaseHelper->getUsersByMatch($name);
     }
 
+    public function getRandomUsersId($number)
+    {
+        return $this->databaseHelper->getRandomUsersId($number);
+    }
 }
 ?>
