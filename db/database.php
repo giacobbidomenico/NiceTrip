@@ -370,8 +370,8 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
     /**
     *  Function that returns a user's public details.
-    *  @param $usersId - id of the user requesting the data
-    *  @param $followerId - id of the user to get details of
+    *  @param $usersId - array of id of the users to get
+    *  @param $followerId - id of the user requesting the data
     **/
     public function getPublicUserDetails($usersId, $followerId){
         $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, (F.id IS NOT NULL) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = ? AND F.following = U.id)  WHERE U.id IN (?'.str_repeat(", ?", is_array($usersId)? count($usersId)-1 : 0).')';
