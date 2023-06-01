@@ -18,10 +18,9 @@
 	$navBarParams["newPost"] = "newPost.php";
 	$navBarParams["options"] = "";
 	$templateParams["jsVars"] = array("const postId = ".$_GET["postId"].";", "const userId = ".$_SESSION["id"].";");
-	$templateParams["js"] = array(
-		"https://unpkg.com/axios/dist/axios.min.js",
-		"js/single-post.js",
-		"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js");
+	$templateParams["js"] = array(array("https://unpkg.com/axios/dist/axios.min.js"),
+		array("js/single-post.js"),
+		array("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"));
 
 	require 'template/base2.php';
 
