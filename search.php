@@ -12,6 +12,7 @@
 
 	$templateParams["title"] = "YourProfile";
 	$templateParams["mainArticle"] = "search-template.php";
+	$templateParams["sideArticle"] = "side-users-recommend.php";
 	$navBarParams["profile"] = "";
 	$navBarParams["logOut"] = "";
 	$navBarParams["feed"] = "feed.php";
