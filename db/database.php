@@ -218,8 +218,9 @@ abstract class DatabaseHelper
     /**
     *  Function that returns a random list of users id.
     *  @param $number - number of rows to get
+    *  @param $userId - user to exclude from the list
     */
-    abstract public function getRandomUsersId($number);
+    abstract public function getRandomUsersId($number, $userId);
 }
 
 /**
@@ -679,11 +680,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
 
-    public function getRandomUsersId($number)
+    public function getRandomUsersId($number, $userId)
     {
-        $query = 'SELECT U.id FROM users U ORDER BY RAND() LIMIT ?';
+        $query = 'SELECT U.id FROM users U WHERE U.id != ? ORDER BY RAND() LIMIT ?';
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param("s", $number);
+        $stmt->bind_param("ss", $userId, $number);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -914,9 +915,9 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return $this->databaseHelper->getUsersByMatch($name);
     }
 
-    public function getRandomUsersId($number)
+    public function getRandomUsersId($number, $userId)
     {
-        return $this->databaseHelper->getRandomUsersId($number);
+        return $this->databaseHelper->getRandomUsersId($number, $userId);
     }
 }
 ?>
