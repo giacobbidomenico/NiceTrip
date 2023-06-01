@@ -6,17 +6,20 @@ require_once 'bootstrap.php';
 $result["error"] = false;
 
 if(isset($_POST["title"]) && isset($_POST["description"])){
+
+    $postId = $dbh->publishPost($_POST["title"], $_POST["description"], $_SESSION["id"]);
+
     if(isset($_POST["destinations"])) {
-        $result["ris"] = 'j';
+        $destinations = $_POST["destinations"];
+        for($i=0; $i < count($destinations); $i++) {
+            $dbh->insertDestination($destinations[$i], $postId);
+        }
     }
+
     if(isset($_FILES["images"])) {
         $allowedTypes = ['jpeg', 'jpg', 'png', 'gif', 'bmp' , 'pdf' , 'doc' , 'ppt'];
-
         $fileNames = $_FILES["images"]["name"];
         $tmpNames = $_FILES["images"]["tmp_name"];
-
-
-        $postId = $dbh->publishPost($_POST["title"], $_POST["description"], $_SESSION["id"]);
 
         for($i=0; $i < count($fileNames); $i++) {
             

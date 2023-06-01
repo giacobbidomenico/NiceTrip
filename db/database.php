@@ -199,6 +199,7 @@ abstract class DatabaseHelper
 
     abstract public function publishPost($title, $description, $user_id);
     abstract public function insertImage($postId, $name);
+    abstract public function insertDestination($description, $postId);
 }
 
 /**
@@ -634,6 +635,15 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $stmt->execute();
     }
 
+    public function insertDestination($description, $postId) {
+        $query = 'INSERT INTO `destinations`(`id`, `description`, `post_id`) VALUES (NULL, ?, ?);';
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bind_param('ss', $description, $postId);
+        
+        return $stmt->execute();
+    }
 }
 
 /**
@@ -827,6 +837,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     public function insertImage($postId, $name) {
         return $this->databaseHelper->insertImage($postId, $name);
+    }
+
+    public function insertDestination($description, $postId) {
+        return $this->databaseHelper->insertDestination($description, $postId);
     }
 }
 ?>
