@@ -11,7 +11,7 @@
 <body class="container-fluid " >
     <!-- top mobile navbar -->
     <div class="row d-block d-md-none">
-        <div class="container-fluid">
+        <div class="container-fluid p-0 overflow-hidden">
             <nav id="top-nav" class="row fixed-top bg-light">
                 <div class="col-3">
                     <a class="m-2 btn btn-light" href="<?php echo $navBarParams["profile"] ?>">
@@ -125,7 +125,7 @@
                 <section id="introduction" class="row test titleHighlight">
                     <?php 
                         if(isset($templateParams["introduction"])){
-                            require($templateParams["introduction"]);
+                            require_once $templateParams["introduction"];
                         } 
                     ?>
                 </section>
@@ -134,7 +134,7 @@
                     <div id="sideArticle" class="col-md-5 order-md-2 vh-100 sticky-md-top border-top border-light-subtle">
                     <?php 
                         if(isset($templateParams["sideArticle"])){
-                            require($templateParams["sideArticle"]);
+                            require_once $templateParams["sideArticle"];
                         } 
                     ?>
                     </div>

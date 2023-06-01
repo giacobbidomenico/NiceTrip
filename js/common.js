@@ -34,6 +34,17 @@ function verifyAccount(field, order, type, message_error) {
     });
 }
 
+
+function showFieldWithoutValidation(field) {
+    if(field.classList.contains("is-valid")) {
+        field.classList.remove("is-valid");
+    }
+
+    if(field.classList.contains("is-invalid")) {
+        field.classList.remove("is-invalid");
+    }
+}
+
 /**
  * Function that shows an error message if a form field has not been filled in and returns true, 
  * otherwise if desired, prints a success message and returns false.
@@ -62,7 +73,7 @@ function showIfEmptyField(field, valid=true) {
  *            considered form 
  */
 function showEmptyFields(completeForm) {
-    for(let item of completeForm.getElementsByTagName("input")) {
+    for(let item of completeForm. querySelectorAll("[required]")) {
         if(!item.classList.contains("is-invalid") && item.type !== 'checkbox' && item.type !== 'submit') {
             showIfEmptyField(item);
         }
@@ -149,9 +160,9 @@ function disableAllFields(completeForm) {
  * @param {*} type
  *            message type
  */
-function showMessage(message, type) {
-    const elementMessage = document.getElementById("message");
+function showMessage(elementMessage, message, type) {
     elementMessage.classList = '';
+    elementMessage.classList.add("fw-bold");
     if(type==='error') {
         elementMessage.classList.add('text-danger');
     } else {

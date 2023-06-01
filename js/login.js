@@ -45,7 +45,7 @@ function login() {
         //if the account has not been activated, it is reported to the user and the login is not carried out
         if(response.data['error'] === 'error-account-not-activated') {
             showFieldValid(password_field, '');
-            showMessage("Error, your account has not been verified", 'error');
+            showMessage(document.getElementById("message"), "Error, your account has not been verified", 'error');
         }else if(response.data['error'] === 'error-login-data' && response.data["found-users"] <= 0) {
             //In case of wrong password
             if(!showIfEmptyField(password_field, false)) {

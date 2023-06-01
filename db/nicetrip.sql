@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 25, 2023 alle 20:03
--- Versione del server: 10.4.25-MariaDB
--- Versione PHP: 8.1.10
+-- Creato il: Giu 01, 2023 alle 12:50
+-- Versione del server: 10.4.28-MariaDB
+-- Versione PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,7 +36,7 @@ CREATE TABLE `comments` (
   `time` time NOT NULL,
   `postsId` int(11) NOT NULL,
   `userId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `comments`
@@ -78,11 +78,17 @@ INSERT INTO `comments` (`id`, `description`, `date`, `time`, `postsId`, `userId`
 
 CREATE TABLE `destinations` (
   `id` int(11) NOT NULL,
-  `init-date` date NOT NULL,
-  `end-date` date NOT NULL,
-  `init-time` time NOT NULL,
-  `end-time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `description` varchar(200) NOT NULL,
+  `post_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `destinations`
+--
+
+INSERT INTO `destinations` (`id`, `description`, `post_id`) VALUES
+(13, 'Ancona, Italia', 67),
+(14, 'Cesenatico Palazzo Turism, Viale Roma 112, 47042 Cesenatico, FC, Italia', 67);
 
 -- --------------------------------------------------------
 
@@ -94,7 +100,7 @@ CREATE TABLE `follows` (
   `id` int(11) NOT NULL,
   `follower` int(11) NOT NULL,
   `following` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `follows`
@@ -113,20 +119,16 @@ INSERT INTO `follows` (`id`, `follower`, `following`) VALUES
 
 CREATE TABLE `images` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
   `postsId` int(11) NOT NULL,
-  `path` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `name` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `images`
 --
 
-INSERT INTO `images` (`id`, `name`, `postsId`, `path`) VALUES
-(1, 'primo', 5, 'genericImage.jpg'),
-(2, 'secondo.primo', 6, 'genericImage.jpg'),
-(3, 'secondo.secondo', 6, 'genericImage.jpg'),
-(4, 'secondo.terzo', 8, 'genericImage.jpg');
+INSERT INTO `images` (`id`, `postsId`, `name`) VALUES
+(28, 67, '314ac198e0bb5d94bc711904c6b554.jpg');
 
 -- --------------------------------------------------------
 
@@ -137,7 +139,7 @@ INSERT INTO `images` (`id`, `name`, `postsId`, `path`) VALUES
 CREATE TABLE `likes` (
   `userId` int(11) NOT NULL,
   `postsId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `likes`
@@ -158,7 +160,7 @@ CREATE TABLE `notifications` (
   `type` int(11) NOT NULL,
   `senderId` int(11) NOT NULL,
   `receiverId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -173,7 +175,7 @@ CREATE TABLE `posts` (
   `userId` int(11) NOT NULL,
   `time` time NOT NULL,
   `date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `posts`
@@ -193,18 +195,10 @@ INSERT INTO `posts` (`id`, `title`, `description`, `userId`, `time`, `date`) VAL
 (15, 'ottavo', 'ottavo', 5, '16:12:21', '2023-05-17'),
 (16, 'nono', 'nono', 5, '16:14:52', '2023-05-17'),
 (17, 'decimo', 'decimo', 5, '16:12:21', '2023-05-17'),
-(18, 'undicesiomo', 'undicesiomo', 5, '16:14:52', '2023-05-16');
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `trips`
---
-
-CREATE TABLE `trips` (
-  `postsId` int(11) NOT NULL,
-  `destinationsId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+(18, 'undicesiomo', 'undicesiomo', 5, '16:14:52', '2023-05-16'),
+(46, 'ferkgvpo', 'mvlemrgvermgv', 3, '24:05:22', '2023-05-16'),
+(66, 'gropkgoprekogpkoprk', 'kfeokowpkgorkopkgoprwk', 3, '12:27:57', '2023-06-01'),
+(67, 'jiojirjigjreoigjiojgiojre', 'jiweojfiowjeiojifojweojfi', 3, '12:33:45', '2023-06-01');
 
 -- --------------------------------------------------------
 
@@ -222,7 +216,7 @@ CREATE TABLE `users` (
   `activation_code` varchar(30) DEFAULT NULL,
   `cookie` varchar(30) NOT NULL,
   `photoPath` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `users`
@@ -245,16 +239,7 @@ CREATE TABLE `visualizations` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `postId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `visualizations`
---
-
-INSERT INTO `visualizations` (`id`, `userId`, `postId`) VALUES
-(354, 3, 6),
-(355, 3, 7),
-(356, 3, 8);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indici per le tabelle scaricate
@@ -272,7 +257,8 @@ ALTER TABLE `comments`
 -- Indici per le tabelle `destinations`
 --
 ALTER TABLE `destinations`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `post_id` (`post_id`);
 
 --
 -- Indici per le tabelle `follows`
@@ -313,13 +299,6 @@ ALTER TABLE `posts`
   ADD KEY `userId` (`userId`);
 
 --
--- Indici per le tabelle `trips`
---
-ALTER TABLE `trips`
-  ADD PRIMARY KEY (`postsId`,`destinationsId`),
-  ADD KEY `destinationsId` (`destinationsId`);
-
---
 -- Indici per le tabelle `users`
 --
 ALTER TABLE `users`
@@ -349,7 +328,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT per la tabella `destinations`
 --
 ALTER TABLE `destinations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT per la tabella `follows`
@@ -361,7 +340,7 @@ ALTER TABLE `follows`
 -- AUTO_INCREMENT per la tabella `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT per la tabella `notifications`
@@ -373,7 +352,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT per la tabella `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
@@ -397,6 +376,12 @@ ALTER TABLE `visualizations`
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`postsId`) REFERENCES `posts` (`id`),
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+
+--
+-- Limiti per la tabella `destinations`
+--
+ALTER TABLE `destinations`
+  ADD CONSTRAINT `destinations_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`);
 
 --
 -- Limiti per la tabella `follows`
@@ -430,13 +415,6 @@ ALTER TABLE `notifications`
 --
 ALTER TABLE `posts`
   ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
-
---
--- Limiti per la tabella `trips`
---
-ALTER TABLE `trips`
-  ADD CONSTRAINT `trips_ibfk_1` FOREIGN KEY (`destinationsId`) REFERENCES `destinations` (`id`),
-  ADD CONSTRAINT `trips_ibfk_2` FOREIGN KEY (`postsId`) REFERENCES `posts` (`id`);
 
 --
 -- Limiti per la tabella `visualizations`

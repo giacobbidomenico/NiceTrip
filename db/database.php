@@ -221,6 +221,9 @@ abstract class DatabaseHelper
     *  @param $userId - user to exclude from the list
     */
     abstract public function getRandomUsersId($number, $userId);
+    abstract public function publishPost($title, $description, $user_id);
+    abstract public function insertImage($postId, $name);
+    abstract public function insertDestination($description, $postId);
 }
 
 /**
@@ -666,6 +669,39 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+    public function publishPost($title, $description, $user_id) {
+        $query = 'INSERT INTO `posts`(`id`, `title`, `description`, `userId`, `time`, `date`) VALUES (NULL, ?, ?, ?, CURRENT_TIME(), CURRENT_DATE());';
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bind_param('sss', $title, $description, $user_id);
+
+        if(!$stmt->execute()) {
+            die("Error in post publication");
+        }
+        return $stmt->insert_id;
+    }
+
+    public function insertImage($postId, $name) {
+        $query = 'INSERT INTO `images` (`id`, `postsId`, `name`) VALUES (NULL, ?, ?);';
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bind_param('ss', $postId, $name);
+
+        return $stmt->execute();
+    }
+
+    public function insertDestination($description, $postId) {
+        $query = 'INSERT INTO `destinations`(`id`, `description`, `post_id`) VALUES (NULL, ?, ?);';
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bind_param('ss', $description, $postId);
+        
+        return $stmt->execute();
+    }
+
 
     public function getUsersByMatch($name)
     {
@@ -918,6 +954,18 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     public function getRandomUsersId($number, $userId)
     {
         return $this->databaseHelper->getRandomUsersId($number, $userId);
+    }
+
+    public function publishPost($title, $description, $user_id) {
+        return $this->databaseHelper->publishPost($title, $description, $user_id);
+    }
+
+    public function insertImage($postId, $name) {
+        return $this->databaseHelper->insertImage($postId, $name);
+    }
+
+    public function insertDestination($description, $postId) {
+        return $this->databaseHelper->insertDestination($description, $postId);
     }
 }
 ?>
