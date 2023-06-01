@@ -214,6 +214,12 @@ abstract class DatabaseHelper
     *  @param $name - name to be searched
     */
     abstract public function getUsersByMatch($name);
+
+    /**
+    *  Function that returns a random list of users id.
+    *  @param 
+    */
+    abstract public function getRandomUsersId($number);
 }
 
 /**
