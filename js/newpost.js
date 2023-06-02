@@ -336,7 +336,12 @@ function publish_post() {
     }
     
     if(images.length != 0) {
-        images.map(item => item[0][1]).forEach(item => formData.append("images[]", item));
+        for(let i=0; i < images.length; i++) {
+            for(let j=0; j < images.length; j++) {
+                formdata.append("images[]", images[i][j]);
+            }
+        }
+        //images.map(item => item[0][1]).forEach(item => formData.append("images[]", item));
     }
 
     axios.post('api-post-publication.php', formData).then(response => {
