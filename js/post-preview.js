@@ -146,7 +146,7 @@ function Post(id, editable) {
 		for (let i = 0; i < images.length; i++) {
 			scheme += `
 				<div class="carousel-item ` + (i === 0 ? "active" : "") + `">
-					<img id="image" src="img/` + images[0].name + `" class="d-block w-100" alt="" />
+					<img id="image" src="img/` + images[i].name + `" class="d-block w-100" alt="" />
 				</div>`;
 		}
 

@@ -281,7 +281,7 @@ function addImage() {
     for(let i = 0; i < images_field.files.length; i++) {
         reader = new FileReader();
         reader.fileName = images_field.files[i].name;
-        dataImages.push(new Array(lastIndex ,images_field.files[i]));
+        dataImages.push(images_field.files[i]);
         reader.onload = function(e) {
             console.log(e);
             images_list.innerHTML += newImageElement(e.target.result, e.target.fileName);
@@ -306,7 +306,9 @@ function getDestinations() {
 }
 
 function getImages() {
-    return Array.from(images_container.getElementsByTagName("li")).map(item => dataImages.filter(item2 => item2[0] == item.getAttribute("data-index")));
+    const images_index = Array.from(images_container.getElementsByTagName("li")).map(item=>item.getAttribute("data-index"))
+    return images_index.map(item => dataImages[item]);
+    //return Array.from(images_container.getElementsByTagName("li")).map(item => dataImages.filter(item2 => item2[0] == item.getAttribute("data-index")));
 }
 
 function publish_post() {
@@ -338,11 +340,8 @@ function publish_post() {
 
     if(images.length != 0) {
         for(let i=0; i < images.length; i++) {
-            for(let j=0; j < images.length; j++) {
-                formdata.append("images[]", images[i][j]);
-            }
+            formData.append("images[]", images[i]);
         }
-        //images.map(item => item[0][1]).forEach(item => formData.append("images[]", item));
     }
 
     axios.post('api-post-publication.php', formData).then(response => {
