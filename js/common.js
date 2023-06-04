@@ -73,7 +73,7 @@ function showIfEmptyField(field, valid=true) {
  *            considered form 
  */
 function showEmptyFields(completeForm) {
-    for(let item of completeForm. querySelectorAll("[required]")) {
+    for(let item of completeForm.querySelectorAll("[required]")) {
         if(!item.classList.contains("is-invalid") && item.type !== 'checkbox' && item.type !== 'submit') {
             showIfEmptyField(item);
         }

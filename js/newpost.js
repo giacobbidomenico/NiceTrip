@@ -313,13 +313,14 @@ function publish_post() {
     showEmptyFields(form);
 
     if(title_field.value !== '') {
-        showFieldValid(title_field);
-        if(description_field !== '') {
-            showFieldValid(description_field);
-        } else {
-            return;
-        }
-    } else {
+        showFieldWithoutValidation(title_field);
+    }
+
+    if(description_field.value !== '') {
+        showFieldWithoutValidation(description_field);
+    }
+
+    if(title_field.value === '' || description_field.value === '') {
         return;
     }
 
@@ -334,7 +335,7 @@ function publish_post() {
     if(destinations.length != 0) {
         destinations.forEach(item => formData.append("destinations[]", item));
     }
-    
+
     if(images.length != 0) {
         for(let i=0; i < images.length; i++) {
             for(let j=0; j < images.length; j++) {

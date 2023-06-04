@@ -8,7 +8,7 @@
 
     <div class="row mt-2">
         <label class="fw-bold fs-4 mb-1 text-primary" for="description">Description:</label>
-        <textarea class="form-control" id="description" name="description" style="height: 100px" required></textarea>
+        <textarea class="form-control" id="description" name="description" style="height: 100px" rows=11 cols=50 maxlength=250 required></textarea>
         <div class="invalid-feedback"></div>
     </div>
 
