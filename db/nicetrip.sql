@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Giu 01, 2023 alle 12:50
+-- Creato il: Giu 09, 2023 alle 18:51
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -38,38 +38,6 @@ CREATE TABLE `comments` (
   `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dump dei dati per la tabella `comments`
---
-
-INSERT INTO `comments` (`id`, `description`, `date`, `time`, `postsId`, `userId`) VALUES
-(1, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
-(2, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(3, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(4, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
-(5, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(6, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
-(7, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(8, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(9, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
-(10, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(11, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
-(12, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(13, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(14, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
-(15, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(16, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
-(17, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(18, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(19, 'Terzo comments second\'s post', '2023-05-10', '16:55:08', 6, 6),
-(20, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(21, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(22, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(23, 'Seven comment\'s sixth post, second\'s post', '2023-05-11', '12:02:10', 6, 7),
-(24, 'SES', '2020-12-05', '12:14:22', 6, 3),
-(25, 'SES', '2020-12-05', '12:14:22', 6, 3),
-(26, 'SES', '2020-12-05', '12:14:22', 6, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -87,8 +55,7 @@ CREATE TABLE `destinations` (
 --
 
 INSERT INTO `destinations` (`id`, `description`, `post_id`) VALUES
-(13, 'Ancona, Italia', 67),
-(14, 'Cesenatico Palazzo Turism, Viale Roma 112, 47042 Cesenatico, FC, Italia', 67);
+(30, 'Ancona, Ancona, Italia', 123);
 
 -- --------------------------------------------------------
 
@@ -107,9 +74,7 @@ CREATE TABLE `follows` (
 --
 
 INSERT INTO `follows` (`id`, `follower`, `following`) VALUES
-(15, 3, 5),
-(6, 6, 5),
-(7, 7, 5);
+(16, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -128,7 +93,11 @@ CREATE TABLE `images` (
 --
 
 INSERT INTO `images` (`id`, `postsId`, `name`) VALUES
-(28, 67, '314ac198e0bb5d94bc711904c6b554.jpg');
+(100, 122, 'e45f504a51a3d57fbebc96a080f407.png'),
+(101, 122, 'ffcf863c30a21f2b1aa79571397cca.png'),
+(102, 122, '546b3e657034ab05ba0af966bd1e33.png'),
+(103, 122, 'dded5289e0a72f698a34d0d9bfa151.png'),
+(104, 122, 'b9e1ea1df8d9594eb2d5c8dc59bbdf.png');
 
 -- --------------------------------------------------------
 
@@ -146,8 +115,7 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`userId`, `postsId`) VALUES
-(3, 6),
-(5, 6);
+(3, 124);
 
 -- --------------------------------------------------------
 
@@ -182,23 +150,9 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`id`, `title`, `description`, `userId`, `time`, `date`) VALUES
-(5, 'primo', 'primo', 3, '16:11:59', '2023-05-10'),
-(6, 'secondo', 'secondo', 5, '16:12:21', '2023-05-10'),
-(7, 'secondo.primo', 'secondo.primo', 5, '16:14:52', '2023-05-09'),
-(8, 'secondo.secondo', 'secondo.secondo', 5, '16:12:21', '2023-05-16'),
-(9, 'secondo.terzo', 'secondo.terzo', 5, '16:14:52', '2023-05-16'),
-(10, 'terzo', 'terzo', 5, '16:12:21', '2023-05-17'),
-(11, 'quarto', 'quarto', 5, '16:14:52', '2023-05-17'),
-(12, 'quinto', 'quinto', 5, '16:12:21', '2023-05-17'),
-(13, 'sesto', 'sesto', 5, '16:14:52', '2023-05-16'),
-(14, 'settimo', 'settimo', 5, '16:14:52', '2023-05-16'),
-(15, 'ottavo', 'ottavo', 5, '16:12:21', '2023-05-17'),
-(16, 'nono', 'nono', 5, '16:14:52', '2023-05-17'),
-(17, 'decimo', 'decimo', 5, '16:12:21', '2023-05-17'),
-(18, 'undicesiomo', 'undicesiomo', 5, '16:14:52', '2023-05-16'),
-(46, 'ferkgvpo', 'mvlemrgvermgv', 3, '24:05:22', '2023-05-16'),
-(66, 'gropkgoprekogpkoprk', 'kfeokowpkgorkopkgoprwk', 3, '12:27:57', '2023-06-01'),
-(67, 'jiojirjigjreoigjiojgiojre', 'jiweojfiowjeiojifojweojfi', 3, '12:33:45', '2023-06-01');
+(122, 'fjiedsnb', 'fiorebniore', 3, '11:39:01', '2023-06-09'),
+(123, 'fiernigrengiorngerger', 'gerrerreoirrrrnirfeignireognrei', 3, '18:01:45', '2023-06-09'),
+(124, 'vnroingvo', 'nvrejngbogno', 5, '18:14:04', '2023-06-09');
 
 -- --------------------------------------------------------
 
@@ -240,6 +194,13 @@ CREATE TABLE `visualizations` (
   `userId` int(11) NOT NULL,
   `postId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `visualizations`
+--
+
+INSERT INTO `visualizations` (`id`, `userId`, `postId`) VALUES
+(370, 3, 124);
 
 --
 -- Indici per le tabelle scaricate
@@ -322,25 +283,25 @@ ALTER TABLE `visualizations`
 -- AUTO_INCREMENT per la tabella `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT per la tabella `destinations`
 --
 ALTER TABLE `destinations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT per la tabella `follows`
 --
 ALTER TABLE `follows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT per la tabella `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT per la tabella `notifications`
@@ -352,7 +313,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT per la tabella `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
@@ -364,7 +325,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `visualizations`
 --
 ALTER TABLE `visualizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=357;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=371;
 
 --
 -- Limiti per le tabelle scaricate

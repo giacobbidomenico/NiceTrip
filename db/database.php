@@ -225,6 +225,7 @@ abstract class DatabaseHelper
     abstract public function insertImage($postId, $name);
     abstract public function insertDestination($description, $postId);
     abstract public function insertNotification($type, $senderId, $receiverId);
+    abstract public function insertLikeNotification($user_id);
 }
 
 /**
@@ -338,13 +339,14 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt->execute();
         $result = $stmt->get_result();
         $match = $result->fetch_all(MYSQLI_ASSOC);
+        
         if(isset($match[0]["password"])) {
             if(!password_verify($password, $match[0]["password"])) {
                 return array();
             }
         }
 
-        return $match;   
+        return $match;
     }
 
     /**
@@ -739,6 +741,14 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $stmt->execute();
     }
 
+    public function insertLikeNotification($userId) {
+        $followers = $this->getFollowers($userId);
+        for($i=0; $i < count($followers); $i++) {
+            var_dump($followers[$i]["id"]);
+            //$this->insertNotification("like", $user_id, $followers[$i]["id"]);
+        }
+    }
+
 }
 
 /**
@@ -982,6 +992,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     public function insertNotification($type, $senderId, $receiverId) {
         return $this->databaseHelper->insertNotification($type, $senderId, $receiverId);
+    }
+
+    public function insertLikeNotification($user_id) {
+        return $this->databaseHelper->insertLikeNotification($user_id);
     }
 }
 ?>
