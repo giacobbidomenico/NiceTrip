@@ -27,7 +27,7 @@
 					<?php 
 						foreach($postImages as $image){
 							echo '<div class="carousel-item '.($image === $postImages[0]?"active":"").'">
-								<img id="image" src="img/'.$image["path"].'" class="d-block w-100" alt="">
+								<img id="image" src="img/'.$image["name"].'" class="d-block w-100" alt="">
 							</div>';
 						}
 					?>
