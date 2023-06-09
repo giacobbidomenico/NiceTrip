@@ -224,6 +224,7 @@ abstract class DatabaseHelper
     abstract public function publishPost($title, $description, $user_id);
     abstract public function insertImage($postId, $name);
     abstract public function insertDestination($description, $postId);
+    abstract public function insertNotification($type, $senderId, $receiverId);
 }
 
 /**
@@ -727,6 +728,17 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    
+    public function insertNotification($type, $senderId, $receiverId) {
+        $query = 'INSERT INTO `notifications`(`id`, `type`, `senderId`, `receiverId`) VALUES (NULL, ?,?,?);';
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bind_param('sss', $type, $senderId, $receiverId);
+        
+        return $stmt->execute();
+    }
+
 }
 
 /**
@@ -966,6 +978,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     public function insertDestination($description, $postId) {
         return $this->databaseHelper->insertDestination($description, $postId);
+    }
+
+    public function insertNotification($type, $senderId, $receiverId) {
+        return $this->databaseHelper->insertNotification($type, $senderId, $receiverId);
     }
 }
 ?>
