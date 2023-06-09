@@ -225,7 +225,7 @@ abstract class DatabaseHelper
     abstract public function insertImage($postId, $name);
     abstract public function insertDestination($description, $postId);
     abstract public function insertNotification($type, $senderId, $receiverId);
-    abstract public function insertLikeNotification($user_id);
+    abstract public function insertLikeNotification($postId, $userId);
 }
 
 /**
@@ -741,12 +741,9 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $stmt->execute();
     }
 
-    public function insertLikeNotification($userId) {
-        $followers = $this->getFollowers($userId);
-        for($i=0; $i < count($followers); $i++) {
-            var_dump($followers[$i]["id"]);
-            //$this->insertNotification("like", $user_id, $followers[$i]["id"]);
-        }
+    public function insertLikeNotification($postId, $userId) {
+        $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
+        $this->insertNotification("like", $userId, $receiverId);
     }
 
 }
@@ -994,8 +991,8 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return $this->databaseHelper->insertNotification($type, $senderId, $receiverId);
     }
 
-    public function insertLikeNotification($user_id) {
-        return $this->databaseHelper->insertLikeNotification($user_id);
+    public function insertLikeNotification($postId, $userId) {
+        return $this->databaseHelper->insertLikeNotification($postId, $userId);
     }
 }
 ?>
