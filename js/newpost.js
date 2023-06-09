@@ -18,11 +18,13 @@ const destination_suggests = document.getElementById("destinations-suggests");
 const images_container = document.getElementById("images-container");
 
 const post_submit = document.getElementById("post-submit");
+const loading_icon = document.getElementById("loading-icon");
 const form =  document.getElementsByTagName("form")[0];
 
 let suggestions = [];
 let suggestionsManager;
 let lastIndex = 0;
+let lastImage = -1;
 let dataImages = new Array();
 
 add_destination_button.addEventListener("click", event => addDestination());
@@ -152,11 +154,12 @@ function newDestinationListElement(id, place) {
 }
 
 function newImageElement(src_image, file_name_image) {
+    lastImage++;
     return `
-        <li id="image-${lastIndex}" data-index="${lastIndex}" class="list-group-item list-group-item-action container-fluid">
+        <li id="image-${lastIndex}" class="list-group-item list-group-item-action container-fluid">
             <div data-type="content"class="row">
                 <div class="col-4">
-                    <img class="img-fluid" src="${src_image}" img-name="${file_name_image}"/>
+                    <img class="img-fluid" src="${src_image}" img-name="${file_name_image}" data-index="${lastImage}"/>
                 </div>
                 <div class="col-8">
                     <p class="fw-bold fs-7">${file_name_image}</p>
@@ -306,7 +309,7 @@ function getDestinations() {
 }
 
 function getImages() {
-    const images_index = Array.from(images_container.getElementsByTagName("li")).map(item=>item.getAttribute("data-index"))
+    const images_index = Array.from(images_container.getElementsByTagName("img")).map(item=>item.getAttribute("data-index"))
     return images_index.map(item => dataImages[item]);
     //return Array.from(images_container.getElementsByTagName("li")).map(item => dataImages.filter(item2 => item2[0] == item.getAttribute("data-index")));
 }
@@ -326,8 +329,14 @@ function publish_post() {
         return;
     }
 
+
+    post_submit.disabled = true;
+    loading_icon.hidden = false;
+
+
     const formData = new FormData();
-    
+
+
     const destinations = getDestinations();
     const images = getImages();
 
@@ -347,6 +356,8 @@ function publish_post() {
     axios.post('api-post-publication.php', formData).then(response => {
         if(!response.data["error"]) {
             window.location.replace("profile.php");
+            post_submit.disabled = true;
+            loading_icon.hidden = true;
         }
     });
 }

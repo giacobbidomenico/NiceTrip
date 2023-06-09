@@ -54,8 +54,11 @@
         </div>
     </div>
     
-    <div class="row mt-5">
-        <div class="col-9"></div>
+    <div class="row mt-5 mb-5">
+        <div class="col-7"></div>
+        <div class="col-2">
+            <img id="loading-icon" class="img-fluid" src="<?php echo UPLOAD_DIR."loading.gif";?>" hidden/>
+        </div>
         <div class="col-3 d-grid pe-1 float-end">
             <input class="btn btn-primary btn-lg" type="submit" value="Post" name="post-submit" id="post-submit" required/>
         </div>
