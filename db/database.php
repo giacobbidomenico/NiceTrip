@@ -224,7 +224,7 @@ abstract class DatabaseHelper
     abstract public function publishPost($title, $description, $user_id);
     abstract public function insertImage($postId, $name);
     abstract public function insertDestination($description, $postId);
-    abstract public function insertNotification($type, $senderId, $receiverId);
+    abstract public function insertNotification($type, $senderId, $receiverId, $postId);
     abstract public function insertLikeNotification($postId, $userId);
 }
 
@@ -731,19 +731,24 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
     
-    public function insertNotification($type, $senderId, $receiverId) {
-        $query = 'INSERT INTO `notifications`(`id`, `type`, `senderId`, `receiverId`) VALUES (NULL, ?,?,?);';
+    public function insertNotification($type, $senderId, $receiverId, $postId = NULL) {
+        $query = 'INSERT INTO `notifications`(`id`, `type`, `senderId`, `receiverId`, `postId`) VALUES (NULL,?,?,?,?)';
 
         $stmt = $this->db->prepare($query);
 
-        $stmt->bind_param('sss', $type, $senderId, $receiverId);
+        $stmt->bind_param('ssss', $type, $senderId, $receiverId, $postId);
         
         return $stmt->execute();
     }
 
     public function insertLikeNotification($postId, $userId) {
         $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
-        $this->insertNotification("like", $userId, $receiverId);
+        $this->insertNotification(1, $userId, $receiverId, $postId);
+    }
+
+    public function insertCommentNotification($postId, $userId) {
+        $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
+        $this->insertNotification(2, $userId, $receiverId, $postId);
     }
 
 }
@@ -987,12 +992,16 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return $this->databaseHelper->insertDestination($description, $postId);
     }
 
-    public function insertNotification($type, $senderId, $receiverId) {
-        return $this->databaseHelper->insertNotification($type, $senderId, $receiverId);
+    public function insertNotification($type, $senderId, $receiverId, $postId) {
+        return $this->databaseHelper->insertNotification($type, $senderId, $receiverId, $postId);
     }
 
     public function insertLikeNotification($postId, $userId) {
         return $this->databaseHelper->insertLikeNotification($postId, $userId);
+    }
+
+    public function insertCommentNotification($postId, $userId) {
+        return $this->databaseHelper->insertCommentNotification($postId, $userId);
     }
 }
 ?>

@@ -6,6 +6,7 @@
 	    case 'push':
             $postId = $_POST["postId"];
             $result = $dbh->setComment($postId, $id, date("Y-m-d"), date("H:i:s"), $_POST["description"]);
+            $dbh->insertCommentNotification($postId, $id);
 		    break;
 	    case 'remove':
             $commentId = $_POST["commentId"];
@@ -21,6 +22,7 @@
 		    break;
     }
 
+    header('Content-Type: application/json');
     echo json_encode($result);
 
 ?>
