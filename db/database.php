@@ -239,7 +239,7 @@ abstract class DatabaseHelper
     *  @param $userId - id of the user to update
     *  @param $newEmail - new email to update
     */
-    //abstract public function editUserEmail($userId, $newEmail);
+    abstract public function editUserEmail($userId, $newEmail);
 
     /**
     *  Functino that updates the password of a given user
@@ -789,6 +789,16 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function editUserEmail($userId, $newEmail){
+        $query = 'UPDATE `users` SET `email` = ? WHERE `users`.`id` = ?;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ss", $newEmail, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 }
 
 /**
@@ -1045,5 +1055,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     public function editUserName($userId, $newUserName){
         return $this->databaseHelper->editUserName($userId, $newUserName);
     }
+
+    public function editUserEmail($userId, $newEmail){
+        return $this->databaseHelper->editUserEmail($userId, $newEmail);
+    }
+
 }
 ?>
