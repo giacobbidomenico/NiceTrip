@@ -226,6 +226,7 @@ abstract class DatabaseHelper
     abstract public function insertDestination($description, $postId);
     abstract public function insertNotification($type, $senderId, $receiverId, $postId);
     abstract public function insertLikeNotification($postId, $userId);
+    abstract public function insertFollowNotification($senderId, $receiverId);
 }
 
 /**
@@ -751,6 +752,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $this->insertNotification(2, $userId, $receiverId, $postId);
     }
 
+    
+    public function insertFollowNotification($senderId, $receiverId) {
+        $this->insertNotification(3, $senderId, $receiverId);
+    }
 }
 
 /**
@@ -1002,6 +1007,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     public function insertCommentNotification($postId, $userId) {
         return $this->databaseHelper->insertCommentNotification($postId, $userId);
+    }
+
+    public function insertFollowNotification($senderId, $receiverId) {
+        return $this->databaseHelper->insertFollowNotification($postId, $receiverId);
     }
 }
 ?>

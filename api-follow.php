@@ -2,8 +2,13 @@
     require_once 'bootstrap.php';
     $id = $_SESSION["id"];
     $userId = $_POST["userId"];
+
     $result = $dbh->changeFollowState($id, $userId, $_POST["register"] == "true" ? true : false);
     
-    echo json_encode($result);
+    if($_POST["register"] == 'true') {
+        $dbh->insertFollowNotification($id, $userId);
+    }
 
+    header('Content-Type: application/json');
+    echo json_encode($result);
 ?>
