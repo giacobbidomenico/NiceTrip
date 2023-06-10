@@ -411,7 +411,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     *  @param $followerId - id of the user requesting the data
     **/
     public function getPublicUserDetails($usersId, $followerId){
-        $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, (F.id IS NOT NULL) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = ? AND F.following = U.id)  WHERE U.id IN (?'.str_repeat(", ?", is_array($usersId)? count($usersId)-1 : 0).')';
+        $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, U.email, (F.id IS NOT NULL) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = ? AND F.following = U.id)  WHERE U.id IN (?'.str_repeat(", ?", is_array($usersId)? count($usersId)-1 : 0).')';
         $stmt = $this->db->prepare($query);
         if(is_array($usersId)){
             $stmt->bind_param(str_repeat("s", count($usersId)+1 ), $followerId, ...$usersId);
