@@ -422,11 +422,19 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
     public function deletePost($postId){
-        $query = 'DELETE FROM `posts` WHERE `posts`.`id` = ?;';
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $postId);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $queries = ['DELETE FROM likes WHERE `likes`.`postsId` = ?;',
+        'DELETE FROM images WHERE `images`.`postsId` = ?;',
+        'DELETE FROM comments WHERE `comments`.`postsId` = ?;',
+        'DELETE FROM destinations WHERE `destinations`.`post_Id` = ?;',
+        'DELETE FROM visualizations WHERE `visualizations`.`postId` = ?;',
+        'DELETE FROM `posts` WHERE `posts`.`id` = ?;'];
+        $result = [];
+        foreach ($queries as $query){
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $postId);
+            $stmt->execute();
+            array_push($result, $stmt->errno);
+        }
         return $result;
     }
 
