@@ -10,18 +10,18 @@
             <?php if($notifications[$i]["type"]=== 1): ?>
                 <img class="img-fluid" src="<?php echo UPLOAD_DIR.'like-icon.png';?>"/>
             <?php elseif($notifications[$i]["type"] === 2): ?>
-                <img class="img-fluid" src="<?php echo UPLOAD_DIR.'comment-icon.png';?>"/>?>
+                <img class="img-fluid" src="<?php echo UPLOAD_DIR.'comment-icon.png';?>"/>
             <?php elseif($notifications[$i]["type"] === 3): ?>
                 <img class="img-fluid" src="<?php echo UPLOAD_DIR.'follow-icon.png';?>"/>
             <?php endif;?>
         </div>
         <div class="col-10">
             <?php if($notifications[$i]["type"]=== 1): ?>
-                <p class="fs-5"><span class="fw-bold">john</span> liked <a href="">your post</a></p>
+                <p class="fs-5"><span class="fw-bold"><?php echo $notifications[$i]["userName"]; ?></span> liked <a href="<?php echo 'single-post.php?postId='.$notifications[$i]["postId"]; ?>">your post</a></p>
             <?php elseif($notifications[$i]["type"] === 2): ?>
-                <p class="fs-5"><span class="fw-bold">john</span> commented on <a href="<?php echo $notifications[$i][""] ?>">your post</a></p>
+                <p class="fs-5"><span class="fw-bold"><?php echo $notifications[$i]["userName"]; ?></span> commented on <a href="<?php echo 'single-post.php?postId='.$notifications[$i]['postId']; ?>">your post</a></p>
             <?php elseif($notifications[$i]["type"] === 3): ?>
-                <p class="fs-5"><span class="fw-bold">john</span> started following you</p>
+                <p class="fs-5"><span class="fw-bold"><?php echo $notifications[$i]["userName"]; ?></span> started following you</p>
             <?php endif;?>
         </div>
     </div>
