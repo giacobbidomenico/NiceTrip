@@ -95,7 +95,7 @@ class MailManager {
      * @param $notification
      *         notification
      */
-    public function sendNotification($username, $message, $link) {
+    public function sendNotification($userName, $message, $link) {
         $this->mail->IsHTML(true);
 
         $message = "
@@ -105,14 +105,14 @@ class MailManager {
                 </head>
                 <body>
                     <p>NiceTrip - share your travels</p>
-                    <p class='fs-5'><span class='fw-bold'><?php echo $username;?></span><?php echo $message;?><a href='<?php echo $link; ?>'>your post</a></p>
+                    <p class='fs-5'><span class='fw-bold'><?php echo $userName;?></span><?php echo $message;?><a href='<?php echo $link; ?>'>your post</a></p>
                 </body>
             </html>
         ";
 
         $textMessage = "
             NiceTrip - share your travels
-            <?php echo $username;?><?php echo $message;?>your post
+            <?php echo $userName;?><?php echo $message;?>your post
         ";
 
         $this->mail->Subject = 'NiceTrip';
