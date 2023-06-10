@@ -239,21 +239,21 @@ abstract class DatabaseHelper
     *  @param $userId - id of the user to update
     *  @param $newEmail - new email to update
     */
-    abstract public function editUserEmail($userId, $newEmail);
+    //abstract public function editUserEmail($userId, $newEmail);
 
     /**
     *  Functino that updates the password of a given user
     *  @param $userId - id of the user to update
     *  @param $newPassword - new passord
     */
-    abstract public function editUserPassword($userId, $newPassword);
+    //abstract public function editUserPassword($userId, $newPassword);
     
     /**
     *  Functino that updates the profile image of a given user
     *  @param $userId - id of the user to update
     *  @param $imageName - name of the new image
     */
-    abstract public function editUserImageProfile($userId, $imageName);
+    //abstract public function editUserImageProfile($userId, $imageName);
 }
 
 /**
@@ -779,6 +779,16 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $this->insertNotification(2, $userId, $receiverId, $postId);
     }
 
+    public function editUserName($userId, $newUserName){
+        $query = 'UPDATE `users` SET `userName` = ? WHERE `users`.`id` = ?;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ss", $newUserName, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 }
 
 /**
@@ -1030,6 +1040,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     public function insertCommentNotification($postId, $userId) {
         return $this->databaseHelper->insertCommentNotification($postId, $userId);
+    }
+
+    public function editUserName($userId, $newUserName){
+        return $this->databaseHelper->editUserName($userId, $newUserName);
     }
 }
 ?>
