@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Giu 09, 2023 alle 18:51
+-- Creato il: Giu 10, 2023 alle 11:50
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -37,6 +37,18 @@ CREATE TABLE `comments` (
   `postsId` int(11) NOT NULL,
   `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `comments`
+--
+
+INSERT INTO `comments` (`id`, `description`, `date`, `time`, `postsId`, `userId`) VALUES
+(29, 'fjirpednjvigprjnwpvgnjwr', '2023-06-10', '10:27:01', 125, 3),
+(30, 'fjirpednjvigprjnwpvgnjwr', '2023-06-10', '10:27:04', 125, 3),
+(31, 'fjirpednjvigprjnwpvgnjwr', '2023-06-10', '10:27:05', 125, 3),
+(32, 'fjirpednjvigprjnwpvgnjwr', '2023-06-10', '10:27:07', 125, 3),
+(33, 'copdvmpfdm', '2023-06-10', '11:01:07', 124, 3),
+(34, 'fersvbgrevgrevgre', '2023-06-10', '11:43:15', 125, 5);
 
 -- --------------------------------------------------------
 
@@ -97,7 +109,9 @@ INSERT INTO `images` (`id`, `postsId`, `name`) VALUES
 (101, 122, 'ffcf863c30a21f2b1aa79571397cca.png'),
 (102, 122, '546b3e657034ab05ba0af966bd1e33.png'),
 (103, 122, 'dded5289e0a72f698a34d0d9bfa151.png'),
-(104, 122, 'b9e1ea1df8d9594eb2d5c8dc59bbdf.png');
+(104, 122, 'b9e1ea1df8d9594eb2d5c8dc59bbdf.png'),
+(105, 125, 'a457764408622d4ac305866e34500d.png'),
+(106, 125, '9db469a326f4b36f98cab72923579f.gif');
 
 -- --------------------------------------------------------
 
@@ -127,8 +141,19 @@ CREATE TABLE `notifications` (
   `id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   `senderId` int(11) NOT NULL,
-  `receiverId` int(11) NOT NULL
+  `receiverId` int(11) NOT NULL,
+  `postId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `type`, `senderId`, `receiverId`, `postId`) VALUES
+(1, 1, 3, 5, 124),
+(2, 1, 3, 5, 124),
+(3, 2, 3, 5, 124),
+(4, 2, 5, 3, 125);
 
 -- --------------------------------------------------------
 
@@ -152,7 +177,8 @@ CREATE TABLE `posts` (
 INSERT INTO `posts` (`id`, `title`, `description`, `userId`, `time`, `date`) VALUES
 (122, 'fjiedsnb', 'fiorebniore', 3, '11:39:01', '2023-06-09'),
 (123, 'fiernigrengiorngerger', 'gerrerreoirrrrnirfeignireognrei', 3, '18:01:45', '2023-06-09'),
-(124, 'vnroingvo', 'nvrejngbogno', 5, '18:14:04', '2023-06-09');
+(124, 'vnroingvo', 'nvrejngbogno', 5, '18:14:04', '2023-06-09'),
+(125, 'nfovhngei', 'vohirhngvire', 3, '10:26:50', '2023-06-10');
 
 -- --------------------------------------------------------
 
@@ -250,7 +276,8 @@ ALTER TABLE `likes`
 ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`),
   ADD KEY `receiverId` (`receiverId`),
-  ADD KEY `senderId` (`senderId`);
+  ADD KEY `senderId` (`senderId`),
+  ADD KEY `postId` (`postId`);
 
 --
 -- Indici per le tabelle `posts`
@@ -283,7 +310,7 @@ ALTER TABLE `visualizations`
 -- AUTO_INCREMENT per la tabella `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT per la tabella `destinations`
@@ -301,19 +328,19 @@ ALTER TABLE `follows`
 -- AUTO_INCREMENT per la tabella `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT per la tabella `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
@@ -369,7 +396,8 @@ ALTER TABLE `likes`
 --
 ALTER TABLE `notifications`
   ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`receiverId`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`senderId`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`senderId`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `notifications_ibfk_3` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`);
 
 --
 -- Limiti per la tabella `posts`
