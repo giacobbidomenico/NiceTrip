@@ -26,10 +26,8 @@ class MailManager {
      *        email account password
      * @param $fromName
      *        Sender
-     * @param $destination_email
-     *        destination email
      */
-    public function __construct($host, $email_address, $password, $fromName, $destination_email) {
+    public function __construct($host, $email_address, $password, $fromName) {
         $this->mail = new PHPMailer(true);
  
         $this->mail->IsSMTP();
@@ -43,11 +41,23 @@ class MailManager {
         
         $this->mail->From = $email_address;
         $this->mail->FromName = $fromName;
-        $this->mail->AddAddress($destination_email);        
+    }
+
+
+    /**
+     * Set the destination email.
+     * 
+     * @param $destination_email
+     *        destinationEmail
+     */
+    public function setDestinationEmail($destinationEmail) {
+        $this->mail->clearAllRecipients();
+        $this->mail->AddAddress($destinationEmail);
     }
 
     /**
      * Send account confirmation email.
+     * 
      * 
      */
     public function sendAccountVerificationEmail($activation_code) {
@@ -78,6 +88,8 @@ class MailManager {
 
         return $this->mail->Send();
     }
+
+
 }
 
 ?>

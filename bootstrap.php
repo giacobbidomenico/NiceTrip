@@ -7,8 +7,11 @@ define("IMAGES_DIR", "./img/");
 define("TIME_SESSION_EXTENSION", "86400 * 30");
 
 require_once "db/database.php";
+require_once "utils/mail.php";
 
 $dbh = new ConcreteDatabaseHelper("localhost", "root", "", "nicetrip", 3306);
+$mailManager = new MailManager('smtp.libero.it', 'nicetrip.social@libero.it', '@Iamgroot12', 'NiceTrip');
+    
 
 require_once "utils/functions.php";
 
