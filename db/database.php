@@ -253,7 +253,7 @@ abstract class DatabaseHelper
     *  @param $userId - id of the user to update
     *  @param $imageName - name of the new image
     */
-    //abstract public function editUserImageProfile($userId, $imageName);
+    abstract public function editUserImageProfile($userId, $imageName);
 }
 
 /**
@@ -810,6 +810,17 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function editUserImageProfile($userId, $imageName){
+        $query = 'UPDATE `users` SET `photoPath` = ? WHERE `users`.`id` = ?;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ss", $imageName, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
 }
 
 /**
@@ -1075,5 +1086,8 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return $this->databaseHelper->editUserPassword($userId, $newPassword);
     }
 
+    public function editUserImageProfile($userId, $imageName){
+        return $this->databaseHelper->editUserImageProfile($userId, $imageName);
+    }
 }
 ?>
