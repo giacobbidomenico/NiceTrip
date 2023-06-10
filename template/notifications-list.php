@@ -1,7 +1,6 @@
 <div class="container-fluid mt-4">
 
     <?php
-        $actualDir = dirname($_SERVER["PHP_SELF"]);
         $notifications = $dbh->getUserNotifications($_SESSION["id"]);
         for($i = 0; $i < count($notifications); $i++):
     ?>
@@ -21,8 +20,9 @@
         </div>
         <div class="col-10">
             <?php
+
                 $link = 'http://'.$_SERVER['HTTP_HOST'].$actualDir.'/single-post.php?postId='.$notifications[$i]["postId"];
-                
+
                 if($notifications[$i]["type"]=== 1) {
                     $message = " liked ";
                 } elseif($notifications[$i]["type"] === 2) {

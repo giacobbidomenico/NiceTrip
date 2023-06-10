@@ -733,7 +733,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public getEmailFromUserId($userId) {
+    public function getEmailFromUserId($userId) {
         $query = 'SELECT `users`.`email` FROM `users` WHERE `users`.`id` = ?;';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("s", $userId);
@@ -757,7 +757,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     public function insertLikeNotification($postId, $userId) {
         $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
         $this->insertNotification(1, $userId, $receiverId, $postId);
-        return $this->getEmailFromUserId($receiverId);
+        return $this->getEmailFromUserId($receiverId)[0]["email"];
     }
 
     public function insertCommentNotification($postId, $userId) {

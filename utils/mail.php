@@ -105,14 +105,14 @@ class MailManager {
                 </head>
                 <body>
                     <p>NiceTrip - share your travels</p>
-                    <p class='fs-5'><span class='fw-bold'><?php echo $userName;?></span><?php echo $message;?><a href='<?php echo $link; ?>'>your post</a></p>
+                    <p class='fs-5'><span class='fw-bold'>$userName</span> $message <a href='$link'>your post</a></p>s
                 </body>
             </html>
         ";
 
         $textMessage = "
             NiceTrip - share your travels
-            <?php echo $userName;?><?php echo $message;?>your post
+            $userName $message your post
         ";
 
         $this->mail->Subject = 'NiceTrip';
