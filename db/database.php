@@ -228,6 +228,34 @@ abstract class DatabaseHelper
     abstract public function insertLikeNotification($postId, $userId);
     abstract public function insertFollowNotification($senderId, $receiverId);
     abstract public function getUserNotifications($userId);
+
+    /**
+    *  Function that updates the username of a given user
+    *  @param $userId - id of the user to update
+    *  @param $newUserName - new name to update
+    */
+    abstract public function editUserName($userId, $newUserName);
+
+    /**
+    *  Function that updates the email of a given user
+    *  @param $userId - id of the user to update
+    *  @param $newEmail - new email to update
+    */
+    abstract public function editUserEmail($userId, $newEmail);
+
+    /**
+    *  Functino that updates the password of a given user
+    *  @param $userId - id of the user to update
+    *  @param $newPassword - new passord
+    */
+    abstract public function editUserPassword($userId, $newPassword);
+    
+    /**
+    *  Functino that updates the profile image of a given user
+    *  @param $userId - id of the user to update
+    *  @param $imageName - name of the new image
+    */
+    abstract public function editUserImageProfile($userId, $imageName);
 }
 
 /**
@@ -396,11 +424,19 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
     public function deletePost($postId){
-        $query = 'DELETE FROM `posts` WHERE `posts`.`id` = ?;';
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('s', $postId);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $queries = ['DELETE FROM likes WHERE `likes`.`postsId` = ?;',
+        'DELETE FROM images WHERE `images`.`postsId` = ?;',
+        'DELETE FROM comments WHERE `comments`.`postsId` = ?;',
+        'DELETE FROM destinations WHERE `destinations`.`post_Id` = ?;',
+        'DELETE FROM visualizations WHERE `visualizations`.`postId` = ?;',
+        'DELETE FROM `posts` WHERE `posts`.`id` = ?;'];
+        $result = [];
+        foreach ($queries as $query){
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param('s', $postId);
+            $stmt->execute();
+            array_push($result, $stmt->errno);
+        }
         return $result;
     }
 
@@ -757,6 +793,49 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     public function insertFollowNotification($senderId, $receiverId) {
         $this->insertNotification(3, $senderId, $receiverId);
     }
+    public function editUserName($userId, $newUserName){
+        $query = 'UPDATE `users` SET `userName` = ? WHERE `users`.`id` = ?;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ss", $newUserName, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function editUserEmail($userId, $newEmail){
+        $query = 'UPDATE `users` SET `email` = ? WHERE `users`.`id` = ?;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ss", $newEmail, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function editUserPassword($userId, $newPassword){
+        $query = 'UPDATE `users` SET `password` = ? WHERE `users`.`id` = ?; ';
+        $stmt = $this->db->prepare($query);
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bind_param("ss", $hash, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function editUserImageProfile($userId, $imageName){
+        $query = 'UPDATE `users` SET `photoPath` = ? WHERE `users`.`id` = ?;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("ss", $imageName, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+}
 
     public function getUserNotifications($userId) {
         $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `users`.`userName` FROM `notifications`, `users` WHERE `notifications`.`receiverId` = ? AND `users`.`id` = `notifications`.`senderId`;';
@@ -1018,6 +1097,22 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     public function insertCommentNotification($postId, $userId) {
         return $this->databaseHelper->insertCommentNotification($postId, $userId);
+    }
+
+    public function editUserName($userId, $newUserName){
+        return $this->databaseHelper->editUserName($userId, $newUserName);
+    }
+
+    public function editUserEmail($userId, $newEmail){
+        return $this->databaseHelper->editUserEmail($userId, $newEmail);
+    }
+
+    public function editUserPassword($userId, $newPassword){
+        return $this->databaseHelper->editUserPassword($userId, $newPassword);
+    }
+
+    public function editUserImageProfile($userId, $imageName){
+        return $this->databaseHelper->editUserImageProfile($userId, $imageName);
     }
 
     public function insertFollowNotification($senderId, $receiverId) {
