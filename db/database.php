@@ -227,6 +227,7 @@ abstract class DatabaseHelper
     abstract public function insertNotification($type, $senderId, $receiverId, $postId);
     abstract public function insertLikeNotification($postId, $userId);
     abstract public function insertFollowNotification($senderId, $receiverId);
+    abstract public function getUserNotifications($userId);
 }
 
 /**
@@ -756,6 +757,16 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     public function insertFollowNotification($senderId, $receiverId) {
         $this->insertNotification(3, $senderId, $receiverId);
     }
+
+    public function getUserNotifications($userId) {
+        $query = 'SELECT `type`, `senderId`, `receiverId` FROM `notifications` WHERE `notifications`.`receiverId` = ?;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }
 
 /**
@@ -1012,5 +1023,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     public function insertFollowNotification($senderId, $receiverId) {
         return $this->databaseHelper->insertFollowNotification($postId, $receiverId);
     }
+    
+    public function getUserNotifications($userId) {
+        return $this->databaseHelper->get>UserNotifications($userId);
+    }
+    
 }
 ?>
