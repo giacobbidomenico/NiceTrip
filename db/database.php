@@ -835,8 +835,6 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
 
-}
-
     public function getUserNotifications($userId) {
         $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `users`.`userName` FROM `notifications`, `users` WHERE `notifications`.`receiverId` = ? AND `users`.`id` = `notifications`.`senderId`;';
         $stmt = $this->db->prepare($query);
