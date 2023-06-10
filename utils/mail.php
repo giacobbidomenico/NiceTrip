@@ -89,6 +89,39 @@ class MailManager {
         return $this->mail->Send();
     }
 
+    /**
+     * Send notification email.
+     * 
+     * @param $notification
+     *         notification
+     */
+    public function sendNotification($username, $message, $link) {
+        $this->mail->IsHTML(true);
+
+        $message = "
+            <html>
+                <head>
+                    <meta charset='utf-8' />
+                </head>
+                <body>
+                    <p>NiceTrip - share your travels</p>
+                    <p class='fs-5'><span class='fw-bold'><?php echo $username;?></span><?php echo $message;?><a href='<?php echo $link; ?>'>your post</a></p>
+                </body>
+            </html>
+        ";
+
+        $textMessage = "
+            NiceTrip - share your travels
+            <?php echo $username;?><?php echo $message;?>your post
+        ";
+
+        $this->mail->Subject = 'NiceTrip';
+        $this->mail->Body = $message;
+        $this->mail->AltBody = $textMessage;
+
+        return $this->mail->Send();
+    }
+
 
 }
 

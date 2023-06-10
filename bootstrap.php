@@ -11,7 +11,7 @@ require_once "utils/mail.php";
 
 $dbh = new ConcreteDatabaseHelper("localhost", "root", "", "nicetrip", 3306);
 $mailManager = new MailManager('smtp.libero.it', 'nicetrip.social@libero.it', '@Iamgroot12', 'NiceTrip');
-    
+
 
 require_once "utils/functions.php";
 
@@ -29,6 +29,10 @@ if(isset($_COOKIE["session-extension-code"]) && !isSessionActive()) {
     if(isset($result[0]["id"]) && isset($result[0]["email"]) && isset($result[0]["userName"])) {
         registerLoginUser($result[0]["id"], $result[0]["email"], $result[0]["userName"]);
     }
+}
+
+if(isSessionActive()) {
+    $mailManager->setDestinationEmail($_SESSION["email"]);
 }
 
 ?>
