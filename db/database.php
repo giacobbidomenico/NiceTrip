@@ -226,6 +226,34 @@ abstract class DatabaseHelper
     abstract public function insertDestination($description, $postId);
     abstract public function insertNotification($type, $senderId, $receiverId, $postId);
     abstract public function insertLikeNotification($postId, $userId);
+
+    /**
+    *  Function that updates the username of a given user
+    *  @param $userId - id of the user to update
+    *  @param $newUserName - new name to update
+    */
+    abstract public function editUserName($userId, $newUserName);
+
+    /**
+    *  Function that updates the email of a given user
+    *  @param $userId - id of the user to update
+    *  @param $newEmail - new email to update
+    */
+    abstract public function editUserEmail($userId, $newEmail);
+
+    /**
+    *  Functino that updates the password of a given user
+    *  @param $userId - id of the user to update
+    *  @param $newPassword - new passord
+    */
+    abstract public function editUserPassword($userId, $newPassword);
+    
+    /**
+    *  Functino that updates the profile image of a given user
+    *  @param $userId - id of the user to update
+    *  @param $imageName - name of the new image
+    */
+    abstract public function editUserImageProfile($userId, $imageName);
 }
 
 /**
