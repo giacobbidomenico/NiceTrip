@@ -246,7 +246,7 @@ abstract class DatabaseHelper
     *  @param $userId - id of the user to update
     *  @param $newPassword - new passord
     */
-    //abstract public function editUserPassword($userId, $newPassword);
+    abstract public function editUserPassword($userId, $newPassword);
     
     /**
     *  Functino that updates the profile image of a given user
@@ -799,6 +799,17 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function editUserPassword($userId, $newPassword){
+        $query = 'UPDATE `users` SET `password` = ? WHERE `users`.`id` = ?; ';
+        $stmt = $this->db->prepare($query);
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bind_param("ss", $hash, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 }
 
 /**
@@ -1058,6 +1069,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     public function editUserEmail($userId, $newEmail){
         return $this->databaseHelper->editUserEmail($userId, $newEmail);
+    }
+
+    public function editUserPassword($userId, $newPassword){
+        return $this->databaseHelper->editUserPassword($userId, $newPassword);
     }
 
 }
