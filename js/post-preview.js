@@ -35,8 +35,8 @@ function Post(id, editable) {
 		//console.log(postDetails);
 		this.like = postDetails.data[0].liked === 1 ? true : false;
 		let scheme = `
-						<div class="row gy-4 m-3">
-							<article id="p-` + postDetails.data[0].id + `" class="card mx-auto p-0">
+						<div id="p-` + postDetails.data[0].id + `" class="row gy-4 m-3">
+							<article class="card mx-auto p-0">
 								<div class="card-header">
 									<h4 id="p-` + postDetails.data[0].id + `-title" class="card-title">
 										<a id="post-title" class="link-dark link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="single-post.php?postId=` + this.id + `">` + postDetails.data[0].title + `</a>
