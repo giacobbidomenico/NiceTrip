@@ -54,7 +54,7 @@
 
     <?php 
         endfor;
-        //$dbh->deleteUserNotifications($id);
+        $dbh->deleteUserNotifications($id);
     ?>
 
 </div>

@@ -769,32 +769,6 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-<<<<<<< HEAD
-    
-    public function insertNotification($type, $senderId, $receiverId, $postId = NULL) {
-        $query = 'INSERT INTO `notifications`(`id`, `type`, `senderId`, `receiverId`, `postId`) VALUES (NULL,?,?,?,?)';
-
-        $stmt = $this->db->prepare($query);
-
-        $stmt->bind_param('ssss', $type, $senderId, $receiverId, $postId);
-        
-        return $stmt->execute();
-    }
-
-    public function insertLikeNotification($postId, $userId) {
-        $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
-        $this->insertNotification(1, $userId, $receiverId, $postId);
-    }
-
-    public function insertCommentNotification($postId, $userId) {
-        $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
-        $this->insertNotification(2, $userId, $receiverId, $postId);
-    }
-
-    
-    public function insertFollowNotification($senderId, $receiverId) {
-        $this->insertNotification(3, $senderId, $receiverId);
-    }
     public function editUserName($userId, $newUserName){
         $query = 'UPDATE `users` SET `userName` = ? WHERE `users`.`id` = ?;';
         $stmt = $this->db->prepare($query);
@@ -835,14 +809,9 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-
-
-    public function getUserNotifications($userId) {
-        $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `users`.`userName` FROM `notifications`, `users` WHERE `notifications`.`receiverId` = ? AND `users`.`id` = `notifications`.`senderId`;';
-=======
+    
     public function getEmailFromUserId($userId) {
         $query = 'SELECT `users`.`email` FROM `users` WHERE `users`.`id` = ?;';
->>>>>>> giacobbi-development
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("s", $userId);
         $stmt->execute();
