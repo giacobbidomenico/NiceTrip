@@ -101,6 +101,13 @@ class MailManager {
     public function sendNotification($userName, $message, $link) {
         $this->mail->IsHTML(true);
 
+
+        if($link !== "") {
+            $link = "<a href='$link'>your post</a>";
+        } else {
+            $link = "you";
+        }
+
         $message = "
             <html>
                 <head>
@@ -108,7 +115,7 @@ class MailManager {
                 </head>
                 <body>
                     <p>NiceTrip - share your travels</p>
-                    <p class='fs-5'><span class='fw-bold'>$userName</span> $message <a href='$link'>your post</a></p>
+                    <p class='fs-5'><span class='fw-bold'>$userName</span> $message $link</p>
                 </body>
             </html>
         ";

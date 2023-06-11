@@ -7,13 +7,13 @@
  *        user id
  * @param $email
  *        user email
- * @param $username
- *        user username
+ * @param $userName
+ *        user name
  */
-function registerLoginUser($id, $email, $username) {
+function registerLoginUser($id, $email, $userName) {
     $_SESSION["id"] = $id;
     $_SESSION["email"] = $email;
-    $_SESSION["username"] = $username;
+    $_SESSION["userName"] = $userName;
 }
 
 /**
@@ -31,6 +31,6 @@ function random_str($length = 30) {
  * 
  */
 function isSessionActive() {
-    return isset($_SESSION["id"]) && isset($_SESSION["email"]) && isset($_SESSION["username"]);
+    return isset($_SESSION["id"]) && isset($_SESSION["email"]) && isset($_SESSION["userName"]);
 }
 ?>

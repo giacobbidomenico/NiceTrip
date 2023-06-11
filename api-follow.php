@@ -6,7 +6,10 @@
     $result = $dbh->changeFollowState($id, $userId, $_POST["register"] == "true" ? true : false);
     
     if($_POST["register"] == 'true') {
-        $dbh->insertFollowNotification($id, $userId);
+        $receiverEmail = $dbh->insertFollowNotification($id, $userId);
+        var_dump($receiverEmail);
+        $mailManager->setDestinationEmail($receiverEmail);
+        $mailManager->sendNotification($_SESSION["userName"], "started following", "");
     }
 
     header('Content-Type: application/json');

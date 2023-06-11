@@ -751,23 +751,24 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
         $stmt->bind_param('ssss', $type, $senderId, $receiverId, $postId);
         
-        return $stmt->execute();
+        $stmt->execute();
+
+        return $this->getEmailFromUserId($receiverId)[0]["email"];
     }
 
     public function insertLikeNotification($postId, $userId) {
         $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
-        $this->insertNotification(1, $userId, $receiverId, $postId);
-        return $this->getEmailFromUserId($receiverId)[0]["email"];
+        return $this->insertNotification(1, $userId, $receiverId, $postId);
     }
 
     public function insertCommentNotification($postId, $userId) {
         $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
-        $this->insertNotification(2, $userId, $receiverId, $postId);
+        return $this->insertNotification(2, $userId, $receiverId, $postId);
     }
 
     
     public function insertFollowNotification($senderId, $receiverId) {
-        $this->insertNotification(3, $senderId, $receiverId);
+        return $this->insertNotification(3, $senderId, $receiverId);
     }
 
     public function getUserNotifications($userId) {

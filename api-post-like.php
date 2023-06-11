@@ -7,7 +7,7 @@
         $receiverEmail = $dbh->insertLikeNotification($postId, $id);
         $link = 'http://'.$_SERVER['HTTP_HOST'].$actualDir.'/single-post.php?postId='.$postId;
         $mailManager->setDestinationEmail($receiverEmail);
-        $mailManager->sendNotification($_SESSION["email"], "like", $link);
+        $mailManager->sendNotification($_SESSION["userName"], "liked", $link);
     }
     
     header('Content-Type: application/json');
