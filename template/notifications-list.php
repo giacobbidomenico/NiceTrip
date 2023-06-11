@@ -13,6 +13,7 @@
     </article>
     <?php
         endif;
+        $notifications = array_reverse($notifications);
         for($i = 0; $i < count($notifications); $i++):
     ?>
 
@@ -54,7 +55,7 @@
 
     <?php 
         endfor;
-        //$dbh->deleteUserNotifications($id);
+        $dbh->deleteUserNotifications($id);
     ?>
 
 </div>
