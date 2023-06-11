@@ -6,7 +6,7 @@ require_once 'bootstrap.php';
 $result["error"] = false;
 
 if(isset($_POST["email"]) && isset($_POST["username"]) && isset($_POST["name"]) && isset($_POST["last-name"]) && isset($_POST["password"])) {
-    $mailManager = new MailManager('smtp.libero.it', 'nicetrip.social@libero.it', '@Iamgroot12', 'NiceTrip', $_POST["email"]);
+    $mailManager->setDestinationEmail($_POST["email"]);
 
     try {
     

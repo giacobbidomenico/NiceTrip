@@ -26,10 +26,8 @@ class MailManager {
      *        email account password
      * @param $fromName
      *        Sender
-     * @param $destination_email
-     *        destination email
      */
-    public function __construct($host, $email_address, $password, $fromName, $destination_email) {
+    public function __construct($host, $email_address, $password, $fromName) {
         $this->mail = new PHPMailer(true);
  
         $this->mail->IsSMTP();
@@ -43,11 +41,23 @@ class MailManager {
         
         $this->mail->From = $email_address;
         $this->mail->FromName = $fromName;
-        $this->mail->AddAddress($destination_email);        
+    }
+
+
+    /**
+     * Set the destination email.
+     * 
+     * @param $destination_email
+     *        destinationEmail
+     */
+    public function setDestinationEmail($destinationEmail) {
+        $this->mail->clearAllRecipients();
+        $this->mail->AddAddress($destinationEmail);
     }
 
     /**
      * Send account confirmation email.
+     * 
      * 
      */
     public function sendAccountVerificationEmail($activation_code) {
@@ -75,9 +85,56 @@ class MailManager {
         $this->mail->Subject = 'NiceTrip';
         $this->mail->Body = $message;
         $this->mail->AltBody = $textMessage;
-
-        return $this->mail->Send();
+        try{
+            $this->mail->Send();
+        } catch(Exception $e) {
+            $this->mail->getSMTPInstance()->reset();
+        }
     }
+
+    /**
+     * Send notification email.
+     * 
+     * @param $notification
+     *         notification
+     */
+    public function sendNotification($userName, $message, $link) {
+        $this->mail->IsHTML(true);
+
+
+        if($link !== "") {
+            $link = "<a href='$link'>your post</a>";
+        } else {
+            $link = "you";
+        }
+
+        $message = "
+            <html>
+                <head>
+                    <meta charset='utf-8' />
+                </head>
+                <body>
+                    <p>NiceTrip - share your travels</p>
+                    <p class='fs-5'><span class='fw-bold'>$userName</span> $message $link</p>
+                </body>
+            </html>
+        ";
+
+        $textMessage = "
+            NiceTrip - share your travels
+            $userName $message your post
+        ";
+
+        $this->mail->Subject = 'NiceTrip';
+        $this->mail->Body = $message;
+        $this->mail->AltBody = $textMessage;
+        try{
+            $this->mail->Send();
+        } catch(Exception $e) {
+            $this->mail->getSMTPInstance()->reset();
+        }
+    }
+
 }
 
 ?>

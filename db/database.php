@@ -117,10 +117,10 @@ abstract class DatabaseHelper
      * 
      * @param $session_extension_code
      *        code to restore the session after closing the browser through a cookie
-     * @param $user_id
+     * @param $userId
      *        user id
      */
-    abstract public function updateSessionExtensionCode($session_extension_code, $user_id);
+    abstract public function updateSessionExtensionCode($session_extension_code, $userId);
 
     /**
      * Function that returns the user from a code associated with him and also present in a cookie in 
@@ -221,14 +221,13 @@ abstract class DatabaseHelper
     *  @param $userId - user to exclude from the list
     */
     abstract public function getRandomUsersId($number, $userId);
-    abstract public function publishPost($title, $description, $user_id);
+    abstract public function publishPost($title, $description, $userId);
     abstract public function insertImage($postId, $name);
     abstract public function insertDestination($description, $postId);
     abstract public function insertNotification($type, $senderId, $receiverId, $postId);
     abstract public function insertLikeNotification($postId, $userId);
     abstract public function insertFollowNotification($senderId, $receiverId);
     abstract public function getUserNotifications($userId);
-
     /**
     *  Function that updates the username of a given user
     *  @param $userId - id of the user to update
@@ -256,6 +255,8 @@ abstract class DatabaseHelper
     *  @param $imageName - name of the new image
     */
     abstract public function editUserImageProfile($userId, $imageName);
+    abstract public function getEmailFromUserId($userId);
+    abstract public function deleteUserNotifications($userId);
 }
 
 /**
@@ -530,14 +531,14 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
      * 
      * @param $session_extension_code
      *        code to restore the session after closing the browser through a cookie
-     * @param $user_id
+     * @param $userId
      *        user id
      */
-    public function updateSessionExtensionCode($session_extension_code, $user_id) {
+    public function updateSessionExtensionCode($session_extension_code, $userId) {
         $query = "UPDATE `users` SET `cookie` = ? WHERE `users`.`id` = ?";
 
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss', $session_extension_code, $user_id);
+        $stmt->bind_param('ss', $session_extension_code, $userId);
 
         return $stmt->execute();
     }
@@ -710,12 +711,12 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-    public function publishPost($title, $description, $user_id) {
+    public function publishPost($title, $description, $userId) {
         $query = 'INSERT INTO `posts`(`id`, `title`, `description`, `userId`, `time`, `date`) VALUES (NULL, ?, ?, ?, CURRENT_TIME(), CURRENT_DATE());';
 
         $stmt = $this->db->prepare($query);
 
-        $stmt->bind_param('sss', $title, $description, $user_id);
+        $stmt->bind_param('sss', $title, $description, $userId);
 
         if(!$stmt->execute()) {
             die("Error in post publication");
@@ -768,6 +769,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+<<<<<<< HEAD
     
     public function insertNotification($type, $senderId, $receiverId, $postId = NULL) {
         $query = 'INSERT INTO `notifications`(`id`, `type`, `senderId`, `receiverId`, `postId`) VALUES (NULL,?,?,?,?)';
@@ -837,12 +839,62 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
     public function getUserNotifications($userId) {
         $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `users`.`userName` FROM `notifications`, `users` WHERE `notifications`.`receiverId` = ? AND `users`.`id` = `notifications`.`senderId`;';
+=======
+    public function getEmailFromUserId($userId) {
+        $query = 'SELECT `users`.`email` FROM `users` WHERE `users`.`id` = ?;';
+>>>>>>> giacobbi-development
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("s", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
 
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    
+    public function insertNotification($type, $senderId, $receiverId, $postId = NULL) {
+        $query = 'INSERT INTO `notifications`(`id`, `type`, `senderId`, `receiverId`, `postId`, `datetime`) VALUES (NULL,?,?,?,?, CURRENT_TIMESTAMP)';
+
+        $stmt = $this->db->prepare($query);
+
+        $stmt->bind_param('ssss', $type, $senderId, $receiverId, $postId);
+        
+        $stmt->execute();
+
+        return $this->getEmailFromUserId($receiverId)[0]["email"];
+    }
+
+    public function insertLikeNotification($postId, $userId) {
+        $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
+        return $this->insertNotification(1, $userId, $receiverId, $postId);
+    }
+
+    public function insertCommentNotification($postId, $userId) {
+        $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
+        return $this->insertNotification(2, $userId, $receiverId, $postId);
+    }
+
+    
+    public function insertFollowNotification($senderId, $receiverId) {
+        return $this->insertNotification(3, $senderId, $receiverId);
+    }
+
+    public function getUserNotifications($userId) {
+        $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `notifications`.`datetime`, `users`.`userName` FROM `notifications`, `users` WHERE `notifications`.`receiverId` = ? AND `users`.`id` = `notifications`.`senderId`;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    
+    public function deleteUserNotifications($userId) {
+        $query = 'DELETE FROM `notifications` WHERE `notifications`.`receiverId` = ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $userId);
+        return $stmt->execute();
     }
 }
 
@@ -1024,9 +1076,9 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return $this->databaseHelper->changeFollowState($followerId, $followId, $register);
     }
 
-    public function updateSessionExtensionCode($session_extension_code, $user_id)
+    public function updateSessionExtensionCode($session_extension_code, $userId)
     {
-        return $this->databaseHelper->updateSessionExtensionCode($session_extension_code, $user_id);
+        return $this->databaseHelper->updateSessionExtensionCode($session_extension_code, $userId);
     }
 
     public function getUsersBySessionExtensionCode($session_extension_code)
@@ -1073,8 +1125,8 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return $this->databaseHelper->getRandomUsersId($number, $userId);
     }
 
-    public function publishPost($title, $description, $user_id) {
-        return $this->databaseHelper->publishPost($title, $description, $user_id);
+    public function publishPost($title, $description, $userId) {
+        return $this->databaseHelper->publishPost($title, $description, $userId);
     }
 
     public function insertImage($postId, $name) {
@@ -1118,7 +1170,15 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     }
     
     public function getUserNotifications($userId) {
-        return $this->databaseHelper->get>UserNotifications($userId);
+        return $this->databaseHelper->getUserNotifications($userId);
+    }
+
+    public function getEmailFromUserId($userId) {
+        return $this->databaseHelper->getEmailFromUserId($userId);
+    }
+
+    public function deleteUserNotifications($userId) {
+        return $this->databaseHelper->deleteUserNotifications($userId);
     }
     
 }

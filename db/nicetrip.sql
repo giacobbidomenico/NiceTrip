@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Giu 10, 2023 alle 11:50
+-- Creato il: Giu 11, 2023 alle 19:33
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -44,11 +44,17 @@ CREATE TABLE `comments` (
 
 INSERT INTO `comments` (`id`, `description`, `date`, `time`, `postsId`, `userId`) VALUES
 (29, 'fjirpednjvigprjnwpvgnjwr', '2023-06-10', '10:27:01', 125, 3),
-(30, 'fjirpednjvigprjnwpvgnjwr', '2023-06-10', '10:27:04', 125, 3),
-(31, 'fjirpednjvigprjnwpvgnjwr', '2023-06-10', '10:27:05', 125, 3),
-(32, 'fjirpednjvigprjnwpvgnjwr', '2023-06-10', '10:27:07', 125, 3),
 (33, 'copdvmpfdm', '2023-06-10', '11:01:07', 124, 3),
-(34, 'fersvbgrevgrevgre', '2023-06-10', '11:43:15', 125, 5);
+(34, 'fersvbgrevgrevgre', '2023-06-10', '11:43:15', 125, 5),
+(35, 'bgrt brtnr', '2023-06-10', '16:24:09', 128, 5),
+(44, 'voidfniobion', '2023-06-10', '22:35:44', 128, 3),
+(45, 'ciao', '2023-06-11', '09:00:15', 129, 3),
+(46, 'coswngvodwr', '2023-06-11', '12:27:34', 127, 3),
+(47, 'bel post', '2023-06-11', '15:55:32', 127, 12),
+(48, 'ciao', '2023-06-11', '15:56:16', 127, 3),
+(49, 'nosdvnordnvoiwnr', '2023-06-11', '18:17:24', 127, 3),
+(50, 'fnorvnordvgn', '2023-06-11', '18:18:02', 127, 3),
+(51, 'fnorvnordvgn', '2023-06-11', '18:51:25', 127, 3);
 
 -- --------------------------------------------------------
 
@@ -67,7 +73,9 @@ CREATE TABLE `destinations` (
 --
 
 INSERT INTO `destinations` (`id`, `description`, `post_id`) VALUES
-(30, 'Ancona, Ancona, Italia', 123);
+(30, 'Ancona, Ancona, Italia', 123),
+(31, 'Ancona Railway Station, Piazza Rosselli Nello E Carlo 1, 60126 Ancona, AN, Italia', 126),
+(32, 'Cesenatico, Forlì-Cesena, Italia', 126);
 
 -- --------------------------------------------------------
 
@@ -86,7 +94,10 @@ CREATE TABLE `follows` (
 --
 
 INSERT INTO `follows` (`id`, `follower`, `following`) VALUES
-(16, 3, 5);
+(16, 3, 5),
+(35, 3, 12),
+(20, 5, 12),
+(17, 12, 5);
 
 -- --------------------------------------------------------
 
@@ -111,7 +122,17 @@ INSERT INTO `images` (`id`, `postsId`, `name`) VALUES
 (103, 122, 'dded5289e0a72f698a34d0d9bfa151.png'),
 (104, 122, 'b9e1ea1df8d9594eb2d5c8dc59bbdf.png'),
 (105, 125, 'a457764408622d4ac305866e34500d.png'),
-(106, 125, '9db469a326f4b36f98cab72923579f.gif');
+(106, 125, '9db469a326f4b36f98cab72923579f.gif'),
+(107, 126, 'd460d38043ac0e6515a4e9602ebc13.png'),
+(108, 126, '7934979a7df44486c4148b0d6ee193.png'),
+(109, 126, '961379323028b2f4f73d0d22437034.png'),
+(110, 127, 'c2213cc523879e2ac6f2c63079c721.png'),
+(111, 127, '1aee65e4d454a4414668e5e652819f.png'),
+(112, 127, '0a67105e45bb60b0b2fc4b0145f41d.gif'),
+(113, 127, '05d2969291fc75e7fe241ac7fbcf23.png'),
+(114, 129, 'f3e9ad5b42afa4fb8a99345041f061.png'),
+(115, 129, '1c7ad70ca50b230ac392ef2dd3bf5e.png'),
+(116, 129, 'e4152557e5ab0999484f025eec4ddf.gif');
 
 -- --------------------------------------------------------
 
@@ -129,7 +150,17 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`userId`, `postsId`) VALUES
-(3, 124);
+(3, 126),
+(3, 127),
+(3, 128),
+(5, 122),
+(5, 123),
+(5, 125),
+(5, 126),
+(5, 127),
+(5, 129),
+(12, 124),
+(12, 126);
 
 -- --------------------------------------------------------
 
@@ -142,18 +173,16 @@ CREATE TABLE `notifications` (
   `type` int(11) NOT NULL,
   `senderId` int(11) NOT NULL,
   `receiverId` int(11) NOT NULL,
-  `postId` int(11) DEFAULT NULL
+  `postId` int(11) DEFAULT NULL,
+  `datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `notifications`
 --
 
-INSERT INTO `notifications` (`id`, `type`, `senderId`, `receiverId`, `postId`) VALUES
-(1, 1, 3, 5, 124),
-(2, 1, 3, 5, 124),
-(3, 2, 3, 5, 124),
-(4, 2, 5, 3, 125);
+INSERT INTO `notifications` (`id`, `type`, `senderId`, `receiverId`, `postId`, `datetime`) VALUES
+(118, 1, 3, 12, 127, '2023-06-11 19:10:47');
 
 -- --------------------------------------------------------
 
@@ -178,7 +207,11 @@ INSERT INTO `posts` (`id`, `title`, `description`, `userId`, `time`, `date`) VAL
 (122, 'fjiedsnb', 'fiorebniore', 3, '11:39:01', '2023-06-09'),
 (123, 'fiernigrengiorngerger', 'gerrerreoirrrrnirfeignireognrei', 3, '18:01:45', '2023-06-09'),
 (124, 'vnroingvo', 'nvrejngbogno', 5, '18:14:04', '2023-06-09'),
-(125, 'nfovhngei', 'vohirhngvire', 3, '10:26:50', '2023-06-10');
+(125, 'nfovhngei', 'vohirhngvire', 3, '10:26:50', '2023-06-10'),
+(126, 'googleanrfvog', 'ngrngnrgr', 3, '12:12:15', '2023-06-10'),
+(127, 'ciao', 'ciao', 12, '15:02:04', '2023-06-10'),
+(128, 'gegethrhe', 'gtntrnnntnrt', 5, '16:23:57', '2023-06-10'),
+(129, 'primo', 'lollo', 3, '09:00:01', '2023-06-11');
 
 -- --------------------------------------------------------
 
@@ -203,11 +236,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `userName`, `name`, `lastName`, `email`, `password`, `activation_code`, `cookie`, `photoPath`) VALUES
-(3, 'primo', 'primo', 'primo', 'primo@primo.primo', '$2y$10$3wK7rbaNToUFSQxDnLxvz.TzOb.eru.XtYTXPkHct0OlT0ZgqkOAm', NULL, '', 'genericProfilePhoto.jpg'),
+(3, 'primo', 'primo', 'primo', 'primo@primo.primo', '$2y$10$3wK7rbaNToUFSQxDnLxvz.TzOb.eru.XtYTXPkHct0OlT0ZgqkOAm', NULL, '3ffd95225a5e124286fac6e1bf2d2f', 'genericProfilePhoto.jpg'),
 (5, 'secondo', 'secondo', 'secondo', 'secondo@secondo.secondo', '$2y$10$3wK7rbaNToUFSQxDnLxvz.TzOb.eru.XtYTXPkHct0OlT0ZgqkOAm', NULL, '', 'genericProfilePhoto.jpg'),
 (6, 'terzo', 'terzo', 'terzo', 'terzo@terzo.terzo', '$2y$10$3wK7rbaNToUFSQxDnLxvz.TzOb.eru.XtYTXPkHct0OlT0ZgqkOAm', NULL, '', 'genericProfilePhoto.jpg'),
 (7, 'quarto', 'quarto', 'quarto', 'quarto@quarto.quarto', '$2y$10$3wK7rbaNToUFSQxDnLxvz.TzOb.eru.XtYTXPkHct0OlT0ZgqkOAm', NULL, '', 'genericProfilePhoto.jpg'),
-(11, 'cruciani', 'roberto', 'cruciani', 'nicetrip.socialplatform@gmail.com', '$2y$10$3wK7rbaNToUFSQxDnLxvz.TzOb.eru.XtYTXPkHct0OlT0ZgqkOAm', NULL, '', '');
+(12, 'cruciani', 'roberto', 'cruciani', 'nicetrip.socialplatform@gmail.com', '$2y$10$WANP7LzfMGZ.kk02K3ALfOKsoUC9uIYTc55KqXfpNeig8j9d3dAiq', NULL, '', '');
 
 -- --------------------------------------------------------
 
@@ -226,7 +259,11 @@ CREATE TABLE `visualizations` (
 --
 
 INSERT INTO `visualizations` (`id`, `userId`, `postId`) VALUES
-(370, 3, 124);
+(370, 3, 124),
+(371, 3, 128),
+(372, 12, 124),
+(373, 12, 128),
+(374, 3, 127);
 
 --
 -- Indici per le tabelle scaricate
@@ -310,49 +347,49 @@ ALTER TABLE `visualizations`
 -- AUTO_INCREMENT per la tabella `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT per la tabella `destinations`
 --
 ALTER TABLE `destinations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT per la tabella `follows`
 --
 ALTER TABLE `follows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT per la tabella `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT per la tabella `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT per la tabella `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 
 --
 -- AUTO_INCREMENT per la tabella `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT per la tabella `visualizations`
 --
 ALTER TABLE `visualizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=371;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=375;
 
 --
 -- Limiti per le tabelle scaricate

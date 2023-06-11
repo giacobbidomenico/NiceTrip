@@ -58,7 +58,7 @@ function updateFeed() {
  * adds a card showing that there are no posts to be shown
  * */
 function addEmptyFeed() {
-    let scheme = `<article class="card mx-auto" style="width: 18rem;">
+    let scheme = `<article class="card mx-auto mt-5" style="width: 18rem;">
         <div class="card-body">
             <h4 class="card-title">Ooopss!</h4>
             <p class="card-text">Your feed is empty.</p>

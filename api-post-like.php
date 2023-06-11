@@ -4,7 +4,10 @@
     $postId = $_POST["postId"];
     $result = $dbh->notifyLike($postId, $id);
     if($result["insert"]){
-        $dbh->insertLikeNotification($postId, $id);
+        $receiverEmail = $dbh->insertLikeNotification($postId, $id);
+        $link = 'http://'.$_SERVER['HTTP_HOST'].$actualDir.'/single-post.php?postId='.$postId;
+        $mailManager->setDestinationEmail($receiverEmail);
+        $mailManager->sendNotification($_SESSION["userName"], "liked", $link);
     }
     
     header('Content-Type: application/json');
