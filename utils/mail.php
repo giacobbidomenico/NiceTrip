@@ -85,8 +85,11 @@ class MailManager {
         $this->mail->Subject = 'NiceTrip';
         $this->mail->Body = $message;
         $this->mail->AltBody = $textMessage;
-
-        return $this->mail->Send();
+        try{
+            $this->mail->Send();
+        } catch(Exception $e) {
+            $this->mail->getSMTPInstance()->reset();
+        }
     }
 
     /**
@@ -105,7 +108,7 @@ class MailManager {
                 </head>
                 <body>
                     <p>NiceTrip - share your travels</p>
-                    <p class='fs-5'><span class='fw-bold'>$userName</span> $message <a href='$link'>your post</a></p>s
+                    <p class='fs-5'><span class='fw-bold'>$userName</span> $message <a href='$link'>your post</a></p>
                 </body>
             </html>
         ";
@@ -118,10 +121,12 @@ class MailManager {
         $this->mail->Subject = 'NiceTrip';
         $this->mail->Body = $message;
         $this->mail->AltBody = $textMessage;
-
-        return $this->mail->Send();
+        try{
+            $this->mail->Send();
+        } catch(Exception $e) {
+            $this->mail->getSMTPInstance()->reset();
+        }
     }
-
 
 }
 
