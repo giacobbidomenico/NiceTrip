@@ -9,6 +9,14 @@
     <title><?php echo $templateParams["title"]; ?></title>
 </head>
 <body class="container-fluid " >
+    
+    <?php
+        if(isset($_POST["log-out"])) {
+            session_destroy();
+            setcookie("session-extension-code", "", time() - 3600);
+            header('Location: index.php');
+        }
+    ?>
     <!-- top mobile navbar -->
     <div class="row d-block d-md-none">
         <div class="container-fluid p-0 overflow-hidden">
@@ -108,13 +116,15 @@
 
                 <div class="row">
                     <div class="col-12 p-0 text-center text-xl-start">
-                        <a class="my-2 btn btn-light" href="<?php echo $navBarParams["logOut"] ?>">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-box-arrow-right desktop-icon" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
-                                <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
-                            </svg>
-                            <span class="d-none d-xl-inline">Log Out</span>
-                        </a>
+                        <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST">
+                            <button type="submit" name="log-out" class="my-2 btn btn-light" href="<?php echo $navBarParams["logOut"] ?>">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-box-arrow-right desktop-icon" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                                </svg>
+                                <span class="d-none d-xl-inline">Log Out</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -124,7 +134,7 @@
             <div class="container-fluid">
                 <section id="introduction" class="row test titleHighlight">
                     <?php 
-                        if(isset($templateParams["introduction"])){
+                        if(isset($templateParams["introduction"])) {
                             require_once $templateParams["introduction"];
                         } 
                     ?>
