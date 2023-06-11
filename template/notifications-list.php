@@ -17,7 +17,7 @@
     ?>
 
     <div class="row border-top border-bottom pt-2 pb-2 mb-3">
-        <div class="col-2 col-lg-2">
+        <div class="col-2">
             <?php
                 if($notifications[$i]["type"]=== 1) {
                     $image = UPLOAD_DIR.'like-icon.png';
@@ -27,9 +27,11 @@
                     $image = UPLOAD_DIR.'follow-icon.png';
                 }
             ?>
-            <img class="img-fluid" src="<?php echo $image;?>"/>
+            <div class="col-10 mt-1">
+                <img class="img-fluid" src="<?php echo $image;?>"/>
+            </div>
         </div>
-        <div class="col-4 col-lg-6">
+        <div class="col-5">
             <?php
 
                 $link = 'http://'.$_SERVER['HTTP_HOST'].$actualDir.'/single-post.php?postId='.$notifications[$i]["postId"];
@@ -45,14 +47,14 @@
             ?>
             <p class="fs-5"><span class="fw-bold"><?php echo $notifications[$i]["userName"];?> </span><?php echo $message;?> <?php if($link!==""):?><a href="<?php echo $link; ?>">your post</a><?php endif; ?></p>
         </div>
-        <div class="col-5 col-lg-4 text-break">
+        <div class="col-5 text-break">
             <p class="fs-5"><?php echo $notifications[$i]["datetime"]; ?></p>
         </div>
     </div>
 
     <?php 
         endfor;
-        $dbh->deleteUserNotifications($id);
+        //$dbh->deleteUserNotifications($id);
     ?>
 
 </div>
