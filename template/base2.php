@@ -12,8 +12,8 @@
     
     <?php
         if(isset($_POST["log-out"])) {
+            setcookie("session-extension-code", "", time() - 3600, "/");
             session_destroy();
-            setcookie("session-extension-code", "", time() - 3600);
             header('Location: index.php');
         }
     ?>
