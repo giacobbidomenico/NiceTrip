@@ -1,7 +1,8 @@
 <div class="container-fluid mt-4 ">
 
     <?php
-        $notifications = $dbh->getUserNotifications($_SESSION["id"]);
+        $id = $_SESSION["id"];
+        $notifications = $dbh->getUserNotifications($id);
         for($i = 0; $i < count($notifications); $i++):
     ?>
 
@@ -39,6 +40,9 @@
         </div>
     </div>
 
-    <?php endfor;?>
+    <?php 
+        endfor;
+        $dbh->deleteUserNotifications($id);
+    ?>
 
 </div>

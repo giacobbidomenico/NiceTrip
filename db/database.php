@@ -117,10 +117,10 @@ abstract class DatabaseHelper
      * 
      * @param $session_extension_code
      *        code to restore the session after closing the browser through a cookie
-     * @param $user_id
+     * @param $userId
      *        user id
      */
-    abstract public function updateSessionExtensionCode($session_extension_code, $user_id);
+    abstract public function updateSessionExtensionCode($session_extension_code, $userId);
 
     /**
      * Function that returns the user from a code associated with him and also present in a cookie in 
@@ -221,7 +221,7 @@ abstract class DatabaseHelper
     *  @param $userId - user to exclude from the list
     */
     abstract public function getRandomUsersId($number, $userId);
-    abstract public function publishPost($title, $description, $user_id);
+    abstract public function publishPost($title, $description, $userId);
     abstract public function insertImage($postId, $name);
     abstract public function insertDestination($description, $postId);
     abstract public function insertNotification($type, $senderId, $receiverId, $postId);
@@ -229,6 +229,7 @@ abstract class DatabaseHelper
     abstract public function insertFollowNotification($senderId, $receiverId);
     abstract public function getUserNotifications($userId);
     abstract public function getEmailFromUserId($userId);
+    abstract public function deleteUserNotifications($userId);
 }
 
 /**
@@ -495,14 +496,14 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
      * 
      * @param $session_extension_code
      *        code to restore the session after closing the browser through a cookie
-     * @param $user_id
+     * @param $userId
      *        user id
      */
-    public function updateSessionExtensionCode($session_extension_code, $user_id) {
+    public function updateSessionExtensionCode($session_extension_code, $userId) {
         $query = "UPDATE `users` SET `cookie` = ? WHERE `users`.`id` = ?";
 
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param('ss', $session_extension_code, $user_id);
+        $stmt->bind_param('ss', $session_extension_code, $userId);
 
         return $stmt->execute();
     }
@@ -675,12 +676,12 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-    public function publishPost($title, $description, $user_id) {
+    public function publishPost($title, $description, $userId) {
         $query = 'INSERT INTO `posts`(`id`, `title`, `description`, `userId`, `time`, `date`) VALUES (NULL, ?, ?, ?, CURRENT_TIME(), CURRENT_DATE());';
 
         $stmt = $this->db->prepare($query);
 
-        $stmt->bind_param('sss', $title, $description, $user_id);
+        $stmt->bind_param('sss', $title, $description, $userId);
 
         if(!$stmt->execute()) {
             die("Error in post publication");
@@ -779,6 +780,14 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $result = $stmt->get_result();
 
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    
+    public function deleteUserNotifications($userId) {
+        $query = 'DELETE FROM `notifications` WHERE `notifications`.`receiverId` = ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $userId);
+        return $stmt->execute();
     }
 }
 
@@ -960,9 +969,9 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return $this->databaseHelper->changeFollowState($followerId, $followId, $register);
     }
 
-    public function updateSessionExtensionCode($session_extension_code, $user_id)
+    public function updateSessionExtensionCode($session_extension_code, $userId)
     {
-        return $this->databaseHelper->updateSessionExtensionCode($session_extension_code, $user_id);
+        return $this->databaseHelper->updateSessionExtensionCode($session_extension_code, $userId);
     }
 
     public function getUsersBySessionExtensionCode($session_extension_code)
@@ -1009,8 +1018,8 @@ class checkFollowDecorator extends DatabaseHelperDecorator
         return $this->databaseHelper->getRandomUsersId($number, $userId);
     }
 
-    public function publishPost($title, $description, $user_id) {
-        return $this->databaseHelper->publishPost($title, $description, $user_id);
+    public function publishPost($title, $description, $userId) {
+        return $this->databaseHelper->publishPost($title, $description, $userId);
     }
 
     public function insertImage($postId, $name) {
@@ -1043,6 +1052,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     public function getEmailFromUserId($userId) {
         return $this->databaseHelper->getEmailFromUserId($userId);
+    }
+
+    public function deleteUserNotifications($userId) {
+        return $this->databaseHelper->deleteUserNotifications($userId);
     }
     
 }
