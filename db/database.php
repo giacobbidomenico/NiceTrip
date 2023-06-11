@@ -745,7 +745,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
     
     public function insertNotification($type, $senderId, $receiverId, $postId = NULL) {
-        $query = 'INSERT INTO `notifications`(`id`, `type`, `senderId`, `receiverId`, `postId`) VALUES (NULL,?,?,?,?)';
+        $query = 'INSERT INTO `notifications`(`id`, `type`, `senderId`, `receiverId`, `postId`, `datetime`) VALUES (NULL,?,?,?,?, CURRENT_TIMESTAMP)';
 
         $stmt = $this->db->prepare($query);
 
@@ -772,7 +772,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
     public function getUserNotifications($userId) {
-        $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `users`.`userName` FROM `notifications`, `users` WHERE `notifications`.`receiverId` = ? AND `users`.`id` = `notifications`.`senderId`;';
+        $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `notifications`.`datetime`, `users`.`userName` FROM `notifications`, `users` WHERE `notifications`.`receiverId` = ? AND `users`.`id` = `notifications`.`senderId`;';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("s", $userId);
         $stmt->execute();
