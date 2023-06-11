@@ -3,6 +3,16 @@
     <?php
         $id = $_SESSION["id"];
         $notifications = $dbh->getUserNotifications($id);
+        if(count($notifications) === 0):
+    ?>
+    <article class="card mx-auto mt-5" style="width: 18rem;">
+        <div class="card-body">
+            <h4 class="card-title">Ooopss!</h4>
+            <p class="card-text">There are no notifications.</p>
+        </div>
+    </article>
+    <?php
+        endif;
         for($i = 0; $i < count($notifications); $i++):
     ?>
 
