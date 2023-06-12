@@ -30,9 +30,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col mb-3">
+            <div class="col mb-3 position-relative">
                 <label for="u-userName" class="form-label">User Name</label>
-                <input id="u-userName" type="text" class="form-control" placeholder="<?php echo $userDetails["userName"] ?>" disabled>
+                <input id="u-userName" name="User Name" type="text" class="form-control" placeholder="" value="<?php echo $userDetails["userName"] ?>" disabled>
+                <div class="invalid-tooltip"></div>
             </div>
             <div class="col-auto d-flex align-items-end mb-3">
                 <button id="u-userName-button" type="button" class="btn btn-light">
@@ -49,11 +50,15 @@
 					</span>
 				</button>
             </div>
+            <div class="col-12">
+                <div id="u-userName-feedback"><div class="invalid-feedback"></div></div>
+            </div>
         </div>
         <div class="row">
-            <div class="col mb-3">
+            <div class="col mb-3 position-relative">
                 <label for="u-email" class="form-label">Email</label>
-                <input id="u-email" type="text" class="form-control" placeholder="<?php echo $userDetails["email"] ?>" disabled>
+                <input id="u-email" type="email" type="text" class="form-control" placeholder="" value="<?php echo $userDetails["email"] ?>" disabled>
+                <div class="invalid-tooltip"></div>
             </div>
             <div class="col-auto d-flex align-items-end mb-3">
                 <button id="u-email-button" type="button" class="btn btn-light">
@@ -72,13 +77,15 @@
             </div>
         </div>
         <div class="row">
-            <div class="col mb-3">
+            <div class="col mb-3 position-relative">
                 <label for="u-psw" class="form-label">Password</label>
                 <input id="u-psw" type="text" class="form-control" placeholder="" disabled>
+                <div class="invalid-tooltip"></div>
             </div>
-            <div class="col mb-3">
+            <div class="col mb-3 position-relative">
                 <label for="u-psw-confirm" class="form-label">Confirm password</label>
                 <input id="u-psw-confirm" type="text" class="form-control" placeholder="" disabled>
+                <div class="invalid-tooltip"></div>
             </div>
             <div class="col-auto d-flex align-items-end mb-3">
                 <button id="u-psw-button" type="button" class="btn btn-light">
