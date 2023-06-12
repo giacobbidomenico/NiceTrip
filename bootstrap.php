@@ -44,6 +44,6 @@ $navBarParams["feed"] = "feed.php";
 $navBarParams["search"] = "search.php";
 $navBarParams["notifications"] = "notifications.php";
 $navBarParams["newPost"] = "new-post.php";
-$navBarParams["options"] = "";
+$navBarParams["options"] = "settings.php";
 
 ?>
