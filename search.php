@@ -11,6 +11,10 @@
 	}
 
 	$templateParams["title"] = "search page";
+	
+	$templateParams["introductionTitle"] = "Search";
+	$templateParams["introduction"] = "generic-introduction.php";
+
 	$templateParams["mainArticle"] = "search-template.php";
 	$templateParams["sideArticle"] = "side-users-recommend.php";
 	
