@@ -228,6 +228,7 @@ abstract class DatabaseHelper
     abstract public function insertLikeNotification($postId, $userId);
     abstract public function insertFollowNotification($senderId, $receiverId);
     abstract public function getUserNotifications($userId);
+    abstract public function getUserNotificationsNotSent($userId);
     /**
     *  Function that updates the username of a given user
     *  @param $userId - id of the user to update
@@ -775,7 +776,6 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt->bind_param("ss", $newUserName, $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
@@ -822,7 +822,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
     
     public function insertNotification($type, $senderId, $receiverId, $postId = NULL) {
-        $query = 'INSERT INTO `notifications`(`id`, `type`, `senderId`, `receiverId`, `postId`, `datetime`) VALUES (NULL,?,?,?,?, CURRENT_TIMESTAMP)';
+        $query = 'INSERT INTO `notifications`(`id`, `type`, `senderId`, `receiverId`, `postId`, `datetime`, `sent`) VALUES (NULL,?,?,?,?,CURRENT_TIMESTAMP,0)';
 
         $stmt = $this->db->prepare($query);
 
@@ -849,7 +849,17 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
     public function getUserNotifications($userId) {
-        $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `notifications`.`datetime`, `users`.`userName` FROM `notifications`, `users` WHERE `notifications`.`receiverId` = ? AND `users`.`id` = `notifications`.`senderId`;';
+        $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `notifications`.`datetime`, `users`.`userName` FROM `notifications`, `users` WHERE `notifications`.`receiverId` = ? AND `users`.`id` = `notifications`.`receiverId`;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getUserNotificationsNotSent($userId) {
+        $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `notifications`.`datetime`, SENDERS.`userName`, RECEIVERS.`email` AS emailReceiver FROM `notifications`, `users` AS SENDERS,`users` AS RECEIVERS WHERE SENDERS.`id` = `notifications`.`senderId` AND RECEIVERS.`id` = `notifications`.`receiverId` AND `notifications`.`senderId` = ? AND `notifications`.`sent` = 0;';
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("s", $userId);
         $stmt->execute();
@@ -1137,10 +1147,6 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     public function insertFollowNotification($senderId, $receiverId) {
         return $this->databaseHelper->insertFollowNotification($postId, $receiverId);
     }
-    
-    public function getUserNotifications($userId) {
-        return $this->databaseHelper->getUserNotifications($userId);
-    }
 
     public function getEmailFromUserId($userId) {
         return $this->databaseHelper->getEmailFromUserId($userId);
@@ -1148,6 +1154,14 @@ class checkFollowDecorator extends DatabaseHelperDecorator
 
     public function deleteUserNotifications($userId) {
         return $this->databaseHelper->deleteUserNotifications($userId);
+    }
+
+    public function getUserNotifications($userId) {
+        return $this->databaseHelper->getUserNotifications($userId);
+    }
+    
+    public function getUserNotificationsNotSent($userId) {
+        return $this->databaseHelper->getUserNotificationsNotSent($userId);
     }
     
 }
