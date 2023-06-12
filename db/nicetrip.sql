@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Giu 11, 2023 alle 19:33
+-- Creato il: Giu 12, 2023 alle 22:12
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -43,18 +43,17 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `description`, `date`, `time`, `postsId`, `userId`) VALUES
-(29, 'fjirpednjvigprjnwpvgnjwr', '2023-06-10', '10:27:01', 125, 3),
 (33, 'copdvmpfdm', '2023-06-10', '11:01:07', 124, 3),
-(34, 'fersvbgrevgrevgre', '2023-06-10', '11:43:15', 125, 5),
 (35, 'bgrt brtnr', '2023-06-10', '16:24:09', 128, 5),
 (44, 'voidfniobion', '2023-06-10', '22:35:44', 128, 3),
-(45, 'ciao', '2023-06-11', '09:00:15', 129, 3),
-(46, 'coswngvodwr', '2023-06-11', '12:27:34', 127, 3),
 (47, 'bel post', '2023-06-11', '15:55:32', 127, 12),
-(48, 'ciao', '2023-06-11', '15:56:16', 127, 3),
-(49, 'nosdvnordnvoiwnr', '2023-06-11', '18:17:24', 127, 3),
-(50, 'fnorvnordvgn', '2023-06-11', '18:18:02', 127, 3),
-(51, 'fnorvnordvgn', '2023-06-11', '18:51:25', 127, 3);
+(52, 'frwmpgvkne', '2023-06-12', '20:57:53', 127, 3),
+(53, 'jvbpibjffr', '2023-06-12', '21:21:05', 127, 3),
+(54, 'vjpirjvipoejbi', '2023-06-12', '22:01:02', 127, 3),
+(55, 'vjpirjvipoejbi', '2023-06-12', '22:03:00', 127, 3),
+(56, 'btepmhbem', '2023-06-12', '22:05:42', 127, 3),
+(57, 'tbjie\'pboj', '2023-06-12', '22:05:54', 127, 3),
+(58, 'colletta è bello', '2023-06-12', '22:06:22', 127, 3);
 
 -- --------------------------------------------------------
 
@@ -67,15 +66,6 @@ CREATE TABLE `destinations` (
   `description` varchar(200) NOT NULL,
   `post_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dump dei dati per la tabella `destinations`
---
-
-INSERT INTO `destinations` (`id`, `description`, `post_id`) VALUES
-(30, 'Ancona, Ancona, Italia', 123),
-(31, 'Ancona Railway Station, Piazza Rosselli Nello E Carlo 1, 60126 Ancona, AN, Italia', 126),
-(32, 'Cesenatico, Forlì-Cesena, Italia', 126);
 
 -- --------------------------------------------------------
 
@@ -95,8 +85,8 @@ CREATE TABLE `follows` (
 
 INSERT INTO `follows` (`id`, `follower`, `following`) VALUES
 (16, 3, 5),
-(35, 3, 12),
-(20, 5, 12),
+(48, 3, 12),
+(44, 5, 12),
 (17, 12, 5);
 
 -- --------------------------------------------------------
@@ -116,23 +106,10 @@ CREATE TABLE `images` (
 --
 
 INSERT INTO `images` (`id`, `postsId`, `name`) VALUES
-(100, 122, 'e45f504a51a3d57fbebc96a080f407.png'),
-(101, 122, 'ffcf863c30a21f2b1aa79571397cca.png'),
-(102, 122, '546b3e657034ab05ba0af966bd1e33.png'),
-(103, 122, 'dded5289e0a72f698a34d0d9bfa151.png'),
-(104, 122, 'b9e1ea1df8d9594eb2d5c8dc59bbdf.png'),
-(105, 125, 'a457764408622d4ac305866e34500d.png'),
-(106, 125, '9db469a326f4b36f98cab72923579f.gif'),
-(107, 126, 'd460d38043ac0e6515a4e9602ebc13.png'),
-(108, 126, '7934979a7df44486c4148b0d6ee193.png'),
-(109, 126, '961379323028b2f4f73d0d22437034.png'),
 (110, 127, 'c2213cc523879e2ac6f2c63079c721.png'),
 (111, 127, '1aee65e4d454a4414668e5e652819f.png'),
 (112, 127, '0a67105e45bb60b0b2fc4b0145f41d.gif'),
-(113, 127, '05d2969291fc75e7fe241ac7fbcf23.png'),
-(114, 129, 'f3e9ad5b42afa4fb8a99345041f061.png'),
-(115, 129, '1c7ad70ca50b230ac392ef2dd3bf5e.png'),
-(116, 129, 'e4152557e5ab0999484f025eec4ddf.gif');
+(113, 127, '05d2969291fc75e7fe241ac7fbcf23.png');
 
 -- --------------------------------------------------------
 
@@ -150,17 +127,11 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`userId`, `postsId`) VALUES
-(3, 126),
+(3, 124),
 (3, 127),
 (3, 128),
-(5, 122),
-(5, 123),
-(5, 125),
-(5, 126),
 (5, 127),
-(5, 129),
-(12, 124),
-(12, 126);
+(12, 124);
 
 -- --------------------------------------------------------
 
@@ -174,15 +145,26 @@ CREATE TABLE `notifications` (
   `senderId` int(11) NOT NULL,
   `receiverId` int(11) NOT NULL,
   `postId` int(11) DEFAULT NULL,
-  `datetime` datetime NOT NULL
+  `datetime` datetime NOT NULL,
+  `sent` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `notifications`
 --
 
-INSERT INTO `notifications` (`id`, `type`, `senderId`, `receiverId`, `postId`, `datetime`) VALUES
-(118, 1, 3, 12, 127, '2023-06-11 19:10:47');
+INSERT INTO `notifications` (`id`, `type`, `senderId`, `receiverId`, `postId`, `datetime`, `sent`) VALUES
+(154, 3, 3, 12, NULL, '2023-06-12 21:38:27', 1),
+(155, 3, 3, 12, NULL, '2023-06-12 21:39:17', 1),
+(156, 3, 3, 12, NULL, '2023-06-12 22:00:01', 1),
+(157, 1, 3, 12, 127, '2023-06-12 22:00:19', 1),
+(158, 1, 3, 12, 127, '2023-06-12 22:00:42', 1),
+(159, 2, 3, 12, 127, '2023-06-12 22:01:02', 1),
+(160, 1, 3, 12, 127, '2023-06-12 22:02:57', 1),
+(161, 2, 3, 12, 127, '2023-06-12 22:03:00', 1),
+(162, 2, 3, 12, 127, '2023-06-12 22:05:42', 1),
+(163, 2, 3, 12, 127, '2023-06-12 22:05:54', 1),
+(164, 2, 3, 12, 127, '2023-06-12 22:06:22', 1);
 
 -- --------------------------------------------------------
 
@@ -204,14 +186,9 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`id`, `title`, `description`, `userId`, `time`, `date`) VALUES
-(122, 'fjiedsnb', 'fiorebniore', 3, '11:39:01', '2023-06-09'),
-(123, 'fiernigrengiorngerger', 'gerrerreoirrrrnirfeignireognrei', 3, '18:01:45', '2023-06-09'),
 (124, 'vnroingvo', 'nvrejngbogno', 5, '18:14:04', '2023-06-09'),
-(125, 'nfovhngei', 'vohirhngvire', 3, '10:26:50', '2023-06-10'),
-(126, 'googleanrfvog', 'ngrngnrgr', 3, '12:12:15', '2023-06-10'),
 (127, 'ciao', 'ciao', 12, '15:02:04', '2023-06-10'),
-(128, 'gegethrhe', 'gtntrnnntnrt', 5, '16:23:57', '2023-06-10'),
-(129, 'primo', 'lollo', 3, '09:00:01', '2023-06-11');
+(128, 'gegethrhe', 'gtntrnnntnrt', 5, '16:23:57', '2023-06-10');
 
 -- --------------------------------------------------------
 
@@ -263,7 +240,8 @@ INSERT INTO `visualizations` (`id`, `userId`, `postId`) VALUES
 (371, 3, 128),
 (372, 12, 124),
 (373, 12, 128),
-(374, 3, 127);
+(374, 3, 127),
+(375, 5, 127);
 
 --
 -- Indici per le tabelle scaricate
@@ -347,7 +325,7 @@ ALTER TABLE `visualizations`
 -- AUTO_INCREMENT per la tabella `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT per la tabella `destinations`
@@ -359,7 +337,7 @@ ALTER TABLE `destinations`
 -- AUTO_INCREMENT per la tabella `follows`
 --
 ALTER TABLE `follows`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT per la tabella `images`
@@ -371,7 +349,7 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT per la tabella `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
 
 --
 -- AUTO_INCREMENT per la tabella `posts`
@@ -389,7 +367,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT per la tabella `visualizations`
 --
 ALTER TABLE `visualizations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=375;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=376;
 
 --
 -- Limiti per le tabelle scaricate
