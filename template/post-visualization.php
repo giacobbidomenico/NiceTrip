@@ -68,7 +68,7 @@
 		<hr/>
         <section class="my-4">
 			<!-- Comments -->
-			<div class="container-fluid p-0">
+			<div id="comments" class="container-fluid p-0">
 				<div class="row">
 					<h2>Comments</h2>
 					<form>
