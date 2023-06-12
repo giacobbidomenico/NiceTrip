@@ -32,7 +32,6 @@ function Post(id, editable) {
 	 */
 	this.createPostPreview = function (postDetails) {
 		this.likesNumber = postDetails.data[0].likeNumber;
-		//console.log(postDetails);
 		this.like = postDetails.data[0].liked === 1 ? true : false;
 		let scheme = `
 						<div id="p-` + postDetails.data[0].id + `" class="row gy-4 m-3">
