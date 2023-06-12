@@ -9,6 +9,7 @@
     } else {
         $result["ownPost"] = false;
     }
-    echo json_encode($result);
 
+    header('Content-Type: application/json');
+    echo json_encode($result);
 ?>

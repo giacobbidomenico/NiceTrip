@@ -7,6 +7,7 @@
     }
     $result = $dbh->getPublicUserDetails($userId, $id);
     
+    header('Content-Type: application/json');
     echo json_encode($result);
 
 ?>

@@ -4,7 +4,7 @@
     $postId = $_POST["postId"];
     $dbh = new checkFollowDecorator($dbh);
     $result = $dbh->notifyVisual($postId, $id);
-    
+    header('Content-Type: application/json');
     echo json_encode($result);
 
 ?>

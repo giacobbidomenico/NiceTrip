@@ -14,5 +14,6 @@
         $result["posts"] = $dbh->getFollowsPosts($id);
     }
 
+    header('Content-Type: application/json');
     echo json_encode($result);
 ?>
