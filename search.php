@@ -13,13 +13,7 @@
 	$templateParams["title"] = "YourProfile";
 	$templateParams["mainArticle"] = "search-template.php";
 	$templateParams["sideArticle"] = "side-users-recommend.php";
-	$navBarParams["profile"] = "";
-	$navBarParams["logOut"] = "";
-	$navBarParams["feed"] = "feed.php";
-	$navBarParams["search"] = "";
-	$navBarParams["notifications"] = "";
-	$navBarParams["newPost"] = "";
-	$navBarParams["options"] = "";
+	
 	$templateParams["jsVars"] = array("const userProfile = ".$_GET["userProfile"]);
 	$templateParams["js"] = array(
 		array("https://unpkg.com/axios/dist/axios.min.js"),

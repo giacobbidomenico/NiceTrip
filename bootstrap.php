@@ -37,4 +37,13 @@ if(isSessionActive()) {
     $mailManager->setDestinationEmail($_SESSION["email"]);
 }
 
+//default parameters of the navbar
+$navBarParams["profile"] = "profile.php";
+$navBarParams["logOut"] = "";
+$navBarParams["feed"] = "feed.php";
+$navBarParams["search"] = "search.php";
+$navBarParams["notifications"] = "notifications.php";
+$navBarParams["newPost"] = "new-post.php";
+$navBarParams["options"] = "";
+
 ?>

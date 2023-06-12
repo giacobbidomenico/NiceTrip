@@ -9,13 +9,7 @@
 	}
 
 	$templateParams["title"] = "";
-	$navBarParams["profile"] = "";
-	$navBarParams["logOut"] = "";
-	$navBarParams["feed"] = "";
-	$navBarParams["search"] = "";
-	$navBarParams["notifications"] = "";
-	$navBarParams["newPost"] = "";
-	$navBarParams["options"] = "";
+	
 	$templateParams["introductionTitle"] = "Notifications";
 	$templateParams["introduction"] = "generic-introduction.php";
     $templateParams["mainArticle"] = 'notifications-list.php';

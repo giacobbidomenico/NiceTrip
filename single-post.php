@@ -10,13 +10,7 @@
 	$templateParams["title"] = "Post";
 	$templateParams["mainArticle"] = "post-visualization.php";
 	$templateParams["sideArticle"] = "side-itinerary.php";
-	$navBarParams["profile"] = "profile.php";
-	$navBarParams["logOut"] = "";
-	$navBarParams["feed"] = "feed.php";
-	$navBarParams["search"] = "";
-	$navBarParams["notifications"] = "";
-	$navBarParams["newPost"] = "newPost.php";
-	$navBarParams["options"] = "";
+
 	$templateParams["jsVars"] = array("const postId = ".$_GET["postId"].";", "const userId = ".$_SESSION["id"].";");
 	$templateParams["js"] = array(array("https://unpkg.com/axios/dist/axios.min.js"),
 		array("js/single-post.js"),

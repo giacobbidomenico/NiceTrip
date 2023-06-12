@@ -14,13 +14,7 @@
 	$templateParams["introduction"] = "generic-introduction.php";
 	$templateParams["introductionTitle"] = "Settings";
 	$templateParams["mainArticle"] = "account-settings.php";
-	$navBarParams["profile"] = "";
-	$navBarParams["logOut"] = "";
-	$navBarParams["feed"] = "feed.php";
-	$navBarParams["search"] = "";
-	$navBarParams["notifications"] = "";
-	$navBarParams["newPost"] = "";
-	$navBarParams["options"] = "";
+	
 	$templateParams["jsVars"] = array("const userProfile = ".$_GET["userProfile"]);
 	$templateParams["js"] = array(
 		array("https://unpkg.com/axios/dist/axios.min.js"),

@@ -8,13 +8,7 @@
 	}
 
 	$templateParams["title"] = "";
-	$navBarParams["profile"] = "";
-	$navBarParams["logOut"] = "";
-	$navBarParams["feed"] = "";
-	$navBarParams["search"] = "";
-	$navBarParams["notifications"] = "";
-	$navBarParams["newPost"] = "";
-	$navBarParams["options"] = "";
+
 	$templateParams["js"] = array(
 		array("https://unpkg.com/axios/dist/axios.min.js"),
 		array("js/post-preview.js"),
