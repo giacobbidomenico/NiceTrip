@@ -19,7 +19,7 @@ const images_container = document.getElementById("images-container");
 
 const post_submit = document.getElementById("post-submit");
 const loading_icon = document.getElementById("loading-icon");
-const form =  document.getElementsByTagName("form")[0];
+const form =  document.getElementById("new-post-form");
 
 let suggestions = [];
 let suggestionsManager;
@@ -35,7 +35,13 @@ search_field.addEventListener("input", event => showAutoSuggest());
 post_submit.addEventListener("click", event => {
     event.preventDefault();
     publish_post();
+    scrollToTop();
 });
+
+function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
 
 function noDestinations() {
     destinations_container.innerHTML = "<p id='message1'></p>"
@@ -311,12 +317,11 @@ function getDestinations() {
 function getImages() {
     const images_index = Array.from(images_container.getElementsByTagName("img")).map(item=>item.getAttribute("data-index"))
     return images_index.map(item => dataImages[item]);
-    //return Array.from(images_container.getElementsByTagName("li")).map(item => dataImages.filter(item2 => item2[0] == item.getAttribute("data-index")));
 }
 
 function publish_post() {
     showEmptyFields(form);
-
+    
     if(title_field.value !== '') {
         showFieldWithoutValidation(title_field);
     }

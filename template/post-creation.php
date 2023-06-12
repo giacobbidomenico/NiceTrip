@@ -1,4 +1,4 @@
-<form class="g-3 mt-4 ps-4 pe-4 needs-validation" method="POST" novalidate>
+<form id="new-post-form" class="g-3 mt-4 ps-4 pe-4 needs-validation" method="POST" novalidate>
     <div class="row">
         <label for="email-username" class="form-label fw-bold fs-4 text-primary">Title</label>
         <input type="text" class="form-control" id="title" name="title" required>
