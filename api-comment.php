@@ -8,9 +8,7 @@
             $result = $dbh->setComment($postId, $id, date("Y-m-d"), date("H:i:s"), $_POST["description"]);
             $receivedEmail = $dbh->insertCommentNotification($postId, $id);
             $link = 'http://'.$_SERVER['HTTP_HOST'].$actualDir.'/single-post.php?postId='.$postId;
-            $mailManager->setDestinationEmail($receivedEmail);
-            $mailManager->sendNotification($_SESSION["userName"], "comment on", $link);
-		    break;
+            break;
 	    case 'remove':
             $commentId = $_POST["commentId"];
             $result = $dbh->deleteComment($commentId);

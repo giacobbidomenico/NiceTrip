@@ -7,9 +7,6 @@
     
     if($_POST["register"] == 'true') {
         $receiverEmail = $dbh->insertFollowNotification($id, $userId);
-        var_dump($receiverEmail);
-        $mailManager->setDestinationEmail($receiverEmail);
-        $mailManager->sendNotification($_SESSION["userName"], "started following", "");
     }
 
     header('Content-Type: application/json');
