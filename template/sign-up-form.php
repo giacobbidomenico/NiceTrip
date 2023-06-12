@@ -2,33 +2,33 @@
 
 <form class="row g-3 needs-validation mt-4" method="POST" novalidate>
 
-    <div class="col-12 col-md-5 d-inline-block me-md-4">
+    <div class="col-12 col-md-5 d-inline-block me-md-4 position-relative">
         <label for="username" class="form-label">Username</label>
         <input type="text" class="form-control rounded-0" id="username" name="username" autocomplete="on" required>
-        <div class="invalid-feedback"></div>
+        <div class="invalid-tooltip"></div>
     </div>
 
-    <div class="col-12 col-md-5 d-inline-block">
+    <div class="col-12 col-md-5 d-inline-block position-relative">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control rounded-0" id="email" name="email" autocomplete="on" required>
-        <div class="invalid-feedback"></div>
+        <div class="invalid-tooltip"></div>
     </div>
 
-    <div class="col-12 col-md-5 d-inline-block me-md-4">
+    <div class="col-12 col-md-5 d-inline-block me-md-4 position-relative">
         <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control rounded-0" id="name" name="name" autocomplete="on" required>
-        <div class="invalid-feedback"></div>
+        <div class="invalid-tooltip"></div>
     </div>
 
-    <div class="col-12 col-md-5 d-inline-block">
+    <div class="col-12 col-md-5 d-inline-block position-relative">
         <label for="last-name" class="form-label">Last Name</label>
         <input type="text" class="form-control rounded-0" id="last-name" name="last-name" autocomplete="on" required>
-        <div class="invalid-feedback"></div>
+        <div class="invalid-tooltip"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block me-md-4">
         <label for="password" class="form-label">Password</label>
-        <div class="input-group">
+        <div class="input-group position-relative">
             <input type="password" class="form-control  rounded-0" id="password" name="password" autocomplete="on" required>
             <span class="input-group-text" id="eye-button1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -36,14 +36,14 @@
                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                 </svg>
             </span>
-            <div class="invalid-feedback">
+            <div class="invalid-tooltip">
             </div>
         </div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block">
         <label for="confirm-password" class="form-label text-nowrap">Confirm Password</label>
-        <div class="input-group">
+        <div class="input-group position-relative">
             <input type="password" class="form-control  rounded-0" id="confirm-password" name="confirm-password" autocomplete="on" required>
             <span class="input-group-text" id="eye-button2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -51,7 +51,7 @@
                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                 </svg>
             </span>
-            <div class="invalid-feedback text-wrap">
+            <div class="invalid-tooltip text-wrap">
                 
             </div>
         </div>

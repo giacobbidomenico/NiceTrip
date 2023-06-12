@@ -90,7 +90,7 @@ function showEmptyFields(completeForm) {
  */
 function insertMessage(field, message_error) {
     if(message_error !== '') {
-        field.parentElement.getElementsByClassName("invalid-feedback")[0].innerHTML = '<p>' + message_error + '</p>';
+        field.parentElement.getElementsByClassName("invalid-tooltip")[0].innerHTML = '<p>' + message_error + '</p>';
     }
 }
 
@@ -118,8 +118,8 @@ function showFieldInvalid(field, message_error='') {
  *            message that is displayed
  */
 function showFieldValid(field, message='') {
-    if(field.parentElement.getElementsByClassName("invalid-feedback").lenght == 0) {
-        field.parentElement.innerHTML += '<div class="invalid-feedback"></div>';
+    if(field.parentElement.getElementsByClassName("invalid-tooltip").lenght == 0) {
+        field.parentElement.innerHTML += '<div class="invalid-tooltip"></div>';
     }
 
     insertMessage(field, message);
