@@ -8,7 +8,7 @@
 		header('Location: index.php');
 	}
 
-	$templateParams["title"] = "";
+	$templateParams["title"] = "notifications";
 	
 	$templateParams["introductionTitle"] = "Notifications";
 	$templateParams["introduction"] = "generic-introduction.php";

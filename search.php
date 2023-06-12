@@ -10,7 +10,7 @@
 		$_GET["userProfile"] = $_SESSION["id"];
 	}
 
-	$templateParams["title"] = "YourProfile";
+	$templateParams["title"] = "search page";
 	$templateParams["mainArticle"] = "search-template.php";
 	$templateParams["sideArticle"] = "side-users-recommend.php";
 	

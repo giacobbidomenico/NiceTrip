@@ -7,7 +7,7 @@
 		header('Location: index.php');
 	}
 
-	$templateParams["title"] = "Post";
+	$templateParams["title"] = "post";
 	$templateParams["mainArticle"] = "post-visualization.php";
 	$templateParams["sideArticle"] = "side-itinerary.php";
 

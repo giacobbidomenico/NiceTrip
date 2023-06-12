@@ -7,7 +7,7 @@
 		header('Location: index.php');
 	}
 
-	$templateParams["title"] = "";
+	$templateParams["title"] = "feed";
 
 	$templateParams["js"] = array(
 		array("https://unpkg.com/axios/dist/axios.min.js"),
