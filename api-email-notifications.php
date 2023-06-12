@@ -1,5 +1,6 @@
 <?php
     require_once 'bootstrap.php';
+
     $id = $_SESSION["id"];
     $notifications =  $dbh->getUserNotificationsNotSent($id);
     
@@ -18,4 +19,6 @@
         $mailManager->setDestinationEmail($notifications[$i]["emailReceiver"]);
         $mailManager->sendNotification($notifications[$i]["userName"], $message, $link);
     }
+    $dbh->notificationsSent($id);
+    header('Content-Type: application/json');
 ?>

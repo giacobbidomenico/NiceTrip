@@ -27,6 +27,7 @@ function commentSub() {
 			setAuthorDetails(comment);
 		});
 	});
+    axios.post('api-email-notifications.php');
 }
 
 // modal to manage comment deletion

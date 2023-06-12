@@ -76,7 +76,8 @@ function changeFollowState() {
         formData.append('register', 'true');
     }
     formData.append('userId', userProfile);
-    axios.post('api-follow.php', formData).then(response => { });
+    axios.post('api-follow.php', formData);
+    axios.post('api-email-notifications.php');
     changeFollowButton(follow);
 }
 

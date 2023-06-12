@@ -258,6 +258,7 @@ abstract class DatabaseHelper
     abstract public function editUserImageProfile($userId, $imageName);
     abstract public function getEmailFromUserId($userId);
     abstract public function deleteUserNotifications($userId);
+    abstract public function notificationsSent($userId);
 }
 
 /**
@@ -875,6 +876,13 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt->bind_param("s", $userId);
         return $stmt->execute();
     }
+
+    public function notificationsSent($userId) {
+        $query = 'UPDATE `notifications` SET `sent`= 1 WHERE `notifications`.`senderId` = ?;';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $userId);
+        return $stmt->execute();
+    }
 }
 
 /**
@@ -1163,6 +1171,9 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     public function getUserNotificationsNotSent($userId) {
         return $this->databaseHelper->getUserNotificationsNotSent($userId);
     }
-    
+
+    public function notificationsSent($userId) {
+        return $this->databaseHelper->notificationSent($userId);
+    }
 }
 ?>
