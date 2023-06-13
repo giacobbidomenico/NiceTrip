@@ -73,7 +73,7 @@ image_field.addEventListener("input", event => {
 });
 
 
-userName_field.addEventListener("input", event => verifyUsername(userName_field, true, userName_feedback));
+userName_field.addEventListener("input", event => verifyUsername(userName_field, true));
 email_field.addEventListener("input", event => verifyEmail(email_field, true));
 psw_field.addEventListener("input", event => {
     checkPasswordStrength(psw_field);
