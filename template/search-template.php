@@ -1,8 +1,8 @@
-<form>
+<form class="mt-3">
     <div class="container-fluid">
         <div class="row">
             <div class="col mb-3">
-                <label for="s-input" class="form-label">Search</label>
+                <label for="s-input" class="form-label fw-bold">Search</label>
                 <input id="s-input" type="text" class="form-control" placeholder="My sweet holiday!">
             </div>
             <div class="col-auto d-flex align-items-end mb-3">
@@ -16,7 +16,7 @@
         </div>
     </div>
 </form>
-<ul class="nav nav-tabs" id="myTab" role="tablist">
+<ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
     <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#feed" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Posts</button>
   </li>
