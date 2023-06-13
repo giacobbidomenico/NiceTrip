@@ -8,7 +8,7 @@
             <div class="col-4">
 				<div class="ratio ratio-1x1">
 					<div class="border d-flex align-items-center">
-						<img id="v-image" src="http://localhost/tecnologieweb/NiceTrip/profilePhotos/genericProfilePhoto.jpg" class="img-fluid" alt="...">
+						<img id="v-image" src="profilePhotos/<?php echo $userDetails["photoPath"] ?>" class="img-fluid" alt="...">
 					</div>
 				</div>
             </div>
