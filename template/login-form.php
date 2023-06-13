@@ -4,7 +4,7 @@
         <div class="col-md-6 position-relative">
             <label for="email-username" class="form-label">Email or Username</label>
             <input type="text" class="form-control rounded-0" id="email-username" name="email-username" required>
-            <div class="invalid-tooltip">
+            <div class="invalid-feedback">
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
                         <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                     </svg>
                 </span>
-                <div class="invalid-tooltip">
+                <div class="invalid-feedback">
                 </div>
             </div>
         </div>

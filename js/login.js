@@ -25,7 +25,7 @@ login_submit.addEventListener("click", event => {
  */
 function login() {
 
-    showEmptyFields(form);
+    showEmptyFields(form, false);
 
     //check that the email has been validated
     if(!email_username_field.classList.contains("is-valid")) {
@@ -44,15 +44,15 @@ function login() {
 
         //if the account has not been activated, it is reported to the user and the login is not carried out
         if(response.data['error'] === 'error-account-not-activated') {
-            showFieldValid(password_field, '');
-            showMessage(document.getElementById("message"), "Error, your account has not been verified", 'error');
+            showFieldValid(password_field, '', false);
+            showMessage(document.getElementById("message"), "Error, your account has not been verified", 'error', false);
         }else if(response.data['error'] === 'error-login-data' && response.data["found-users"] <= 0) {
             //In case of wrong password
             if(!showIfEmptyField(password_field, false)) {
                 if (!email_username_field.classList.contains('is-valid')) {
                     email_username_field.classList.add("is-invalid");
                 }
-                showFieldInvalid(password_field, 'Error, password is incorrect!');
+                showFieldInvalid(password_field, 'Error, password is incorrect!', false);
             }
         } else {
             window.location.replace("feed.php");

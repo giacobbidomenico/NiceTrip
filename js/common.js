@@ -14,7 +14,7 @@
  * @param {*} message_error
  *            message_error is the error message that is eventually returned
  */
-function verifyAccount(field, order, type, message_error) {
+function verifyAccount(field, order, type, message_error, tooltip) {
     const formData = new FormData();
 
     formData.append('type-request', 'verify-'+ type);
@@ -26,10 +26,10 @@ function verifyAccount(field, order, type, message_error) {
             !field.checkValidity() ||
             (response.data["num-"+type] == 0 && !order) ||
             (response.data["num-"+type] > 0 && order)) {
-            showFieldInvalid(field, message_error);
+            showFieldInvalid(field, message_error, tooltip);
         } else if ((response.data["num-"+type] > 0 && !order) ||
             (response.data["num-"+type]  == 0 && order)) {
-            showFieldValid(field);
+            showFieldValid(field, '', tooltip);
         }
     });
 }
@@ -56,13 +56,16 @@ function showFieldWithoutValidation(field) {
  * 
  * @returns true if the field is empty, false otherwise
  */
-function showIfEmptyField(field, valid=true) {
+function showIfEmptyField(field, valid=true, tooltip) {
+    console.log(tooltip);
+    
     if(field.value === '') {
-        showFieldInvalid(field, field.name + ' is request!');
+        showFieldInvalid(field, field.name + ' is request!', tooltip);
         return true;
     } else if(valid){
-        showFieldValid(field);
+        showFieldValid(field, '', tooltip);
     }
+
     return false;
 }
 
@@ -72,10 +75,10 @@ function showIfEmptyField(field, valid=true) {
  * @param {*} completeForm
  *            considered form 
  */
-function showEmptyFields(completeForm) {
+function showEmptyFields(completeForm, tooltip) {
     for(let item of completeForm.querySelectorAll("[required]")) {
         if(!item.classList.contains("is-invalid") && item.type !== 'checkbox' && item.type !== 'submit') {
-            showIfEmptyField(item);
+            showIfEmptyField(item, true, tooltip);
         }
     }
 }
@@ -88,9 +91,14 @@ function showEmptyFields(completeForm) {
  * @param {*} message_error
  *            error message that is displayed
  */
-function insertMessage(field, message_error) {
+function insertMessage(field, message_error, tooltip) {
+    console.log(tooltip);
     if(message_error !== '') {
-        field.parentElement.getElementsByClassName("invalid-tooltip")[0].innerHTML = '<p>' + message_error + '</p>';
+        if(!tooltip) {
+            field.parentElement.getElementsByClassName("invalid-feedback")[0].innerHTML = '<p>' + message_error + '</p>';
+        }else {
+            field.parentElement.getElementsByClassName("invalid-tooltip")[0].innerHTML = '<p>' + message_error + '</p>';
+        }
     }
 }
 
@@ -102,8 +110,8 @@ function insertMessage(field, message_error) {
  * @param {*} message_error
  *            error message that is displayed
  */
-function showFieldInvalid(field, message_error='') {
-    insertMessage(field, message_error);
+function showFieldInvalid(field, message_error='', tooltip) {
+    insertMessage(field, message_error, tooltip);
 
     field.classList.remove("is-valid");
     field.classList.add("is-invalid");
@@ -117,12 +125,19 @@ function showFieldInvalid(field, message_error='') {
  * @param {*} message
  *            message that is displayed
  */
-function showFieldValid(field, message='') {
-    if(field.parentElement.getElementsByClassName("invalid-tooltip").lenght == 0) {
-        field.parentElement.innerHTML += '<div class="invalid-tooltip"></div>';
+function showFieldValid(field, message='', tooltip) {
+    if(!tooltip) {
+        if(field.parentElement.getElementsByClassName("invalid-feedback").lenght == 0) {
+            field.parentElement.innerHTML += '<div class="invalid-feedback"></div>';
+        }
+    }else {
+        if(field.parentElement.getElementsByClassName("invalid-tooltip").lenght == 0) {
+            field.parentElement.innerHTML += '<div class="invalid-tooltip"></div>';
+        }
     }
+    
 
-    insertMessage(field, message);
+    insertMessage(field, message, tooltip);
 
     field.classList.remove("is-invalid");
     field.classList.add("is-valid");
@@ -179,15 +194,15 @@ function showMessage(elementMessage, message, type) {
  * @param {*} field
  *            considered field 
  */
-function checkPasswordStrength(field) {
-    if(showIfEmptyField(field)) {
+function checkPasswordStrength(field, tooltip) {
+    if(showIfEmptyField(field, true, tooltip)) {
         return;
     }
     const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     if(!strongRegex.test(field.value)) {
-        showFieldInvalid(field,'Your password must be more than 8 characters long, should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character');
+        showFieldInvalid(field,'Your password must be more than 8 characters long, should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character', tooltip);
     } else {
-        showFieldValid(field);
+        showFieldValid(field, '', tooltip);
     }
 }
 
@@ -201,14 +216,14 @@ function checkPasswordStrength(field) {
  * @param {*} field
  *            confirmation password field
  */
-function checkPasswordConfirmation(p_field, field) {
-    if(showIfEmptyField(field)) {
+function checkPasswordConfirmation(p_field, field, tooltip) {
+    if(showIfEmptyField(field, true, tooltip)) {
         return;
     }
     if(p_field.value === field.value) {
-        showFieldValid(field);
+        showFieldValid(field, '', tooltip);
     } else {
-        showFieldInvalid(field, 'password does not match!');
+        showFieldInvalid(field, 'password does not match!', tooltip);
     }
 }
 
@@ -221,18 +236,18 @@ function checkPasswordConfirmation(p_field, field) {
  *            order is true if an error message is returned if the e-mail match an account,
  *            false if a success message is to be returned
  */
-function verifyEmail(field, order) {
-    if(showIfEmptyField(field)) {
+function verifyEmail(field, order, tooltip) {
+    if(showIfEmptyField(field, true, tooltip)) {
         return;
     }
 
     //Check the format of the email
     if(!field.checkValidity()) {
-        showFieldInvalid(field, "invalid email format!");
+        showFieldInvalid(field, "invalid email format!",tooltip);
         return;
     }
 
-    verifyAccount(field, order, 'email', 'email is already used!');
+    verifyAccount(field, order, 'email', 'email is already used!', tooltip);
 }
 
 /**
@@ -244,12 +259,12 @@ function verifyEmail(field, order) {
  *            order is true if an error message is returned if the username match an account,
  *            false if a success message is to be returned
  */
-function verifyUsername(field, order) {
-    if(showIfEmptyField(field)) {
+function verifyUsername(field, order, tooltip) {
+    if(showIfEmptyField(field, true, tooltip)) {
         return;
     }
-    verifyAccount(field, order, 'username', 'username is already used!');
-    showIfEmptyField(field);
+    verifyAccount(field, order, 'username', 'username is already used!', tooltip);
+    showIfEmptyField(field, true, tooltip);
 }
 
 /**
@@ -261,9 +276,9 @@ function verifyUsername(field, order) {
  *            order is true if an error message is returned if the email/username match an account,
  *            false if a success message is to be returned
  */
-function verifyEmailOrUsername(field, order) {
-    if(showIfEmptyField(field)) {
+function verifyEmailOrUsername(field, order, tooltip) {
+    if(showIfEmptyField(field, true, tooltip)) {
         return;
     }
-    verifyAccount(field, order, "email-username", "no matching accounts");
+    verifyAccount(field, order, "email-username", "no matching accounts", tooltip);
 }

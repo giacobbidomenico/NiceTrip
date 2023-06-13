@@ -38,7 +38,7 @@ sign_up_submit.addEventListener("click", event => {
  *  
  */
 function sign_up() {
-    showEmptyFields(form);
+    showEmptyFields(form, false);
 
     //if all fields have not been validated, they are not sent to the server
     if(form.getElementsByClassName('is-valid').length !== 6) {
@@ -57,9 +57,9 @@ function sign_up() {
     axios.post('api-signup.php', formData).then(response => {
         const message = document.getElementById("message");
         if(response.data["error"]) {
-            showMessage(message, "Error, your account has not been registered", 'error');
+            showMessage(message, "Error, your account has not been registered", 'error', false);
         }else {
-            showMessage(message, "A link has been sent by email, click it to verify your account", 'success');
+            showMessage(message, "A link has been sent by email, click it to verify your account", 'success', false);
         }
     });
 }

@@ -5,25 +5,25 @@
     <div class="col-12 col-md-5 d-inline-block me-md-4 position-relative">
         <label for="username" class="form-label">Username</label>
         <input type="text" class="form-control rounded-0" id="username" name="username" autocomplete="on" required>
-        <div class="invalid-tooltip"></div>
+        <div class="invalid-feedback"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block position-relative">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control rounded-0" id="email" name="email" autocomplete="on" required>
-        <div class="invalid-tooltip"></div>
+        <div class="invalid-feedback"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block me-md-4 position-relative">
         <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control rounded-0" id="name" name="name" autocomplete="on" required>
-        <div class="invalid-tooltip"></div>
+        <div class="invalid-feedback"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block position-relative">
         <label for="last-name" class="form-label">Last Name</label>
         <input type="text" class="form-control rounded-0" id="last-name" name="last-name" autocomplete="on" required>
-        <div class="invalid-tooltip"></div>
+        <div class="invalid-feedback"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block me-md-4">
@@ -36,7 +36,7 @@
                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                 </svg>
             </span>
-            <div class="invalid-tooltip">
+            <div class="invalid-feedback">
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
                 </svg>
             </span>
-            <div class="invalid-tooltip text-wrap">
+            <div class="invalid-feedback text-wrap">
                 
             </div>
         </div>

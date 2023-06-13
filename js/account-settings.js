@@ -64,22 +64,22 @@ userName_button.addEventListener("click", event => {
 
 image_field.addEventListener("input", event => {
     if (image_field.value === '' || image_field.files.lenght === 0) {
-        showFieldInvalid(images_field, "No images selected!");
+        showFieldInvalid(images_field, "No images selected!", true);
         return;
     } else {
-        showIfEmptyField(image_field, true);
+        showIfEmptyField(image_field, true, true);
 
     }
 });
 
 
-userName_field.addEventListener("input", event => verifyUsername(userName_field, true));
-email_field.addEventListener("input", event => verifyEmail(email_field, true));
+userName_field.addEventListener("input", event => verifyUsername(userName_field, true, true));
+email_field.addEventListener("input", event => verifyEmail(email_field, true, true));
 psw_field.addEventListener("input", event => {
-    checkPasswordStrength(psw_field);
-    checkPasswordConfirmation(psw_field, c_psw_field);
+    checkPasswordStrength(psw_field, true);
+    checkPasswordConfirmation(psw_field, c_psw_field, true);
 });
-c_psw_field.addEventListener("input", event => checkPasswordConfirmation(psw_field, c_psw_field));
+c_psw_field.addEventListener("input", event => checkPasswordConfirmation(psw_field, c_psw_field, true));
 
 /**
  * Manages the form submit.
@@ -89,7 +89,6 @@ apply_button.addEventListener("click", event => {
         const usernameData = new FormData();
         usernameData.append('username', userName_field.value);
         axios.post('api-account-settings.php', usernameData).then(response => {
-            console.log(response);
             userName = userName_field.value;
             changeUserNameState(false);
         });
@@ -99,7 +98,6 @@ apply_button.addEventListener("click", event => {
         const emailData = new FormData();
         emailData.append('email', email_field.value);
         axios.post('api-account-settings.php', emailData).then(response => {
-            console.log(response);
             email = email_field.value;
             changeEmailState(false);
         });
@@ -109,7 +107,6 @@ apply_button.addEventListener("click", event => {
         const pswData = new FormData();
         pswData.append('password', psw_field.value);
         axios.post('api-account-settings.php', pswData).then(response => {
-            console.log(response);
             changePswState(false);
         });
     }
@@ -118,7 +115,6 @@ apply_button.addEventListener("click", event => {
         const imageData = new FormData();
         imageData.append('image', image_field.files[0]);
         axios.post('api-account-settings.php', imageData).then(response => {
-            console.log(response.data);
             image.src = "profilePhotos/" + response.data["image"];
         });
     }
