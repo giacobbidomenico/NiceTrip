@@ -414,7 +414,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     *  @param $followerId - id of the user requesting the data
     **/
     public function getPublicUserDetails($usersId, $followerId){
-        $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, (F.id IS NOT NULL) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = ? AND F.following = U.id)  WHERE U.id IN (?'.str_repeat(", ?", is_array($usersId)? count($usersId)-1 : 0).')';
+        $query = 'SELECT U.id, U.userName, U.name, U.lastName, U.photoPath, U.email, (F.id IS NOT NULL) AS follow FROM users U LEFT OUTER JOIN follows F ON (F.follower = ? AND F.following = U.id)  WHERE U.id IN (?'.str_repeat(", ?", is_array($usersId)? count($usersId)-1 : 0).')';
         $stmt = $this->db->prepare($query);
         if(is_array($usersId)){
             $stmt->bind_param(str_repeat("s", count($usersId)+1 ), $followerId, ...$usersId);
@@ -777,7 +777,8 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt->bind_param("ss", $newUserName, $userId);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+
+        return $result;
     }
 
     public function editUserEmail($userId, $newEmail){
@@ -787,18 +788,18 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 
     public function editUserPassword($userId, $newPassword){
         $query = 'UPDATE `users` SET `password` = ? WHERE `users`.`id` = ?; ';
         $stmt = $this->db->prepare($query);
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $hash = password_hash($newPassword, PASSWORD_DEFAULT);
         $stmt->bind_param("ss", $hash, $userId);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 
     public function editUserImageProfile($userId, $imageName){
@@ -808,7 +809,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
     
     public function getEmailFromUserId($userId) {

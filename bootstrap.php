@@ -4,6 +4,7 @@ session_start();
 
 define("UPLOAD_DIR", "./upload/");
 define("IMAGES_DIR", "./img/");
+define("PROFILE_IMAGES_DIR", "./profilePhotos/");
 define("TIME_SESSION_EXTENSION", "86400 * 30");
 
 $actualDir = dirname($_SERVER["PHP_SELF"]);
