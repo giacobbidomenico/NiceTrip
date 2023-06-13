@@ -597,7 +597,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
      *        user activation code
      */
     public function signUpUser($username, $name, $last_name, $email, $password, $activation_code) {
-        $query = 'INSERT INTO `users`(`userName`, `name`, `lastName`, `email`, `password`, `activation_code`) VALUES (?,?,?,?,?,?)';
+        $query = 'INSERT INTO `users`(`userName`, `name`, `lastName`, `email`, `password`, `activation_code`, `photoPath`) VALUES (?,?,?,?,?,?, genericProfilePhoto.jpg)';
 
         $stmt = $this->db->prepare($query);
         $hash = password_hash($password, PASSWORD_DEFAULT);
