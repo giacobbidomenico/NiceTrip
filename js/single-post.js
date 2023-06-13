@@ -23,6 +23,9 @@ function commentSub() {
 		formData.append('commentIds', JSON.stringify(response.data));
 		axios.post('api-comment.php', formData).then(response => {
 			comment = response.data[0];
+			if (commentIdList.length == 1) {
+				document.getElementById("commentSection").innerHTML = '';
+			}
 			displayComment(comment, true);
 			setAuthorDetails(comment);
 		});
@@ -49,7 +52,7 @@ confirmModal = `
 						</div>
 					</div>
 				</div>`;
-document.getElementById("commentSection").insertAdjacentHTML("beforeend", confirmModal);
+//document.getElementById("commentSection").insertAdjacentHTML("beforeend", confirmModal);
 //detect whether it has been confirmed a comment deletion
 document.getElementById("c-deleteConfirm").addEventListener("click", event => {
 	formData.append('commentId', commentToBeDeleted);
@@ -62,6 +65,9 @@ document.getElementById("c-deleteConfirm").addEventListener("click", event => {
 		showedCommentsCounter--;
 		//removes id of the comment from comment id list
 		commentIdList.pop(commentIdList.indexOf(commentToBeDeleted));
+		if (commentIdList.length == 0) {
+			noCommentsDisplay();
+		}
 	});
 });
 
