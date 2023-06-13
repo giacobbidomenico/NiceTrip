@@ -8,6 +8,6 @@
 
 <div class="col-12 mt-5 pt-5">
     <div class="col-md-6 d-grid pe-1">
-        <a href="index.php" class="btn btn-primary btn-lg rounded-0">Home</a>
+        <a href="<?php echo $templateParams['link']?>" class="btn btn-primary btn-lg rounded-0"><?php echo $templateParams['nameLink']?></a>
     </div>
 </div>
