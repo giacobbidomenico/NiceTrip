@@ -5,7 +5,7 @@ require_once 'bootstrap.php';
 
 $result["error"] = false;
 
-if(isset($_POST["title"]) && isset($_POST["description"])){
+if((isset($_POST["title"]) && isset($_POST["description"])) || !isSessionActive()){
 
     $postId = $dbh->publishPost($_POST["title"], $_POST["description"], $_SESSION["id"]);
 

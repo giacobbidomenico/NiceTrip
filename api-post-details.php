@@ -1,13 +1,19 @@
 <?php
     require_once 'bootstrap.php';
-    $id = $_SESSION["id"];
-    $postId = $_POST["postId"];
-    $dbh = new checkFollowDecorator($dbh);
-    $result = $dbh->getPostDetails($postId, $id);
-    if($result[0]["userId"] == $_SESSION["id"]){
-        $result["ownPost"] = true;
+    $result["error"] = false;
+
+    if(!isSessionActive()) {
+        $result["error"] = true;
     } else {
-        $result["ownPost"] = false;
+        $id = $_SESSION["id"];
+        $postId = $_POST["postId"];
+        $dbh = new checkFollowDecorator($dbh);
+        $result = $dbh->getPostDetails($postId, $id);
+        if($result[0]["userId"] == $_SESSION["id"]){
+            $result["ownPost"] = true;
+        } else {
+            $result["ownPost"] = false;
+        }
     }
 
     header('Content-Type: application/json');

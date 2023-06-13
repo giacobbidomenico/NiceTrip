@@ -18,6 +18,7 @@ $mailManager = new MailManager('smtp.libero.it', 'nicetrip.social@libero.it', '@
 
 require_once "utils/functions.php";
 
+
 /*
  * In case consent has been given in the login to maintain the connection, 
  * a code corresponding to a user is stored in a cookie.
