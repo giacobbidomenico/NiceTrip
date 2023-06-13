@@ -800,7 +800,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 
     public function editUserEmail($userId, $newEmail){
@@ -810,18 +810,18 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 
     public function editUserPassword($userId, $newPassword){
         $query = 'UPDATE `users` SET `password` = ? WHERE `users`.`id` = ?; ';
         $stmt = $this->db->prepare($query);
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $hash = password_hash($newPassword, PASSWORD_DEFAULT);
         $stmt->bind_param("ss", $hash, $userId);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 
     public function editUserImageProfile($userId, $imageName){
@@ -831,7 +831,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 
 
