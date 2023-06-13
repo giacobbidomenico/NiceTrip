@@ -1,18 +1,54 @@
 "use strict";
 
+/**
+ * Reference to the image element.
+ * */
 const image = document.getElementById("v-image");
+/**
+ * Reference to the image input element.
+ * */
 const image_field = document.getElementById("u-image");
+/**
+ * Reference to the user name input element.
+ * */
 const userName_field = document.getElementById("u-userName");
+/**
+ * Reference to the password input element.
+ * */
 const psw_field = document.getElementById("u-psw");
+/**
+ * Reference to the confirm password input element.
+ * */
 const c_psw_field = document.getElementById("u-psw-confirm");
+/**
+ * Reference to the email input element.
+ * */
 const email_field = document.getElementById("u-email");
+/**
+ * Reference to the password button element.
+ * */
 const psw_button = document.getElementById("u-psw-button");
+/**
+ * Reference to the email button element.
+ * */
 const email_button = document.getElementById("u-email-button");
+/**
+ * Reference to the username button element.
+ * */
 const userName_button = document.getElementById("u-userName-button");
+/**
+ * Reference to the submit button element.
+ * */
 const apply_button = document.getElementById("u-apply-button");
-
+/**
+ * Email value to set when disabling email input element.
+ * */
 let  email = document.getElementById("u-email").value;
+/**
+ * User name value to set when disabling user name input element.
+ * */
 let userName = document.getElementById("u-userName").value;
+
 
 email_button.addEventListener("click", event => {
     changeEmailState(!email_button.children[0].classList.contains("d-none"));
@@ -36,9 +72,6 @@ image_field.addEventListener("input", event => {
     }
 });
 
-const userName_feedback = document.getElementById("u-userName-feedback");
-let psw_feedback = document.getElementById("u-psw-feedback");
-let email_feedback = document.getElementById("u-email-feedback");
 
 userName_field.addEventListener("input", event => verifyUsername(userName_field, true, userName_feedback));
 email_field.addEventListener("input", event => verifyEmail(email_field, true));
@@ -48,7 +81,9 @@ psw_field.addEventListener("input", event => {
 });
 c_psw_field.addEventListener("input", event => checkPasswordConfirmation(psw_field, c_psw_field));
 
-
+/**
+ * Manages the form submit.
+ **/
 apply_button.addEventListener("click", event => {
     if (userName_field.classList.contains("is-valid")) {
         const usernameData = new FormData();
@@ -89,6 +124,10 @@ apply_button.addEventListener("click", event => {
     }
 });
 
+/**
+ * Enables input forms associated to the user name update, changes button style.
+ * @param {any} enable - true to make input form editable, false to disable it
+ */
 function changeUserNameState(enable) {
     userName_field.disabled = false == userName_field.disabled;
     if (enable) {
@@ -105,6 +144,10 @@ function changeUserNameState(enable) {
     }
 }
 
+/**
+ * Enables input forms associated to the email update, changes button style.
+ * @param {any} enable - true to make input form editable, false to disable it
+ */
 function changeEmailState(enable) {
     email_field.disabled = false == email_field.disabled;
     if (enable) {
@@ -121,6 +164,10 @@ function changeEmailState(enable) {
     }
 }
 
+/**
+ * Enables input forms associated to the password update, changes button style.
+ * @param {any} enable - true to make input form editable, false to disable it
+ */
 function changePswState(enable) {
     psw_field.disabled = false == psw_field.disabled;
     c_psw_field.disabled = false == c_psw_field.disabled;
