@@ -221,14 +221,64 @@ abstract class DatabaseHelper
     *  @param $userId - user to exclude from the list
     */
     abstract public function getRandomUsersId($number, $userId);
+
+    /**
+     * Function that takes care of inserting a new post into the db.
+     * @param $title - title of the post
+     * @param $description - description of the post
+     * @param $userId - id of the user who publishes the post
+     */
     abstract public function publishPost($title, $description, $userId);
+
+    /**
+     * Function that inserts one of the images belonging to the post.
+     * @param $postId - id of the post the image refers to
+     * @param $name - image filename
+     */
     abstract public function insertImage($postId, $name);
+
+    /**
+     * Function that inserts one of the destinations belonging to post.
+     * @param $description name with description of the destination
+     * @param $postId id of the post to which the destination refers
+     */
     abstract public function insertDestination($description, $postId);
+
+    /**
+     * Function that inserts a new generic notification into the database.
+     * @param $type - type of notification
+     * @param $senderId - id of the user performing the event to which the notification is associated
+     * @param $receiverId - id of the user who will receive the notification
+     * @param $postId - id of the post to which the notification is possibly associated
+     */
     abstract public function insertNotification($type, $senderId, $receiverId, $postId);
+
+    /**
+     * Function that inserts a like notification into the database.
+     * @param $postId - id of the post liked
+     * @param $userId - id of the user liking the post
+     */
     abstract public function insertLikeNotification($postId, $userId);
+
+    /**
+     * Function that inserts a follow notification into the database.
+     * @param $senderId - id of the user who starts following
+     * @param $receiverId - id of the user being followed
+     */
     abstract public function insertFollowNotification($senderId, $receiverId);
+
+    /**
+     * Function that returns notifications of a specific user.
+     * @param $userId - user id
+     */
     abstract public function getUserNotifications($userId);
+
+    /**
+     * Function that returns notifications of a specific user that have not yet been sent via email.
+     * @param $userId - user id
+     */
     abstract public function getUserNotificationsNotSent($userId);
+
     /**
     *  Function that updates the username of a given user
     *  @param $userId - id of the user to update
@@ -244,20 +294,35 @@ abstract class DatabaseHelper
     abstract public function editUserEmail($userId, $newEmail);
 
     /**
-    *  Functino that updates the password of a given user
+    *  Functin that updates the password of a given user
     *  @param $userId - id of the user to update
     *  @param $newPassword - new passord
     */
     abstract public function editUserPassword($userId, $newPassword);
     
     /**
-    *  Functino that updates the profile image of a given user
+    *  Functin that updates the profile image of a given user
     *  @param $userId - id of the user to update
     *  @param $imageName - name of the new image
     */
     abstract public function editUserImageProfile($userId, $imageName);
+
+    /**
+     * Function that returns a user's email address.
+     * @param $userId - user id
+     */
     abstract public function getEmailFromUserId($userId);
+
+    /**
+     * Function that deletes the notifications of a specific user.
+     * @param $userId - user id
+     */
     abstract public function deleteUserNotifications($userId);
+
+    /**
+     * Function that returns a user's notifications sent via email.
+     * @param $userId - user id
+     */
     abstract public function notificationsSent($userId);
 }
 
@@ -426,6 +491,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+    *  Function that sends a request to database to delete a post.
+    *  @param $postId - post to be deleted.
+    */
     public function deletePost($postId){
         $queries = ['DELETE FROM likes WHERE `likes`.`postsId` = ?;',
         'DELETE FROM images WHERE `images`.`postsId` = ?;',
@@ -485,6 +554,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Registers a like if absent, deletes it if present
+     * @param $postId - id of the post liked
+     * @param $followerId - id of the user 
+     **/
     public function notifyLike($postId, $followerId){
         $query = 'SELECT * FROM `likes` L WHERE L.userId = ? AND L.postsId = ?';
         $stmt = $this->db->prepare($query);
@@ -650,6 +724,12 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+    *  Function that registers a comment.
+    *  @param $postId - post to register the comment to
+    *  @param $userId - id of the author of the comment
+    *  @return the id of the comment registered
+    */
     public function setComment($postId, $userId, $date, $time, $description){
         $query = "INSERT INTO `comments` (`id`, `description`, `date`, `time`, `postsId`, `userId`) VALUES (NULL, ?, ?, ?, ?, ?); ";
         $stmt = $this->db->prepare($query);
@@ -660,6 +740,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    /**
+    *  Function that returns a list of comments id, ordered by Date and time of publication.
+    *  @param $postId - id of the post to get comments of
+    */
     public function getListOfCommentsId($postId)
     {
         $query = "SELECT C.id FROM `comments` C WHERE C.postsId = ? ORDER BY C.date DESC, C.time DESC";
@@ -671,6 +755,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+    *  Function that deletes a comment.
+    *  @param $id - id of the post to be deleted
+    */
     public function deleteComment($id){
         $query = 'DELETE FROM `comments` WHERE `comments`.`id` = ?';
         $stmt = $this->db->prepare($query);
@@ -697,6 +785,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
 
+    /**
+    *  Function that returns a list of posts which title contains all tokens given.
+    *  @param $tokens - tokens to be matched
+    */
     public function getPostsFromTitle($tokens)
     {
         $query = 'SELECT P.id FROM posts P WHERE P.title LIKE ? '.str_repeat("AND  P.title LIKE ?", is_array($tokens)? count($tokens)-1 : 0).';';
@@ -713,6 +805,13 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    /**
+     * Function that takes care of inserting a new post into the db.
+     * @param $title - title of the post
+     * @param $description - description of the post
+     * @param $userId - id of the user who publishes the post
+     */
     public function publishPost($title, $description, $userId) {
         $query = 'INSERT INTO `posts`(`id`, `title`, `description`, `userId`, `time`, `date`) VALUES (NULL, ?, ?, ?, CURRENT_TIME(), CURRENT_DATE());';
 
@@ -726,6 +825,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    /**
+     * Function that inserts one of the images belonging to the post.
+     * @param $postId - id of the post the image refers to
+     * @param $name - image filename
+     */
     public function insertImage($postId, $name) {
         $query = 'INSERT INTO `images` (`id`, `postsId`, `name`) VALUES (NULL, ?, ?);';
 
@@ -736,6 +840,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $stmt->execute();
     }
 
+    /**
+     * Function that inserts one of the destinations belonging to post.
+     * @param $description name with description of the destination
+     * @param $postId id of the post to which the destination refers
+     */
     public function insertDestination($description, $postId) {
         $query = 'INSERT INTO `destinations`(`id`, `description`, `post_id`) VALUES (NULL, ?, ?);';
 
@@ -747,6 +856,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
 
+    /**
+    *  Function that returns a list of users id whose name or username matches the one given.
+    *  @param $name - name to be searched
+    */
     public function getUsersByMatch($name)
     {
         $query = 'SELECT U.id FROM users U WHERE U.name LIKE ? OR U.userName LIKE ? OR U.lastName LIKE ?';
@@ -760,6 +873,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
     }
 
 
+    /**
+    *  Function that returns a random list of users id.
+    *  @param $number - number of rows to get
+    *  @param $userId - user to exclude from the list
+    */
     public function getRandomUsersId($number, $userId)
     {
         $query = 'SELECT U.id FROM users U WHERE U.id != ? ORDER BY RAND() LIMIT ?';
@@ -771,6 +889,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+    *  Function that updates the username of a given user
+    *  @param $userId - id of the user to update
+    *  @param $newUserName - new name to update
+    */
     public function editUserName($userId, $newUserName){
         $query = 'UPDATE `users` SET `userName` = ? WHERE `users`.`id` = ?;';
         $stmt = $this->db->prepare($query);
@@ -781,6 +904,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result;
     }
 
+   /**
+    *  Function that updates the email of a given user
+    *  @param $userId - id of the user to update
+    *  @param $newEmail - new email to update
+    */
     public function editUserEmail($userId, $newEmail){
         $query = 'UPDATE `users` SET `email` = ? WHERE `users`.`id` = ?;';
         $stmt = $this->db->prepare($query);
@@ -791,6 +919,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result;
     }
 
+    /**
+    *  Functin that updates the password of a given user
+    *  @param $userId - id of the user to update
+    *  @param $newPassword - new passord
+    */
     public function editUserPassword($userId, $newPassword){
         $query = 'UPDATE `users` SET `password` = ? WHERE `users`.`id` = ?; ';
         $stmt = $this->db->prepare($query);
@@ -802,6 +935,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result;
     }
 
+    /**
+    *  Functin that updates the profile image of a given user
+    *  @param $userId - id of the user to update
+    *  @param $imageName - name of the new image
+    */
     public function editUserImageProfile($userId, $imageName){
         $query = 'UPDATE `users` SET `photoPath` = ? WHERE `users`.`id` = ?;';
         $stmt = $this->db->prepare($query);
@@ -811,7 +949,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
 
         return $result;
     }
-    
+
+    /**
+     * Function that returns a user's email address.
+     * @param $userId - user id
+     */
     public function getEmailFromUserId($userId) {
         $query = 'SELECT `users`.`email` FROM `users` WHERE `users`.`id` = ?;';
         $stmt = $this->db->prepare($query);
@@ -822,7 +964,14 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    
+
+    /**
+     * Function that inserts a new generic notification into the database.
+     * @param $type - type of notification
+     * @param $senderId - id of the user performing the event to which the notification is associated
+     * @param $receiverId - id of the user who will receive the notification
+     * @param $postId - id of the post to which the notification is possibly associated
+     */
     public function insertNotification($type, $senderId, $receiverId, $postId = NULL) {
         $query = 'INSERT INTO `notifications`(`id`, `type`, `senderId`, `receiverId`, `postId`, `datetime`, `sent`) VALUES (NULL,?,?,?,?,CURRENT_TIMESTAMP,0)';
 
@@ -835,6 +984,11 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $this->getEmailFromUserId($receiverId)[0]["email"];
     }
 
+    /**
+     * Function that inserts a like notification into the database.
+     * @param $postId - id of the post liked
+     * @param $userId - id of the user liking the post
+     */
     public function insertLikeNotification($postId, $userId) {
         $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
         return $this->insertNotification(1, $userId, $receiverId, $postId);
@@ -845,11 +999,19 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $this->insertNotification(2, $userId, $receiverId, $postId);
     }
 
-    
+    /**
+     * Function that inserts a follow notification into the database.
+     * @param $senderId - id of the user who starts following
+     * @param $receiverId - id of the user being followed
+     */
     public function insertFollowNotification($senderId, $receiverId) {
         return $this->insertNotification(3, $senderId, $receiverId);
     }
 
+    /**
+     * Function that returns notifications of a specific user.
+     * @param $userId - user id
+     */
     public function getUserNotifications($userId) {
         $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `notifications`.`datetime`, `users`.`userName` FROM `notifications`, `users` WHERE `notifications`.`receiverId` = ? AND `users`.`id` = `notifications`.`receiverId`;';
         $stmt = $this->db->prepare($query);
@@ -860,6 +1022,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Function that returns notifications of a specific user that have not yet been sent via email.
+     * @param $userId - user id
+     */
     public function getUserNotificationsNotSent($userId) {
         $query = 'SELECT `notifications`.`type`,`notifications`.`postId`, `notifications`.`datetime`, SENDERS.`userName`, RECEIVERS.`email` AS emailReceiver FROM `notifications`, `users` AS SENDERS,`users` AS RECEIVERS WHERE SENDERS.`id` = `notifications`.`senderId` AND RECEIVERS.`id` = `notifications`.`receiverId` AND `notifications`.`senderId` = ? AND `notifications`.`sent` = 0;';
         $stmt = $this->db->prepare($query);
@@ -870,7 +1036,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    
+    /**
+     * Function that deletes the notifications of a specific user.
+     * @param $userId - user id
+     */
     public function deleteUserNotifications($userId) {
         $query = 'DELETE FROM `notifications` WHERE `notifications`.`receiverId` = ?';
         $stmt = $this->db->prepare($query);
@@ -878,6 +1047,10 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         return $stmt->execute();
     }
 
+    /**
+     * Function that returns a user's notifications sent via email.
+     * @param $userId - user id
+     */
     public function notificationsSent($userId) {
         $query = 'UPDATE `notifications` SET `sent`= 1 WHERE `notifications`.`senderId` = ?;';
         $stmt = $this->db->prepare($query);
