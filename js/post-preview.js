@@ -239,7 +239,6 @@ function Post(id, editable) {
 				document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
             }
 		});
-		axios.post('api-email-notifications.php');
 	}
 
 	/**
