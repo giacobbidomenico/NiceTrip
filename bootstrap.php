@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+if(!session_id())  
+    session_start();
 
 define("UPLOAD_DIR", "./upload/");
 define("IMAGES_DIR", "./img/");
