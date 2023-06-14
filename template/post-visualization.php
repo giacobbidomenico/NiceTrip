@@ -4,6 +4,7 @@
 	$postDetails = $dbh->getPostDetails($postId, $_SESSION["id"]);
 	$authorDetails = $dbh->getPublicUserDetails($postDetails[0]["userId"], $_SESSION["id"]);
 	$postImages = $dbh->getPostImages($postId, $_SESSION["id"]);
+    $destinations = $dbh->getPostItinerary($postId);
 ?>
 
 <div class="col">
@@ -42,6 +43,33 @@
 				</button>
 			</div>
         </section>
+		<section class="itinerary d-block d-md-none">
+			<div class="outerDiv" id="outerDiv">
+				<div id="middleDiv" class="mvh-25 middleDiv">
+					<div id="innerDiv" class="innerDiv">
+						<!--<div id="square" class="square" style="left:50%;"></div>-->
+						<div class="" style="max-height:60%; position:inherit;">
+							<ul class="">
+								<?php
+									foreach($destinations as $place){
+										echo '
+										<li class="dot">
+											<div class="container-fluid">
+												<div class="row">
+													<div class="col-12 col-lg-9 pe-0">
+														<p class="mb-1">'.$place["description"].'</p>
+													</div>
+												</div>
+											</div>
+										</li>';
+									}
+								?>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
         <section class="my-4 container-fluid">
 			<!-- Description -->
 			<div class="row">
@@ -78,6 +106,23 @@
 						</div>
 						<button id="c-submit" type="button" class="my-3 btn btn-primary float-end">Add comment</button>
 					</form>
+				</div>
+				<div id="c-m-deletion" class="modal" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Are you sure?</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<p>You cannot restore posts that have been deleted.</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								<button id="c-deleteConfirm" type="button" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
+							</div>
+						</div>
+					</div>
 				</div>
 				<section id="commentSection" class="border border-light-subtle">
 				</section>

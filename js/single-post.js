@@ -1,3 +1,5 @@
+"use strict";
+
 // number of comments to be extracted at a time
 const COMMENTS_NUM = 20;
 // tracks the number of comments showed
@@ -23,6 +25,9 @@ function commentSub() {
 		formData.append('commentIds', JSON.stringify(response.data));
 		axios.post('api-comment.php', formData).then(response => {
 			comment = response.data[0];
+			if (commentIdList.length == 1) {
+				document.getElementById("commentSection").innerHTML = '';
+			}
 			displayComment(comment, true);
 			setAuthorDetails(comment);
 		});
@@ -31,7 +36,7 @@ function commentSub() {
 }
 
 // modal to manage comment deletion
-confirmModal = `
+const confirmModal = `
 				<div id="c-m-deletion" class="modal" tabindex="-1">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -49,7 +54,7 @@ confirmModal = `
 						</div>
 					</div>
 				</div>`;
-document.getElementById("commentSection").insertAdjacentHTML("beforeend", confirmModal);
+//document.getElementById("commentSection").insertAdjacentHTML("beforeend", confirmModal);
 //detect whether it has been confirmed a comment deletion
 document.getElementById("c-deleteConfirm").addEventListener("click", event => {
 	formData.append('commentId', commentToBeDeleted);
@@ -62,6 +67,9 @@ document.getElementById("c-deleteConfirm").addEventListener("click", event => {
 		showedCommentsCounter--;
 		//removes id of the comment from comment id list
 		commentIdList.pop(commentIdList.indexOf(commentToBeDeleted));
+		if (commentIdList.length == 0) {
+			noCommentsDisplay();
+		}
 	});
 });
 
@@ -206,6 +214,60 @@ function displayComment(details, top) {
 }
 
 function noCommentsDisplay() {
-	displayEmpty = `<div class="p-5 mx-auto bg-light text-center"> No comments yet.</div>`;
+	let displayEmpty = `<div class="p-5 mx-auto bg-light text-center"> No comments yet.</div>`;
 	document.getElementById("commentSection").insertAdjacentHTML("beforeend", displayEmpty);
 }
+
+initializeItinerary();
+window.addEventListener("resize", initializeItinerary);
+let itineraries = document.getElementsByClassName("itinerary");
+let r = document.querySelector(':root');
+for (let singleIt of itineraries) {
+
+	let outerDiv = singleIt.getElementsByClassName("outerDiv")[0];
+	let innerDiv = singleIt.getElementsByClassName("innerDiv")[0];
+    singleIt.getElementsByClassName("middleDiv")[0].addEventListener(
+        "scroll",
+        () => {
+            const oneThird = (outerDiv.offsetHeight - 20) / innerDiv.offsetHeight;
+            const unit = oneThird * 100 / 33;
+            console.log("unit: " + unit);
+            const scroll = (innerDiv.getBoundingClientRect().top - outerDiv.getBoundingClientRect().top - 20) / (innerDiv.offsetHeight);
+            console.log(scroll);
+            const scrollPerc = scroll / unit;
+            //console.log("scrollPerc: " + (scrollPerc - noScrollPerc));
+            r.style.setProperty(
+                "--scroll",
+                -(scrollPerc)
+            );
+        },
+        false
+    );
+}
+
+function initializeItinerary() {
+	let itineraries = document.getElementsByClassName("itinerary");
+
+	for (let singleIt of itineraries) {
+		let outerDiv = singleIt.getElementsByClassName("outerDiv")[0];
+		let innerDiv = singleIt.getElementsByClassName("innerDiv")[0];
+		let r = document.querySelector(':root');
+
+		let lis = singleIt.getElementsByClassName("dot");
+		let oneThird = (outerDiv.offsetHeight - 20) / innerDiv.offsetHeight;
+		let unit = oneThird * 100 / 33;
+		console.log("scroll (Errore): " + scroll);
+		for (let li of lis) {
+            const scroll = (innerDiv.getBoundingClientRect().top - outerDiv.getBoundingClientRect().top - 20) / (innerDiv.offsetHeight);
+            const scrollPerc = scroll / unit;
+			const itemScroll = (li.getBoundingClientRect().top - outerDiv.getBoundingClientRect().top) / (innerDiv.offsetHeight);
+			const itemScrollPerc = itemScroll / unit;
+			console.log("li: " + (0.66 - scroll));
+			li.style.setProperty("--offset", 0.66 + scrollPerc - itemScrollPerc);
+		}
+		//const firstPos = lis[0].getBoundingClientRect().top - outerDiv.getBoundingClientRect().top;
+		//console.log("firstPos: " + firstPos);
+		//r.style.setProperty("--first-Pos", firstPos);
+	}
+}
+
