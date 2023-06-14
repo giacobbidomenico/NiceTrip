@@ -1,10 +1,5 @@
 "use strict";
 
-async function update() {
-	axios.post('api-email-notifications.php');
-}
-setInterval(update, 5000);
-
 /**
  * Function that takes care of request the server if the credentials entered, in a field of a form, 
  * correspond to a specific account.
