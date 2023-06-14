@@ -36,7 +36,12 @@ function verifyAccount(field, order, type, message_error, tooltip) {
     });
 }
 
-
+/**
+ * Function that takes care of removing the validation from a field.
+ * 
+ * @param {*} field
+ *            considered field
+ */
 function showFieldWithoutValidation(field) {
     if(field.classList.contains("is-valid")) {
         field.classList.remove("is-valid");
@@ -158,6 +163,8 @@ function showFieldValid(field, message='', tooltip) {
 /**
  * Function that makes the password field visible if the user requests it.
  * 
+ * @param {*} field
+ *            considered field
  */
 function viewPassword(field) {
     if(field.type === 'password') {

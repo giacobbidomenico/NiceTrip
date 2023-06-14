@@ -11,6 +11,7 @@
         $result = $dbh->notifyLike($postId, $id);
         if($result["insert"]){
             $receiverEmail = $dbh->insertLikeNotification($postId, $id);
+            $link = 'http://'.$_SERVER['HTTP_HOST'].$actualDir.'/single-post.php?postId='.$postId;
         }
     }
     
