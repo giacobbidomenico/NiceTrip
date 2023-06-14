@@ -17,6 +17,7 @@
 	$templateParams["jsVars"] = array("const userProfile = ".$_GET["userProfile"]);
 	$templateParams["js"] = array(
 		array("https://unpkg.com/axios/dist/axios.min.js"),
+		array("js/common.js"),
 		array("js/post-preview.js"),
 		array("js/profile.js"),
 		array("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"));
