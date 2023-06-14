@@ -37,9 +37,9 @@ function Post(id, editable) {
 						<div id="p-` + postDetails.data[0].id + `" class="row gy-4 m-3">
 							<article class="card mx-auto p-0">
 								<div class="card-header">
-									<h4 id="p-` + postDetails.data[0].id + `-title" class="card-title">
-										<a id="post-title" class="link-dark link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="single-post.php?postId=` + this.id + `">` + postDetails.data[0].title + `</a>
-									</h4>
+									<h2 id="p-` + postDetails.data[0].id + `-title" class="card-title">
+										<a id="p-` + postDetails.data[0].id + `-title-text" class="link-dark link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="single-post.php?postId=` + this.id + `">` + postDetails.data[0].title + `</a>
+									</h2>
 									<div id="p-` + postDetails.data[0].id + `-author-details" class="">
 									</div>
 								</div>
@@ -74,7 +74,7 @@ function Post(id, editable) {
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title">Are you sure?</h5>
+								<h1 class="modal-title">Are you sure?</h1>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
@@ -118,14 +118,14 @@ function Post(id, editable) {
 	 * @param {any} author - author details
 	 */
 	this.setAuthorDetails = function (author) {
-		let scheme = `<div id="fer-'.$follow[" id"].'" class="d-flex flex-row" >
+		let scheme = `<div id="p-` + this.id + `-author" class="d-flex flex-row" >
 			<div class="ratio ratio-1x1 square-desktop-icon">
 				<div class="border d-flex align-items-center">
-					<img id="author-image" src="profilePhotos/` + author[0].photoPath + `" class="img-fluid mx-auto align-middle profile-image-introduction" alt="...">
+					<img id="p-` + this.id + `-author-image" src="profilePhotos/` + author[0].photoPath + `" class="img-fluid mx-auto align-middle profile-image-introduction" alt="Profile image of the user ` + author[0].userName + `"/>
 				</div>
 			</div>
 			<div class="ms-3">
-				<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=` + author[0].id + `">` + author[0].userName + `</a>
+				<a id="p-` + this.id + `-author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=` + author[0].id + `">` + author[0].userName + `</a>
 			</div >
 		</div>`;
 		document.getElementById("p-" + this.id + "-author-details").innerHTML = scheme;
@@ -141,7 +141,7 @@ function Post(id, editable) {
 		for (let i = 0; i < images.length; i++) {
 			scheme += `
 				<div class="carousel-item ` + (i === 0 ? "active" : "") + `">
-					<img id="image" src="img/` + images[i].name + `" class="d-block w-100" alt="" />
+					<img id="p-` + this.id + `-image-` + i + `" src="img/` + images[i].name + `" class="d-block w-100" alt="Post image number ` + i + `" />
 				</div>`;
 		}
 
@@ -269,7 +269,7 @@ function showUsers(usersData, elementId) {
 	for (let user of usersData) {
 		scheme += `<li class="list-group-item">
 			<div id="r-` + user.id + `" class="">
-				<img id="r-` + user.id + `-image" class="desktop-icon" src="profilePhotos/` + user.photoPath + `">
+				<img id="r-` + user.id + `-image" class="desktop-icon" src="profilePhotos/` + user.photoPath + `" alt="Profile image of the user ` + user.userName + `"/>
 				<a id="r-` + user.id + `-name" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=` + user.id + `">` + user.userName + `</a>
 			</div>
 		</li>`;

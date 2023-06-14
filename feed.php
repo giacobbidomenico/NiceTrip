@@ -8,6 +8,8 @@
 	}
 
 	$templateParams["title"] = "feed";
+	$templateParams["introduction"] = "generic-introduction.php";
+	$templateParams["introductionTitle"] = "Feed";
 
 	$templateParams["js"] = array(
 		array("https://unpkg.com/axios/dist/axios.min.js"),

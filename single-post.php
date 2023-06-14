@@ -8,6 +8,8 @@
 	}
 
 	$templateParams["title"] = "post";
+	$templateParams["introduction"] = "generic-introduction.php";
+	$templateParams["introductionTitle"] = "Post";
 	$templateParams["mainArticle"] = "post-visualization.php";
 	$templateParams["sideArticle"] = "side-itinerary.php";
 
