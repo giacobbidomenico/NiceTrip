@@ -4,6 +4,7 @@
 	$postDetails = $dbh->getPostDetails($postId, $_SESSION["id"]);
 	$authorDetails = $dbh->getPublicUserDetails($postDetails[0]["userId"], $_SESSION["id"]);
 	$postImages = $dbh->getPostImages($postId, $_SESSION["id"]);
+    $destinations = $dbh->getPostItinerary($postId);
 ?>
 
 <div class="col">
@@ -42,6 +43,33 @@
 				</button>
 			</div>
         </section>
+		<section class="itinerary d-block d-md-none">
+			<div class="outerDiv" id="outerDiv">
+				<div id="middleDiv" class="mvh-25 middleDiv">
+					<div id="innerDiv" class="innerDiv">
+						<!--<div id="square" class="square" style="left:50%;"></div>-->
+						<div class="" style="max-height:60%; position:inherit;">
+							<ul class="">
+								<?php
+									foreach($destinations as $place){
+										echo '
+										<li class="dot">
+											<div class="container-fluid">
+												<div class="row">
+													<div class="col-12 col-lg-9 pe-0">
+														<p class="mb-1">'.$place["description"].'</p>
+													</div>
+												</div>
+											</div>
+										</li>';
+									}
+								?>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
         <section class="my-4 container-fluid">
 			<!-- Description -->
 			<div class="row">
