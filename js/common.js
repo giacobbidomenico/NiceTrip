@@ -13,6 +13,8 @@
  *            type determines what the type of credential is
  * @param {*} message_error
  *            message_error is the error message that is eventually returned
+ * @param {*} tooltip
+ *            true if a tooltip is to be used, false otherwise
  */
 function verifyAccount(field, order, type, message_error, tooltip) {
     const formData = new FormData();
@@ -53,6 +55,8 @@ function showFieldWithoutValidation(field) {
  *            considered field
  * @param {*} valid
  *            valid is true if you want a success message to be returned if the field is not empty, false otherwise
+ * @param {*} tooltip
+ *            true if a tooltip is to be used, false otherwise
  * 
  * @returns true if the field is empty, false otherwise
  */
@@ -73,7 +77,9 @@ function showIfEmptyField(field, valid=true, tooltip) {
  * Function that displays an error message in all fields of a form that have not been filled in.
  * 
  * @param {*} completeForm
- *            considered form 
+ *            considered form
+ * @param {*} tooltip
+ *            true if a tooltip is to be used, false otherwise
  */
 function showEmptyFields(completeForm, tooltip) {
     for(let item of completeForm.querySelectorAll("[required]")) {
@@ -90,6 +96,8 @@ function showEmptyFields(completeForm, tooltip) {
  *            considered field
  * @param {*} message_error
  *            error message that is displayed
+ * @param {*} tooltip
+ *            true if a tooltip is to be used, false otherwise
  */
 function insertMessage(field, message_error, tooltip) {
     console.log(tooltip);
@@ -109,6 +117,8 @@ function insertMessage(field, message_error, tooltip) {
  *            considered field
  * @param {*} message_error
  *            error message that is displayed
+ * @param {*} tooltip
+ *            true if a tooltip is to be used, false otherwise
  */
 function showFieldInvalid(field, message_error='', tooltip) {
     insertMessage(field, message_error, tooltip);
@@ -124,6 +134,8 @@ function showFieldInvalid(field, message_error='', tooltip) {
  *            considered field 
  * @param {*} message
  *            message that is displayed
+ * @param {*} tooltip
+ *            true if a tooltip is to be used, false otherwise
  */
 function showFieldValid(field, message='', tooltip) {
     if(!tooltip) {
@@ -192,7 +204,9 @@ function showMessage(elementMessage, message, type) {
  * If it is, the field is validated, otherwise an error message is shown.
  * 
  * @param {*} field
- *            considered field 
+ *            considered field
+ * @param {*} tooltip
+ *            true if a tooltip is to be used, false otherwise
  */
 function checkPasswordStrength(field, tooltip) {
     if(showIfEmptyField(field, true, tooltip)) {
@@ -215,6 +229,8 @@ function checkPasswordStrength(field, tooltip) {
  *            password field
  * @param {*} field
  *            confirmation password field
+ * @param {*} tooltip
+ *            true if a tooltip is to be used, false otherwise
  */
 function checkPasswordConfirmation(p_field, field, tooltip) {
     if(showIfEmptyField(field, true, tooltip)) {
@@ -235,6 +251,8 @@ function checkPasswordConfirmation(p_field, field, tooltip) {
  * @param {*} order
  *            order is true if an error message is returned if the e-mail match an account,
  *            false if a success message is to be returned
+ * @param {*} tooltip
+ *            true if a tooltip is to be used, false otherwise
  */
 function verifyEmail(field, order, tooltip) {
     if(showIfEmptyField(field, true, tooltip)) {
@@ -258,6 +276,8 @@ function verifyEmail(field, order, tooltip) {
  * @param {*} order
  *            order is true if an error message is returned if the username match an account,
  *            false if a success message is to be returned
+ * @param {*} tooltip
+ *            true if a tooltip is to be used, false otherwise
  */
 function verifyUsername(field, order, tooltip) {
     if(showIfEmptyField(field, true, tooltip)) {
@@ -275,6 +295,8 @@ function verifyUsername(field, order, tooltip) {
  * @param {*} order
  *            order is true if an error message is returned if the email/username match an account,
  *            false if a success message is to be returned
+ * @param {*} tooltip
+ *            true if a tooltip is to be used, false otherwise
  */
 function verifyEmailOrUsername(field, order, tooltip) {
     if(showIfEmptyField(field, true, tooltip)) {
