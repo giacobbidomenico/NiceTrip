@@ -9,20 +9,7 @@ let ids;
 let author;
 let follow = false;
 
-
 document.getElementById("mainArticle").innerHTML = `<div id="feed" class="container-fluid5"></div>`;
-
-//posts id request
-axios.get('api-post-id-list.php?userProfile='+userProfile).then(response => {
-    ids = response;
-    updateFeed();
-    window.addEventListener("scroll", event => {
-        if (isBottomReached()) {
-            updateFeed();
-        }
-    });
-});
-
 
 //requests author's profile image and username
 const formData = new FormData();
@@ -112,6 +99,3 @@ function addEmptyFeed() {
     </article>`;
     document.getElementById("feed").innerHTML = scheme;
 }
-
-
-

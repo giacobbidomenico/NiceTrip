@@ -7,9 +7,9 @@
 		<div class="col my-4">
 			<div class="card follow-card">
 				<div class="card-body">
-					<h2 class="card-title">Follower: <?php echo count($followers)?></h2>
+					<h2 id="follower" class="card-title">Follower: <?php echo count($followers)?></h2>
 				</div>
-				<ul class="list-group list-group-flush overflow-y-scroll">
+				<ul id="list-follower" class="list-group list-group-flush overflow-y-scroll">
 					<?php
 						foreach ($followers as $follower){
 							echo '<li class="list-group-item">
@@ -34,9 +34,9 @@
 		<div class="col">
 			<div class="card follow-card">
 				<div class="card-body">
-					<h2 class="card-title">Follow: <?php echo count($follows)?></h2>
+					<h2 id="follow" class="card-title">Follow: <?php echo count($follows)?></h2>
 				</div>
-				<ul class="list-group list-group-flush overflow-y-scroll">
+				<ul id="list-follow" class="list-group list-group-flush overflow-y-scroll">
 					<?php
 						foreach ($follows as $follow){
 							echo '<li class="list-group-item">

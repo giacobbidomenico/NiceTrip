@@ -38,11 +38,17 @@ post_submit.addEventListener("click", event => {
     scrollToTop();
 });
 
+/**
+ * Function that scrolls to the top of the page.
+ */
 function scrollToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
 
+/**
+ * 
+ */
 function noDestinations() {
     destinations_container.innerHTML = "<p id='message1'></p>"
     showMessage(document.getElementById("message1"), 'No destinations have been entered at the moment!', 'error');
@@ -103,7 +109,6 @@ function getEntityIdByPlace(place) {
 function getSelectedSuggestion() {
     return suggestions.filter(item=> item.formattedSuggestion === search_field.value);
 }
-
 
 function swap(nodeA, nodeB) {
     const parentA = nodeA.parentNode;
