@@ -141,7 +141,7 @@
                 </section>
                 <main class="row d-flex flex-md-nowrap">
                     <!--<div class="col-md-1"></div>-->
-                    <div id="sideArticle" class="col-md-5 order-md-2 vh-100 sticky-md-top border-top border-light-subtle">
+                    <div id="sideArticle" class="col-md-5 order-md-2 mvh-100 sticky-md-top border-top border-light-subtle">
                     <?php 
                         if(isset($templateParams["sideArticle"])){
                             require_once $templateParams["sideArticle"];
