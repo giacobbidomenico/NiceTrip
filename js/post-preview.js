@@ -118,8 +118,16 @@ function Post(id, editable) {
 	 * @param {any} author - author details
 	 */
 	this.setAuthorDetails = function (author) {
-		let scheme = `<img id="author-image" class="desktop-icon" src="profilePhotos/` + author[0].photoPath + `" />
-	<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=` + author[0].id + `">` + author[0].userName + `</a>`;
+		let scheme = `<div id="fer-'.$follow[" id"].'" class="d-flex flex-row" >
+			<div class="ratio ratio-1x1 square-desktop-icon">
+				<div class="border d-flex align-items-center">
+					<img id="author-image" src="profilePhotos/` + author[0].photoPath + `" class="img-fluid mx-auto align-middle profile-image-introduction" alt="...">
+				</div>
+			</div>
+			<div class="ms-3">
+				<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=` + author[0].id + `">` + author[0].userName + `</a>
+			</div >
+		</div>`;
 		document.getElementById("p-" + this.id + "-author-details").innerHTML = scheme;
 		this.isAuthorAdded = true;
 	}
