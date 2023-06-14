@@ -4,7 +4,7 @@
 ?>
 <div class="container-fluid">
 	<div class="row ">
-		<div class="col gy-4">
+		<div class="col my-4">
 			<div class="card follow-card">
 				<div class="card-body">
 					<h2 class="card-title">Follower: <?php echo count($followers)?></h2>
@@ -30,8 +30,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="row ">
-		<div class="col gy-4">
+	<div class="row mb-4">
+		<div class="col">
 			<div class="card follow-card">
 				<div class="card-body">
 					<h2 class="card-title">Follow: <?php echo count($follows)?></h2>
