@@ -1,7 +1,7 @@
 <div class="rounded-top text-dark d-flex flex-row bg-light" style="/* background-color: #000; */height:200px;">
 	<div class="ratio ratio-1x1 ms-4 mt-5 d-flex flex-column" style="width: 150px;">
 		<div class="p-0 d-flex align-items-center  mt-4 mb-2 border border-dark-subtle" style="z-index: 1;background-color: white;">
-			<img id="author-image" src="profilePhotos/" alt="Generic placeholder image" class="align-middle" style="width: 100%;/* padding-top: 17%; *//* overflow: hidden; */">
+			<img id="author-image" src="profilePhotos/" alt="Generic placeholder" class="mx-auto align-middle profile-image-introduction" >
 		</div>
 	</div>
 	<div class="ms-3" style="margin-top: 130px;">

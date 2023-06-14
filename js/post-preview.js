@@ -89,16 +89,6 @@ function Post(id, editable) {
 				</div>` +
 				scheme +
 				`
-				<form method="post" action="newpost.php" class="inline btn btn-light my-2">
-					<input type="hidden" name="postToEdit" value="` + this.id + `">
-					<button type="submit" name="submit_param" value="submit_value" class="dropdown-item">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="desktop-icon bi bi-pencil-square" viewBox="0 0 16 16">
-							<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-							<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-						</svg>
-						Edit post
-					</button>
-				</form>
 				<button id="p-` + this.id + `-delete" type="button" class="btn btn-light my-2" data-bs-toggle="modal" data-bs-target="#p-` + postDetails.data[0].id + `-modal">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="desktop-icon bi bi-trash3" viewBox="0 0 16 16">
 						<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
@@ -128,8 +118,16 @@ function Post(id, editable) {
 	 * @param {any} author - author details
 	 */
 	this.setAuthorDetails = function (author) {
-		let scheme = `<img id="author-image" class="desktop-icon" src="profilePhotos/` + author[0].photoPath + `" />
-	<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=` + author[0].id + `">` + author[0].userName + `</a>`;
+		let scheme = `<div id="fer-'.$follow[" id"].'" class="d-flex flex-row" >
+			<div class="ratio ratio-1x1 square-desktop-icon">
+				<div class="border d-flex align-items-center">
+					<img id="author-image" src="profilePhotos/` + author[0].photoPath + `" class="img-fluid mx-auto align-middle profile-image-introduction" alt="...">
+				</div>
+			</div>
+			<div class="ms-3">
+				<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=` + author[0].id + `">` + author[0].userName + `</a>
+			</div >
+		</div>`;
 		document.getElementById("p-" + this.id + "-author-details").innerHTML = scheme;
 		this.isAuthorAdded = true;
 	}
