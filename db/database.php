@@ -259,6 +259,12 @@ abstract class DatabaseHelper
     abstract public function getEmailFromUserId($userId);
     abstract public function deleteUserNotifications($userId);
     abstract public function notificationsSent($userId);
+
+    /**
+    *  Function that returns the list of destination of a post.
+    *  @param $postId - id of the post
+    */
+    abstract public function getPostItinerary($postId);
 }
 
 /**
@@ -884,6 +890,17 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
         $stmt->bind_param("s", $userId);
         return $stmt->execute();
     }
+
+    public function getPostItinerary($postId){
+        $query = 'SELECT `id`, `description`, `post_id` FROM `destinations` WHERE `destinations`.`post_id` = ?';
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $postId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 }
 
 /**
@@ -1176,5 +1193,10 @@ class checkFollowDecorator extends DatabaseHelperDecorator
     public function notificationsSent($userId) {
         return $this->databaseHelper->notificationSent($userId);
     }
+
+    public function getPostItinerary($postId){
+        return $this->databaseHelper->getPostItinerary($postId);
+    }
+
 }
 ?>
