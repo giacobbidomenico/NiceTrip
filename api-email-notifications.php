@@ -21,9 +21,12 @@
                 $link = "";
             }
 
+            //Sending of the email containing the notification
             $mailManager->setDestinationEmail($notifications[$i]["emailReceiver"]);
             $mailManager->sendNotification($notifications[$i]["userName"], $message, $link);
         }
+
+        //Update the database field that shows whether or not the email notification was sent
         $dbh->notificationsSent($id);
     }
 
