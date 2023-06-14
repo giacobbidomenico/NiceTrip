@@ -16,9 +16,15 @@
 					<?php
 						foreach ($suggested as $user){
 							echo '<li class="list-group-item">
-									<div id="fer-'.$user["id"].'" class="">
-										<img id="fer-'.$user["id"].'-author-image" class="desktop-icon" src="profilePhotos/'.$user["photoPath"].'" />
-										<a id="fer-'.$user["id"].'author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile='.$user["id"].'">'.$user["userName"].'</a>
+									<div id="fer-'.$user["id"].'" class="d-flex flex-row">
+										<div class="ratio ratio-1x1 square-desktop-icon">
+											<div class="border d-flex align-items-center">
+												<img id="fer-'.$user["id"].'-author-image" src="profilePhotos/'.$user["photoPath"].'" class="img-fluid mx-auto align-middle profile-image-introduction" alt="...">
+											</div>
+										</div>
+										<div class="ms-3">
+											<a id="fer-'.$user["id"].'author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile='.$user["id"].'">'.$user["userName"].'</a>
+										</div>
 									</div>
 								</li>';
 						}
