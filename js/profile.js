@@ -9,68 +9,7 @@ let ids;
 let author;
 let follow = false;
 
-window.addEventListener("load", () => {
-    document.getElementsByTagName("body")[0].innerHTML += `
-        <div id="modal1" class="modal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Follower</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            ${document.getElementById("list-follower").innerHTML}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    document.getElementsByTagName("body")[0].innerHTML += `
-        <div id="modal2" class="modal wh-100">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Follower</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            ${document.getElementById("list-follow").innerHTML}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-});
-
 document.getElementById("mainArticle").innerHTML = `<div id="feed" class="container-fluid5"></div>`;
-
-document.getElementById("follower").addEventListener("click", () => {
-    alert("hello");
-    let myModal1 = new bootstrap.Modal(document.getElementById('modal1'), {});
-    myModal1.show();
-});
-
-document.getElementById("follow").addEventListener("click", () => {
-    alert("hello");
-    let myModal2 = new bootstrap.Modal(document.getElementById('modal2'), {});
-    myModal2.show();
-});
-
-//posts id request
-axios.get('api-post-id-list.php?userProfile='+userProfile).then(response => {
-    ids = response;
-    updateFeed();
-    window.addEventListener("scroll", event => {
-        if (isBottomReached()) {
-            updateFeed();
-        }
-    });
-});
-
 
 //requests author's profile image and username
 const formData = new FormData();
@@ -160,6 +99,3 @@ function addEmptyFeed() {
     </article>`;
     document.getElementById("feed").innerHTML = scheme;
 }
-
-
-
