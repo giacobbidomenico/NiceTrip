@@ -226,19 +226,18 @@ function Post(id, editable) {
 	this.notifyLike = function () {
 		const formData = new FormData();
 		formData.append('postId', this.id);
-		axios.post('api-post-like.php', formData).then(response => {
-			if (response.data["insert"]) {
-				this.likesNumber++;
-				document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.add("d-none");
-				document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.remove("d-none");
-				document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
-			} else {
-				this.likesNumber--;
-				document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.remove("d-none");
-				document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.add("d-none");
-				document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
-            }
-		});
+		axios.post('api-post-like.php', formData);
+		if (document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.contains("d-none")) {
+			this.likesNumber++;
+			document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.add("d-none");
+			document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.remove("d-none");
+			document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
+		} else {
+			this.likesNumber--;
+			document.getElementById("p-" + this.id + "-likes").childNodes[1].classList.remove("d-none");
+			document.getElementById("p-" + this.id + "-likes").childNodes[3].classList.add("d-none");
+			document.getElementById("p-" + this.id + "-likes").childNodes[5].innerHTML = "likes: " + this.likesNumber;
+		}
 		axios.post('api-email-notifications.php');
 	}
 
