@@ -13,3 +13,213 @@
 .follow-card{
     max-height: 33vh;
 }
+
+.mvh-100{
+    max-height:100vh;
+}
+
+.mvh-25 {
+    max-height: 25vh !important;
+}
+
+
+:root {
+    --scroll: 0;
+    --markerDiamiter: 20px;
+    --margin-top: 20px;
+}
+
+.dot {
+    --offset: 0;
+    /*border: 1px solid gray;*/
+    /*padding-top:10px;*/
+}
+
+ul {
+    list-style-type: none;
+    margin-block: 0;
+}
+
+.dot:first-child {
+    margin-top: 0 !important;
+}
+
+.dot:nth-child(n) {
+    margin-top: 10px;
+}
+
+.dot:first-child::after {
+    content: '';
+    position: absolute;
+    border-top: 4px solid #0d6efd;
+    left: calc((var(--markerDiamiter)/2) - 2px);
+    /*top: calc((var(--markerDiamiter)/2) - 2px);*/
+    border-left: 4px solid #0d6efd;
+    z-index: 2;
+    animation: border-top-progress 1s linear infinite;
+    animation-play-state: paused;
+    animation-delay: calc((var(--scroll) + var(--offset)) * -1s);
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+}
+
+.dot:last-child:after {
+    content: '';
+    position: absolute;
+    border-bottom: 4px solid #0d6efd;
+    left: calc((var(--markerDiamiter)/2) - 2px);
+    top: calc((var(--markerDiamiter)/2) - 2px);
+    border-left: 4px solid #0d6efd;
+    z-index: 2;
+    animation: border-bottom-progress 1s linear infinite;
+    animation-play-state: paused;
+    animation-delay: calc((var(--scroll) + var(--offset)) * -1s);
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+}
+
+
+.dot:nth-child(n)::before {
+    content: '';
+    position: absolute;
+    width: var(--markerDiamiter);
+    height: var(--markerDiamiter);
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid #0d6efd;
+    animation: border-Move 1s linear infinite;
+    animation-play-state: paused;
+    animation-delay: calc((var(--scroll) + var(--offset)) * -1s);
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    z-index: 3;
+}
+
+.outerDiv {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.middleDiv {
+    margin-top: var(--margin-top);
+    margin-bottom: var(--margin-top);
+    max-height: 60vh;
+    overflow-y: scroll;
+    /*background-color: lightgray;*/
+}
+
+.innerDiv {
+    /*height:100%;*/
+    /*padding-top: 20px;*/
+    /*height:200vh;*/
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    background-color: red;
+    float: right;
+    animation: example 1s linear infinite;
+    animation-play-state: paused;
+    animation-delay: calc((var(--scroll) + var(--offset)) * -1s);
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+}
+
+@keyframes example {
+    1% {
+        background-color: red;
+    }
+
+    25% {
+        background-color: yellow;
+    }
+
+    50% {
+        background-color: blue;
+    }
+
+    100% {
+        background-color: green;
+    }
+}
+
+@keyframes border-Move {
+    0% {
+        top: calc(100% - 20px);
+        left: calc(90%);
+    }
+
+    33% {
+        top: calc(100% - 20px);
+        left: 0;
+    }
+
+    66% {
+        top: 0px;
+        left: 0;
+    }
+
+    100% {
+        top: 0px;
+        left: calc(90%);
+    }
+}
+
+@keyframes border-top-progress {
+    /*0% {
+                height: 4px;
+                top: calc(100% - (var(--markerDiamiter)/2) - 2px);
+                width: 100%;
+            }*/
+
+    33% {
+        height: 4px;
+        top: calc(100% - (var(--markerDiamiter)/2) - 2px);
+        width: 0;
+    }
+
+    66% {
+        height: 4px;
+        top: calc((var(--markerDiamiter)/2) - 2px);
+        width: 0;
+    }
+
+    67% {
+        height: calc(var(--margin-top) + var(--markerDiamiter));
+    }
+
+    100% {
+        height: calc(var(--margin-top) + var(--markerDiamiter));
+        top: calc((var(--markerDiamiter)/2) - 2px);
+        width: 90%;
+    }
+}
+
+@keyframes border-bottom-progress {
+    0% {
+        height: calc(100% - (var(--markerDiamiter)) + 2px - var(--margin-top));
+        top: calc(var(--margin-top) + (var(--markerDiamiter)/2));
+        width: 90%;
+    }
+
+    33% {
+        height: calc(100% - (var(--markerDiamiter)) + 2px - var(--margin-top));
+        /*height: calc(100%*/ /*- (var(--markerDiamiter)/2) - var(--margin-top)*/ /*+ 2px);*/
+        top: calc(var(--margin-top) - (var(--markerDiamiter)/2)));
+        width: 0;
+    }
+
+    66% {
+        height: calc((var(--markerDiamiter)/2) - var(--margin-top));
+        top: calc((var(--markerDiamiter)/2) - 2px + var(--margin-top));
+        width: 0;
+    }
+
+    100% {
+        height: 0;
+        top: calc((var(--markerDiamiter)/2) - 2px + var(--margin-top));
+        width: 0;
+    }
+}
