@@ -149,7 +149,7 @@ function displayComment(details, top) {
 								<div class="m-2">
 									<div class="ratio ratio-1x1">
 										<div class="border d-flex align-items-center">
-											<img id="c-` + details.id + `-image" src="profilePhotos/" class="img-fluid mx-auto align-middle profile-image-introduction" alt="Profile image of the user: ">
+											<img id="c-` + details.id + `-image" src="profilePhotos/" class="img-fluid mx-auto align-middle profile-image-introduction" alt="Profile image of the user: "/>
 										</div>
 									</div>
 								</div>

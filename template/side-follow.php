@@ -16,7 +16,7 @@
 									<div id="fer-'.$follower["id"].'" class="d-flex flex-row">
 										<div class="ratio ratio-1x1 square-desktop-icon">
 											<div class="border d-flex align-items-center">
-												<img id="fer-'.$follower["id"].'-author-image" src="profilePhotos/'.$follower["photoPath"].'" class="img-fluid mx-auto align-middle profile-image-introduction" alt="Profile image of the user: '.$follower["userName"].'">
+												<img id="fer-'.$follower["id"].'-author-image" src="profilePhotos/'.$follower["photoPath"].'" class="img-fluid mx-auto align-middle profile-image-introduction" alt="Profile image of the user: '.$follower["userName"].'"/>
 											</div>
 										</div>
 										<div class="ms-3">
@@ -43,7 +43,7 @@
 									<div id="fow-'.$follow["id"].'" class="d-flex flex-row">
 										<div class="ratio ratio-1x1 square-desktop-icon">
 											<div class="border d-flex align-items-center">
-												<img id="fow-'.$follow["id"].'-author-image" src="profilePhotos/'.$follow["photoPath"].'" class="img-fluid mx-auto align-middle profile-image-introduction" alt="Profile image of the user: '.$follow["userName"].'">
+												<img id="fow-'.$follow["id"].'-author-image" src="profilePhotos/'.$follow["photoPath"].'" class="img-fluid mx-auto align-middle profile-image-introduction" alt="Profile image of the user: '.$follow["userName"].'"/>
 											</div>
 										</div>
 										<div class="ms-3">

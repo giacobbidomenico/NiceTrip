@@ -19,7 +19,7 @@
 									<div id="fer-'.$user["id"].'" class="d-flex flex-row">
 										<div class="ratio ratio-1x1 square-desktop-icon">
 											<div class="border d-flex align-items-center">
-												<img id="fer-'.$user["id"].'-author-image" src="profilePhotos/'.$user["photoPath"].'" class="img-fluid mx-auto align-middle profile-image-introduction" alt="...">
+												<img id="fer-'.$user["id"].'-author-image" src="profilePhotos/'.$user["photoPath"].'" class="img-fluid mx-auto align-middle profile-image-introduction" alt="'.$user["userName"].'"/>
 											</div>
 										</div>
 										<div class="ms-3">
