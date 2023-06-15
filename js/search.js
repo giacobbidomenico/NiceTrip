@@ -124,16 +124,3 @@ function showUsersResult() {
         retrieveAndShowUsers(userIds.data.map((x) => x.id), "r-user");
     }
 }
-
-function User(userId, elementId) {
-    this.id = userId;
-    this.elementId = elementId;
-
-    this.getDetails = function (){
-
-    }
-
-    this.showUser = function () {
-
-    }
-}
