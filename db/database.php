@@ -997,12 +997,12 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
      */
     public function insertLikeNotification($postId, $userId) {
         $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
-        return $this->insertNotification(1, $receiverId, $userId, $postId);
+        return $this->insertNotification(1, $userId, $receiverId, $postId);
     }
 
     public function insertCommentNotification($postId, $userId) {
         $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
-        return $this->insertNotification(2,  $receiverId, $userId, $postId);
+        return $this->insertNotification(2, $userId, $receiverId, $postId);
     }
 
     /**
