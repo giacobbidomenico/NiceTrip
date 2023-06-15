@@ -7,7 +7,7 @@
     ?>
     <article class="card mx-auto mt-5" style="width: 18rem;">
         <div class="card-body">
-            <h4 class="card-title">Ooopss!</h4>
+            <h2 class="card-title fs-4">Ooopss!</h4>
             <p class="card-text">There are no notifications.</p>
         </div>
     </article>
@@ -22,14 +22,17 @@
             <?php
                 if($notifications[$i]["type"]=== 1) {
                     $image = UPLOAD_DIR.'like-icon.png';
+                    $alt = "like icon";
                 } elseif($notifications[$i]["type"] === 2) {
                     $image = UPLOAD_DIR.'comment-icon.png';
+                    $alt = "comments icon";
                 } elseif($notifications[$i]["type"] === 3) {
                     $image = UPLOAD_DIR.'follow-icon.png';
+                    $alt = "follow icon";
                 }
             ?>
             <div class="col-10 mt-1">
-                <img class="img-fluid" src="<?php echo $image;?>"/>
+                <img class="img-fluid" src="<?php echo $image;?>" alt="<?php echo $alt?>" />
             </div>
         </div>
         <div class="col-5">
