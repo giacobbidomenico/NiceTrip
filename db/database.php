@@ -1011,7 +1011,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
      * @param $receiverId - id of the user being followed
      */
     public function insertFollowNotification($senderId, $receiverId) {
-        return $this->insertNotification(3,  $receiverId, $userId);
+        return $this->insertNotification(3, $senderId, $receiverId);
     }
 
     /**
