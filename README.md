@@ -1,0 +1,1 @@
+# NiceTrip - Share your travels
