@@ -80,7 +80,6 @@ formData.append('postId', postId);
 formData.append('option', 'list');
 axios.post('api-comment.php', formData).then(response => {
 	commentIdList = response.data.flatMap((x) => x["id"]);
-		console.log(response);
 	getComments();
 });
 
@@ -105,7 +104,6 @@ function getComments() {
 		showedCommentsCounter += COMMENTS_NUM;
 		axios.post('api-comment.php', formData).then(response => {
 			for (const comment of response.data) {
-				console.log(comment);
 				displayComment(comment,false);
 				setAuthorDetails(comment);
 			}
@@ -215,11 +213,8 @@ for (let singleIt of itineraries) {
         () => {
             const oneThird = (outerDiv.offsetHeight - 20) / innerDiv.offsetHeight;
             const unit = oneThird * 100 / 33;
-            console.log("unit: " + unit);
             const scroll = (innerDiv.getBoundingClientRect().top - outerDiv.getBoundingClientRect().top - 20) / (innerDiv.offsetHeight);
-            console.log(scroll);
             const scrollPerc = scroll / unit;
-            //console.log("scrollPerc: " + (scrollPerc - noScrollPerc));
             r.style.setProperty(
                 "--scroll",
                 -(scrollPerc)
@@ -240,18 +235,13 @@ function initializeItinerary() {
 		let lis = singleIt.getElementsByClassName("dot");
 		let oneThird = (outerDiv.offsetHeight - 20) / innerDiv.offsetHeight;
 		let unit = oneThird * 100 / 33;
-		console.log("scroll (Errore): " + scroll);
 		for (let li of lis) {
             const scroll = (innerDiv.getBoundingClientRect().top - outerDiv.getBoundingClientRect().top - 20) / (innerDiv.offsetHeight);
             const scrollPerc = scroll / unit;
 			const itemScroll = (li.getBoundingClientRect().top - outerDiv.getBoundingClientRect().top) / (innerDiv.offsetHeight);
 			const itemScrollPerc = itemScroll / unit;
-			console.log("li: " + (0.66 - scroll));
 			li.style.setProperty("--offset", 0.66 + scrollPerc - itemScrollPerc);
 		}
-		//const firstPos = lis[0].getBoundingClientRect().top - outerDiv.getBoundingClientRect().top;
-		//console.log("firstPos: " + firstPos);
-		//r.style.setProperty("--first-Pos", firstPos);
 	}
 }
 
