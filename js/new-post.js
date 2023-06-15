@@ -49,18 +49,26 @@ function scrollToTop() {
 }
 
 /**
- * 
+ * Function that takes care of inserting a message that indicates that no destinations
+ * have been inserted in the post.
  */
 function noDestinations() {
     destinations_container.innerHTML = "<p id='message1'></p>"
     showMessage(document.getElementById("message1"), 'No destinations have been entered at the moment!', 'error');
 }
 
+/**
+ * Function that takes care of inserting a message that indicates that no images
+ * have been inserted in the post.
+ */
 function noImages() {
     images_container.innerHTML = "<p id='message2'></p>"
     showMessage(document.getElementById("message2"), 'No images have been entered at the moment!', 'error');
 }
 
+/**
+ * Function that takes care of picking up the destinations used in the auto-suggest of destinations from the bing api.
+ */
 function autosuggest() {
     Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', {
         callback: onLoad,
@@ -77,6 +85,9 @@ function autosuggest() {
     }
 }
 
+/**
+ * Function that takes care of showing the destinations, obtained from the bing api, in a datalist
+ */
 function showAutoSuggest() {
     suggestionsManager.getSuggestions(search_field.value, function(suggestionResult) {
         if(suggestionResult.length === 0) {
@@ -87,11 +98,9 @@ function showAutoSuggest() {
 
         let newSuggestions = [];
         for(i=0; i < suggestionResult.length;i++) {
-            console.log(search_field.value + ' - ' + suggestionResult[i].formattedSuggestion);
             if(search_field.value === suggestionResult[i].formattedSuggestion) {
                 suggestions =  [];
                 suggestions.push(suggestionResult[i]);
-                console.log(suggestions);
                 return;
             }
             destination_suggests.innerHTML += `
@@ -104,14 +113,31 @@ function showAutoSuggest() {
     });
 }
 
+/**
+ * Function that takes care of returning the entity id of a destination.
+ * 
+ * @param {*} place text name of the place
+ * @returns place entity id
+ */
 function getEntityIdByPlace(place) {
     return Array.from(destination_suggests.querySelectorAll("[data-value]")).filter(item => item.formattedSuggestion === place)[0].getAttribute("data-value");
 }
 
+/**
+ * Function that takes care of returning the destination selected in the datalist.
+ * 
+ * @returns the selected destination in text format
+ */
 function getSelectedSuggestion() {
     return suggestions.filter(item=> item.formattedSuggestion === search_field.value);
 }
 
+/**
+ * Function that takes care of exchanging two elements of a generic list.
+ * 
+ * @param {*} nodeA first element
+ * @param {*} nodeB second element
+ */
 function swap(nodeA, nodeB) {
     const parentA = nodeA.parentNode;
     const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
@@ -121,6 +147,12 @@ function swap(nodeA, nodeB) {
     parentA.insertBefore(nodeB, siblingA);
 }
 
+/**
+ * Function that deals with the creation of a list.
+ * 
+ * @param {*} name_list list id
+ * @returns the created list
+ */
 function createList(name_list) {
     return `
         <div class="row">
@@ -134,6 +166,13 @@ function createList(name_list) {
     `;
 }
 
+/**
+ * Function that deals with the creation of a new element of the list of destinations.
+ * 
+ * @param {*} id destination id
+ * @param {*} place text name of the place
+ * @returns a new item of the destinations list
+ */
 function newDestinationListElement(id, place) {
     return `
         <li id="destination-${lastIndex}" data-value='${id}' class="list-group-item list-group-item-action container-fluid">
@@ -166,6 +205,13 @@ function newDestinationListElement(id, place) {
     `;
 }
 
+/**
+ * Function that deals with the creation of a new element of the list of images.
+ * 
+ * @param {*} src_image src of the image
+ * @param {*} file_name_image  file name of the image
+ * @returns a new item of the destinations list
+ */
 function newImageElement(src_image, file_name_image) {
     lastImage++;
     return `
@@ -204,10 +250,21 @@ function newImageElement(src_image, file_name_image) {
     `;
 }
 
+/**
+ * Function that returns the last image in images list
+ * @returns the last image in images list
+ */
 function getLastImage() {
     return document.getElementById("images-list").lastElementChild.getElementsByTagName("img")[0];
 }
 
+/**
+ * Function that deals with the deletion of an element of a list
+ * 
+ * @param {*} list considered list
+ * @param {*} list_container container list
+ * @param {*} f_error function that is called when the list has no more elements
+ */
 function deleteListElement(list, list_container, f_error) {
     Array.from(list.getElementsByTagName("li"))
     .forEach(item => item.querySelectorAll("[data-type=trash]")[0].addEventListener("click", event=> {
@@ -219,6 +276,11 @@ function deleteListElement(list, list_container, f_error) {
     }));
 }
 
+/**
+ * Function that takes care of moving an element of the list with the one above.
+ * 
+ * @param {*} list considered list
+ */
 function swapUpElement(list) {
     Array.from(list.getElementsByTagName("li"))
     .forEach(item => item.querySelectorAll("[data-type=chrevron-up]")[0].addEventListener("click", event=> {
@@ -233,7 +295,11 @@ function swapUpElement(list) {
         }
     }));
 }
-
+/**
+ * Function that takes care of moving an element of the list with the one below.
+ * 
+ * @param {*} list considered list
+ */
 function swapDownElement(list) {
     Array.from(list.getElementsByTagName("li"))
     .forEach(item => item.querySelectorAll("[data-type=chrevron-down]")[0].addEventListener("click", event=> {
@@ -249,7 +315,9 @@ function swapDownElement(list) {
     }));
 }
 
-
+/**
+ * Function that takes care of entering a new destination in destinations list.
+ */
 function addDestination() {
 
     let selectedSuggestion = getSelectedSuggestion();
@@ -283,6 +351,9 @@ function addDestination() {
     showFieldWithoutValidation(search_field);
 }
 
+/**
+ * Function that takes care of entering a new destination in images list.
+ */
 function addImage() {
     if(images_field.value === '' || images_field.files.lenght === 0) {
         showFieldInvalid(images_field, "No images selected!");
@@ -299,7 +370,6 @@ function addImage() {
         reader.fileName = images_field.files[i].name;
         dataImages.push(images_field.files[i]);
         reader.onload = function(e) {
-            console.log(e);
             images_list.innerHTML += newImageElement(e.target.result, e.target.fileName);
             deleteListElement(images_list, images_container, noImages);
             swapUpElement(images_list);
@@ -315,18 +385,33 @@ function addImage() {
     
 }
 
+/**
+ * Function that takes care of entering the destinations list, taking into account their order.
+ * 
+ * @returns an Array containing the textual names of the destinations
+ */
 function getDestinations() {
     return Array.from(destinations_container.getElementsByTagName("p"))
         .filter(item => !item.classList.contains("text-danger"))
         .map(item => item.innerHTML);
 }
 
+/**
+ * Function that takes care of entering the images list, taking into account their order.
+ * 
+ * @returns an Array containing the images
+ */
 function getImages() {
     const images_index = Array.from(images_container.getElementsByTagName("img")).map(item=>item.getAttribute("data-index"))
     return images_index.map(item => dataImages[item]);
 }
 
+/**
+ * Function that takes care of inserting the post into the database.
+ */
 function publish_post() {
+
+    //Check that all essential fields have been entered
     showEmptyFields(form);
     
     if(title_field.value !== '') {
@@ -342,6 +427,7 @@ function publish_post() {
     }
 
 
+    //disable the submit button to prevent multiple posts from being published
     post_submit.disabled = true;
     loading_icon.hidden = false;
 
@@ -365,8 +451,10 @@ function publish_post() {
         }
     }
 
+    //Sending post data to database
     axios.post('api-post-publication.php', formData).then(response => {
         if(!response.data["error"]) {
+            //take the user to the profile page if the post has been entered correctly
             window.location.replace("profile.php");
             post_submit.disabled = true;
             loading_icon.hidden = true;

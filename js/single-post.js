@@ -66,6 +66,7 @@ function notifyLike() {
 			document.getElementById("p-likes").childNodes[1].classList.add("d-none");
 			document.getElementById("p-likes").childNodes[3].classList.remove("d-none");
 			document.getElementById("p-likes").childNodes[5].innerHTML = "likes: " + response.data["likes"][0]["number"];
+			axios.post('api-email-notifications.php');
 		} else {
 			document.getElementById("p-likes").childNodes[1].classList.remove("d-none");
 			document.getElementById("p-likes").childNodes[3].classList.add("d-none");
