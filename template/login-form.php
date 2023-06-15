@@ -2,7 +2,7 @@
 <form class="row g-3 needs-validation mt-4" method="POST" novalidate>
     <div class="col-12">
         <div class="col-md-6 position-relative">
-            <label for="email-username" class="form-label">Email or Username</label>
+            <label for="email-username" class="form-label fw-bold">Email or Username</label>
             <input type="text" class="form-control rounded-0" id="email-username" name="email-username" required/>
             <div class="invalid-feedback">
             </div>
@@ -10,7 +10,7 @@
     </div>
     <div class="col-12">
         <div class="col-md-6 position-relative">
-            <label for="password" class="form-label">Password</label>
+            <label for="password" class="form-label fw-bold">Password</label>
             <div class="input-group">
                 <input type="password" class="form-control  rounded-0" id="password" name="password" required/>
                 <span class="input-group-text" id="eye-button">
