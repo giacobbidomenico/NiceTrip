@@ -10,25 +10,27 @@
 <div class="col">
 	<article class="mx-3">
         <header class="my-4">
-            <h1 class=""><?php echo $postDetails[0]["title"]?></h2>
+            <h2 class=""><?php echo $postDetails[0]["title"]?></h2>
 			<section class="my-3 d-flex">
 				<!-- Author details -->
 				<div class="ratio ratio-1x1 desktop-icon">
 					<div class="border d-flex align-items-center">
-						<img src="profilePhotos/<?php echo $authorDetails[0]["photoPath"]?>" class="img-fluid" alt="...">
+						<img src="profilePhotos/<?php echo $authorDetails[0]["photoPath"]?>" class="img-fluid" alt="User profile image">
 					</div>
 				</div>
-				<a id="author-username" class="ms-2 link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=<?php echo $authorDetails[0]["id"]?>"><?php echo $authorDetails[0]["userName"]?></a>
+				<h3 class="fs-5 mb-0">
+					<a id="author-username" class="ms-2 link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=<?php echo $authorDetails[0]["id"]?>"><?php echo $authorDetails[0]["userName"]?></a>
+				</h3>
 			</section>
         </header>
-		<section  class="my-4">
+		<div  class="my-4">
 			<!-- Images -->
             <div id="carouselExample" class="carousel slide rounded-2 ">
 				<div class="carousel-inner">
 					<?php 
 						foreach($postImages as $image){
 							echo '<div class="carousel-item '.($image === $postImages[0]?"active":"").'">
-								<img id="image" src="img/'.$image["name"].'" class="d-block w-100" alt="">
+								<img id="image" src="img/'.$image["name"].'" class="d-block w-100" alt="Post image">
 							</div>';
 						}
 					?>
@@ -42,12 +44,11 @@
 					<span class="visually-hidden">Next</span>
 				</button>
 			</div>
-        </section>
-		<section class="itinerary d-block d-md-none">
-			<div class="outerDiv" id="outerDiv">
-				<div id="middleDiv" class="mvh-25 middleDiv">
-					<div id="innerDiv" class="innerDiv">
-						<!--<div id="square" class="square" style="left:50%;"></div>-->
+        </div>
+		<div class="itinerary d-block d-md-none">
+			<div class="outerDiv" >
+				<div class="mvh-25 middleDiv">
+					<div class="innerDiv">
 						<div class="" style="max-height:60%; position:inherit;">
 							<ul class="">
 								<?php
@@ -69,11 +70,13 @@
 					</div>
 				</div>
 			</div>
-		</section>
+		</div>
+		<hr/>
         <section class="my-4 container-fluid">
 			<!-- Description -->
 			<div class="row">
 				<div class="col p-0">
+					<h3>Description</h3>
 					<p class="text-break"><?php echo $postDetails[0]["description"]?></p>
 				</div>
 			</div>
@@ -98,7 +101,7 @@
 			<!-- Comments -->
 			<div id="comments" class="container-fluid p-0">
 				<div class="row">
-					<h2>Comments</h2>
+					<h3>Comments</h3>
 					<form>
 						<div class="form-floating">
 							<textarea class="form-control" placeholder="Leave a comment here" id="c-area" style="height: 100px"></textarea>
@@ -111,7 +114,7 @@
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title">Are you sure?</h5>
+								<p class="modal-title">Are you sure?</p>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
@@ -124,8 +127,8 @@
 						</div>
 					</div>
 				</div>
-				<section id="commentSection" class="border border-light-subtle">
-				</section>
+				<div id="commentSection" class="border border-light-subtle">
+				</div>
 				
 
 			</div>

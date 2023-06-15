@@ -41,7 +41,7 @@ const confirmModal = `
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title">Are you sure?</h5>
+								<h3 class="modal-title">Are you sure?</h3>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
@@ -150,6 +150,7 @@ function setAuthorDetails(comment) {
 	formData.append('userId', JSON.stringify(comment["userId"]));
 	axios.post('api-user-details-list.php', formData).then(response => {
 		document.getElementById("c-" + comment.id + "-image").src += response.data[0].photoPath;
+		document.getElementById("c-" + comment.id + "-image").alt += response.data[0].userName;
 		document.getElementById("c-" + comment.id + "-author").innerHTML = response.data[0].userName;
 	});
 }
@@ -167,7 +168,7 @@ function displayComment(details, top) {
 								<div class="m-2">
 									<div class="ratio ratio-1x1">
 										<div class="border d-flex align-items-center">
-											<img id="c-` + details.id + `-image" src="profilePhotos/" class="img-fluid mx-auto align-middle profile-image-introduction" alt="...">
+											<img id="c-` + details.id + `-image" src="profilePhotos/" class="img-fluid mx-auto align-middle profile-image-introduction" alt="Profile image of the user: ">
 										</div>
 									</div>
 								</div>
@@ -176,7 +177,7 @@ function displayComment(details, top) {
 								<div class="card-body container-fluid">
 									<div class="row" >
 										<div class="col">
-											<h5 id="c-` + details.id + `-author" class="card-title"></h5>
+											<h4 id="c-` + details.id + `-author" class="card-title"></h4>
 											<p class="card-text"><small class="text-body-secondary">` + details.date + " - " + details.time + `</small></p>
 										</div>`;
 	if (userId == details.userId) {
