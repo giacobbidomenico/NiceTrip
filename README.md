@@ -77,3 +77,8 @@ The technologies used are:
 - [phpmailer](https://github.com/PHPMailer/PHPMailer) - php library used to send emails for notifications and account confirmation
 - [bingmaps api](https://learn.microsoft.com/en-us/bingmaps/) - used to carry out the suggestion of destinations in the publication of a post
 - ajax by means of [axios](https://axios-http.com/)
+
+# How to use
+- If you don't have, install a web server and move the project directory to its default path
+- If you don't have, install mysql and import nicetrip.sql (file in db directory)
+- Set the database parameters in the bootstrap.php file

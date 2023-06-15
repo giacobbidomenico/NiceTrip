@@ -2,8 +2,9 @@
 	$number = 10;
 	$id = $_SESSION["id"];
 	$response = $dbh->getRandomUsersId($number, $id);
-	$usersId = array_map(fn($value) => $value["id"], $response);
-	$suggested = $dbh->getPublicUserDetails($usersId, $id);
+	if(count($response) >= 1):
+		$usersId = array_map(fn($value) => $value["id"], $response);
+		$suggested = $dbh->getPublicUserDetails($usersId, $id);
 ?>
 <div class="container-fluid">
 	<div class="row ">
@@ -34,3 +35,6 @@
 		</div>
 	</div>
 </div>
+<?php
+	endif
+?>
