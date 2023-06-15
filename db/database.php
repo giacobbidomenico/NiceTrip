@@ -997,12 +997,12 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
      */
     public function insertLikeNotification($postId, $userId) {
         $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
-        return $this->insertNotification(1, $userId, $receiverId, $postId);
+        return $this->insertNotification(1, $receiverId, $userId, $postId);
     }
 
     public function insertCommentNotification($postId, $userId) {
         $receiverId = $this->getPostDetails($postId, $userId)[0]["userId"];
-        return $this->insertNotification(2, $userId, $receiverId, $postId);
+        return $this->insertNotification(2,  $receiverId, $userId, $postId);
     }
 
     /**
@@ -1011,7 +1011,7 @@ class ConcreteDatabaseHelper extends DatabaseHelper{
      * @param $receiverId - id of the user being followed
      */
     public function insertFollowNotification($senderId, $receiverId) {
-        return $this->insertNotification(3, $senderId, $receiverId);
+        return $this->insertNotification(3,  $receiverId, $userId);
     }
 
     /**
