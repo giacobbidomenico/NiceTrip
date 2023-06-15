@@ -268,9 +268,15 @@ function showUsers(usersData, elementId) {
 	let scheme = ``;
 	for (let user of usersData) {
 		scheme += `<li class="list-group-item">
-			<div id="r-` + user.id + `" class="">
-				<img id="r-` + user.id + `-image" class="desktop-icon" src="profilePhotos/` + user.photoPath + `" alt="Profile image of the user ` + user.userName + `"/>
-				<a id="r-` + user.id + `-name" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=` + user.id + `">` + user.userName + `</a>
+			<div id="r-` + user.id + `" class="d-flex flex-row">
+				<div class="ratio ratio-1x1 square-desktop-icon">
+					<div class="border d-flex align-items-center">
+						<img id="r-` + user.id + `-image" src="profilePhotos/` + user.photoPath + `" class="img-fluid mx-auto align-middle profile-image-introduction" alt="Profile image of the user ` + user.userName + `">
+					</div>
+				</div>
+				<div class="ms-3">
+						<a id="r-` + user.id + `-name" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=` + user.id + `">` + user.userName + `</a>
+				</div>
 			</div>
 		</li>`;
 	}
