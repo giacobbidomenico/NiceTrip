@@ -35,25 +35,7 @@ function commentSub() {
     axios.post('api-email-notifications.php');
 }
 
-// modal to manage comment deletion
-const confirmModal = `
-				<div id="c-m-deletion" class="modal" tabindex="-1">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h3 class="modal-title">Are you sure?</h3>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<p>You cannot restore posts that have been deleted.</p>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								<button id="c-deleteConfirm" type="button" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
-							</div>
-						</div>
-					</div>
-				</div>`;
+
 //document.getElementById("commentSection").insertAdjacentHTML("beforeend", confirmModal);
 //detect whether it has been confirmed a comment deletion
 document.getElementById("c-deleteConfirm").addEventListener("click", event => {
