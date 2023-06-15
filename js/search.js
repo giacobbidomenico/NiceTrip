@@ -37,6 +37,12 @@ let posts = [];
 let users = [];
 
 document.getElementById("s-button").addEventListener("click", search);
+input.addEventListener("keypress", event => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+});
 
 /**
  * Requests the id of the posts and users that matches the input value, then sets its html.
@@ -92,7 +98,7 @@ function updateFeed() {
 function showEmptyPostSearch() {
     let scheme = `<article class="card mx-auto my-3" >
         <div class="card-body">
-            <h4 class="card-title">Sorry!</h4>
+            <h3 class="card-title">Sorry!</h3>
             <p class="card-text">No reults found.</p>
         </div>
     </article>`;
@@ -102,7 +108,7 @@ function showEmptyPostSearch() {
 function showEmptyUserSearch() {
     let scheme = `<article class="card mx-auto my-3" >
         <div class="card-body">
-            <h4 class="card-title">Sorry!</h4>
+            <h3 class="card-title">Sorry!</h3>
             <p class="card-text">No reults found.</p>
         </div>
     </article>`;
