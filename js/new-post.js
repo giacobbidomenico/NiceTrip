@@ -98,11 +98,9 @@ function showAutoSuggest() {
 
         let newSuggestions = [];
         for(i=0; i < suggestionResult.length;i++) {
-            console.log(search_field.value + ' - ' + suggestionResult[i].formattedSuggestion);
             if(search_field.value === suggestionResult[i].formattedSuggestion) {
                 suggestions =  [];
                 suggestions.push(suggestionResult[i]);
-                console.log(suggestions);
                 return;
             }
             destination_suggests.innerHTML += `
@@ -372,7 +370,6 @@ function addImage() {
         reader.fileName = images_field.files[i].name;
         dataImages.push(images_field.files[i]);
         reader.onload = function(e) {
-            console.log(e);
             images_list.innerHTML += newImageElement(e.target.result, e.target.fileName);
             deleteListElement(images_list, images_container, noImages);
             swapUpElement(images_list);
