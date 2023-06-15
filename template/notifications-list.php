@@ -7,7 +7,7 @@
     ?>
     <article class="card mx-auto mt-5" style="width: 18rem;">
         <div class="card-body">
-            <h2 class="card-title fs-4">Ooopss!</h4>
+            <h2 class="card-title fs-4">Ooopss!</h2>
             <p class="card-text">There are no notifications.</p>
         </div>
     </article>

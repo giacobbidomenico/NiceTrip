@@ -18,10 +18,10 @@
 </form>
 <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#feed" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Posts</button>
+    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#feed" type="button" role="tab" aria-controls="feed" aria-selected="true">Posts</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Users</button>
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="false">Users</button>
   </li>
 </ul>
 <div class="tab-content" id="myTabContent">
