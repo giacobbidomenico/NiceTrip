@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col mb-3 position-relative">
                 <label for="u-email" class="form-label fw-bold">Email</label>
-                <input id="u-email" type="email" type="text" class="form-control" placeholder="" value="<?php echo $userDetails["email"] ?>" disabled/>
+                <input id="u-email" type="email" name="Email" type="text" class="form-control" placeholder="" value="<?php echo $userDetails["email"] ?>" disabled/>
                 <div class="invalid-tooltip"></div>
             </div>
             <div class="col-auto d-flex align-items-end mb-3">
@@ -79,12 +79,12 @@
         <div class="row">
             <div class="col mb-3 position-relative">
                 <label for="u-psw" class="form-label fw-bold">Password</label>
-                <input id="u-psw" type="text" class="form-control" placeholder="" disabled/>
+                <input id="u-psw" type="password" name="Password" class="form-control" placeholder="" disabled/>
                 <div class="invalid-tooltip"></div>
             </div>
             <div class="col mb-3 position-relative">
                 <label for="u-psw-confirm" class="form-label fw-bold">Confirm password</label>
-                <input id="u-psw-confirm" type="text" class="form-control" placeholder="" disabled/>
+                <input id="u-psw-confirm" type="password" name="Confirm password" class="form-control" placeholder="" disabled/>
                 <div class="invalid-tooltip"></div>
             </div>
             <div class="col-auto d-flex align-items-end mb-3">
