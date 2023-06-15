@@ -17,7 +17,6 @@
             header('Location: index.php');
         }
     ?>
-    <!-- top mobile navbar -->
     <div class="row d-block d-md-none">
         <div class="container-fluid p-0 overflow-hidden">
             <nav id="top-nav" class="row fixed-top bg-light">
@@ -142,7 +141,6 @@
                     ?>
                 </header>
                 <main class="row d-flex flex-md-nowrap">
-                    <!--<div class="col-md-1"></div>-->
                     <div id="sideArticle" class="col-md-5 order-md-2 mvh-100 sticky-md-top border-top border-light-subtle">
                     <?php 
                         if(isset($templateParams["sideArticle"])){
@@ -157,14 +155,12 @@
                         endif;
                     ?>
                     </div>
-                    <!--<div class="col-md-1"></div>-->
                 </main>
             </div>
         </div>
         <div class="col-md-1"></div>
     </div>
     
-    <!-- bottom mobile navbar -->
     <div class="row d-block d-md-none">
         <div class="col-12">
             <nav id="bottom-nav" class="nav nav-fill fixed-bottom bg-light">

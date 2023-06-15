@@ -60,7 +60,7 @@ function updateFeed() {
 function addEmptyFeed() {
     let scheme = `<article class="card mx-auto mt-5" style="width: 18rem;">
         <div class="card-body">
-            <h4 class="card-title">Ooopss!</h4>
+            <h2 class="card-title">Ooopss!</h2>
             <p class="card-text">Your feed is empty.</p>
         </div>
     </article>`;

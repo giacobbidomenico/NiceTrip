@@ -8,7 +8,7 @@
             <div class="col-4">
 				<div class="ratio ratio-1x1">
 					<div class="border d-flex align-items-center">
-						<img id="v-image" src="profilePhotos/<?php echo $userDetails["photoPath"] ?>" class="img-fluid mx-auto align-middle profile-image-introduction" alt="...">
+						<img id="v-image" src="profilePhotos/<?php echo $userDetails["photoPath"] ?>" class="img-fluid mx-auto align-middle profile-image-introduction" alt="User profile image">
 					</div>
 				</div>
             </div>

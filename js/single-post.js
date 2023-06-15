@@ -35,25 +35,7 @@ function commentSub() {
     axios.post('api-email-notifications.php');
 }
 
-// modal to manage comment deletion
-const confirmModal = `
-				<div id="c-m-deletion" class="modal" tabindex="-1">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Are you sure?</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<p>You cannot restore posts that have been deleted.</p>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								<button id="c-deleteConfirm" type="button" class="btn btn-primary" data-bs-dismiss="modal">Delete</button>
-							</div>
-						</div>
-					</div>
-				</div>`;
+
 //document.getElementById("commentSection").insertAdjacentHTML("beforeend", confirmModal);
 //detect whether it has been confirmed a comment deletion
 document.getElementById("c-deleteConfirm").addEventListener("click", event => {
@@ -151,6 +133,7 @@ function setAuthorDetails(comment) {
 	formData.append('userId', JSON.stringify(comment["userId"]));
 	axios.post('api-user-details-list.php', formData).then(response => {
 		document.getElementById("c-" + comment.id + "-image").src += response.data[0].photoPath;
+		document.getElementById("c-" + comment.id + "-image").alt += response.data[0].userName;
 		document.getElementById("c-" + comment.id + "-author").innerHTML = response.data[0].userName;
 	});
 }
@@ -168,7 +151,7 @@ function displayComment(details, top) {
 								<div class="m-2">
 									<div class="ratio ratio-1x1">
 										<div class="border d-flex align-items-center">
-											<img id="c-` + details.id + `-image" src="profilePhotos/" class="img-fluid mx-auto align-middle profile-image-introduction" alt="...">
+											<img id="c-` + details.id + `-image" src="profilePhotos/" class="img-fluid mx-auto align-middle profile-image-introduction" alt="Profile image of the user: ">
 										</div>
 									</div>
 								</div>
@@ -177,7 +160,7 @@ function displayComment(details, top) {
 								<div class="card-body container-fluid">
 									<div class="row" >
 										<div class="col">
-											<h5 id="c-` + details.id + `-author" class="card-title"></h5>
+											<h4 id="c-` + details.id + `-author" class="card-title"></h4>
 											<p class="card-text"><small class="text-body-secondary">` + details.date + " - " + details.time + `</small></p>
 										</div>`;
 	if (userId == details.userId) {
