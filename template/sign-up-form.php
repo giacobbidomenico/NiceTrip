@@ -3,31 +3,31 @@
 <form class="row g-3 needs-validation mt-4" method="POST" novalidate>
 
     <div class="col-12 col-md-5 d-inline-block me-md-4 position-relative">
-        <label for="username" class="form-label">Username</label>
+        <label for="username" class="form-label fw-bold">Username</label>
         <input type="text" class="form-control rounded-0" id="username" name="username" autocomplete="on" required/>
         <div class="invalid-feedback"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block position-relative">
-        <label for="email" class="form-label">Email</label>
+        <label for="email" class="form-label fw-bold">Email</label>
         <input type="email" class="form-control rounded-0" id="email" name="email" autocomplete="on" required/>
         <div class="invalid-feedback"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block me-md-4 position-relative">
-        <label for="name" class="form-label">Name</label>
+        <label for="name" class="form-label fw-bold">Name</label>
         <input type="text" class="form-control rounded-0" id="name" name="name" autocomplete="on" required/>
         <div class="invalid-feedback"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block position-relative">
-        <label for="last-name" class="form-label">Last Name</label>
+        <label for="last-name" class="form-label fw-bold">Last Name</label>
         <input type="text" class="form-control rounded-0" id="last-name" name="last-name" required/>
         <div class="invalid-feedback"></div>
     </div>
 
     <div class="col-12 col-md-5 d-inline-block me-md-4">
-        <label for="password" class="form-label">Password</label>
+        <label for="password" class="form-label fw-bold">Password</label>
         <div class="input-group position-relative">
             <input type="password" class="form-control  rounded-0" id="password" name="password" required/>
             <span class="input-group-text" id="eye-button1">
@@ -42,7 +42,7 @@
     </div>
 
     <div class="col-12 col-md-5 d-inline-block">
-        <label for="confirm-password" class="form-label text-nowrap">Confirm Password</label>
+        <label for="confirm-password" class="form-label text-nowrap fw-bold">Confirm Password</label>
         <div class="input-group position-relative">
             <input type="password" class="form-control  rounded-0" id="confirm-password" name="confirm-password" required/>
             <span class="input-group-text" id="eye-button2">
@@ -62,7 +62,7 @@
     </div>
     <div class="col-12">
         <div class="col-md-6 d-grid pe-1">
-            <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Sign Up" name="signup" id="sign-up-submit"/>
+            <input class="btn btn-primary btn-lg rounded-0 fw-bold" type="submit" value="Sign Up" name="signup" id="sign-up-submit"/>
         </div>
     </div>
 </form>

@@ -1,6 +1,7 @@
 window.addEventListener("load", event => {
     noDestinations();
     noImages();
+    Array.from(document.getElementsByTagName("script")).forEach(element => element.removeAttribute("type"));
 });
 
 const title_field = document.getElementById("title");
@@ -26,6 +27,7 @@ let suggestionsManager;
 let lastIndex = 0;
 let lastImage = -1;
 let dataImages = new Array();
+
 
 add_destination_button.addEventListener("click", event => addDestination());
 add_image_button.addEventListener("click", event => addImage());
@@ -170,7 +172,7 @@ function newImageElement(src_image, file_name_image) {
         <li id="image-${lastIndex}" class="list-group-item list-group-item-action container-fluid">
             <div data-type="content"class="row">
                 <div class="col-4">
-                    <img class="img-fluid" src="${src_image}" img-name="${file_name_image}" data-index="${lastImage}"/>
+                    <img class="img-fluid" src="${src_image}" alt="file: ${file_name_image}" data-index="${lastImage}"/>
                 </div>
                 <div class="col-8">
                     <p class="fw-bold fs-7">${file_name_image}</p>
