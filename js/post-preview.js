@@ -107,9 +107,6 @@ function Post(id, editable) {
 		if (!postDetails.data.ownPost) {
 			document.getElementById("p-" + postDetails.data[0].id + "-likes").addEventListener("click", event => { this.notifyLike(); });
         }
-		console.log(document.getElementById("p-" + this.id + "-likes"));
-
-
 		this.isSchemeAdded = true;
 	}
 

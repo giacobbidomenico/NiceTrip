@@ -94,7 +94,6 @@ function updateFeed() {
     } else {
         let maxId = postCounter + ADDED_PREV_PER_TIME;
         for (let i = postCounter; i < maxId && i < ids.data["posts"].length; i++) {
-            console.log("post Loading: " + i);
             posts.push(new Post(ids.data["posts"][i].id, ids.data["isMyProfile"]));
             posts[i].requestPostDetails();
             postCounter++;

@@ -66,8 +66,6 @@ function showFieldWithoutValidation(field) {
  * @returns true if the field is empty, false otherwise
  */
 function showIfEmptyField(field, valid=true, tooltip) {
-    console.log(tooltip);
-    
     if(field.value === '') {
         showFieldInvalid(field, field.name + ' is request!', tooltip);
         return true;
@@ -105,7 +103,6 @@ function showEmptyFields(completeForm, tooltip) {
  *            true if a tooltip is to be used, false otherwise
  */
 function insertMessage(field, message_error, tooltip) {
-    console.log(tooltip);
     if(message_error !== '') {
         if(!tooltip) {
             field.parentElement.getElementsByClassName("invalid-feedback")[0].innerHTML = '<p>' + message_error + '</p>';
