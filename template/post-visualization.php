@@ -13,14 +13,18 @@
             <h2 class=""><?php echo $postDetails[0]["title"]?></h2>
 			<section class="my-3 d-flex">
 				<!-- Author details -->
-				<div class="ratio ratio-1x1 desktop-icon">
-					<div class="border d-flex align-items-center">
-						<img src="profilePhotos/<?php echo $authorDetails[0]["photoPath"]?>" class="img-fluid" alt="User profile image">
+				<div id="p-131-author-details" class="">
+					<div id="p-131-author" class="d-flex flex-row">
+						<div class="ratio ratio-1x1 square-desktop-icon align-self-end">
+							<div class="border d-flex align-items-center">
+								<img src="profilePhotos/<?php echo $authorDetails[0]["photoPath"]?>" class="img-fluid mx-auto align-middle profile-image-introduction" alt="User profile image">
+							</div>
+						</div>
+						<h3 class="ms-3 mb-0 fs-6">
+							<a id="author-username" class="link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=<?php echo $authorDetails[0]["id"]?>"><?php echo $authorDetails[0]["userName"]?></a>
+						</h3>
 					</div>
 				</div>
-				<h3 class="fs-5 mb-0">
-					<a id="author-username" class="ms-2 link-secondary link-offset-2 link-offset-1-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="profile.php?userProfile=<?php echo $authorDetails[0]["id"]?>"><?php echo $authorDetails[0]["userName"]?></a>
-				</h3>
 			</section>
         </header>
 		<div  class="my-4">
@@ -82,7 +86,7 @@
 			</div>
 			<div class="row">
 				<div class="col">
-					<button id="p-likes" class="float-end btn btn-light my-2">
+					<button id="p-likes" class="float-end btn btn-light my-2" <?php echo ($postDetails[0]["id"] === $_SESSION["id"])? "" : "disabled"?>>
 						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-balloon-heart desktop-icon <?php echo ($postDetails[0]["liked"] == 1 ? "d-none" : "") ?>" viewBox="0 0 16 16">
 							<path fill-rule="evenodd" d="m8 2.42-.717-.737c-1.13-1.161-3.243-.777-4.01.72-.35.685-.451 1.707.236 3.062C4.16 6.753 5.52 8.32 8 10.042c2.479-1.723 3.839-3.29 4.491-4.577.687-1.355.587-2.377.236-3.061-.767-1.498-2.88-1.882-4.01-.721L8 2.42Zm-.49 8.5c-10.78-7.44-3-13.155.359-10.063.045.041.089.084.132.129.043-.045.087-.088.132-.129 3.36-3.092 11.137 2.624.357 10.063l.235.468a.25.25 0 1 1-.448.224l-.008-.017c.008.11.02.202.037.29.054.27.161.488.419 1.003.288.578.235 1.15.076 1.629-.157.469-.422.867-.588 1.115l-.004.007a.25.25 0 1 1-.416-.278c.168-.252.4-.6.533-1.003.133-.396.163-.824-.049-1.246l-.013-.028c-.24-.48-.38-.758-.448-1.102a3.177 3.177 0 0 1-.052-.45l-.04.08a.25.25 0 1 1-.447-.224l.235-.468ZM6.013 2.06c-.649-.18-1.483.083-1.85.798-.131.258-.245.689-.08 1.335.063.244.414.198.487-.043.21-.697.627-1.447 1.359-1.692.217-.073.304-.337.084-.398Z"></path>
 						</svg>
