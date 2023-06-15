@@ -8,31 +8,31 @@
             <div class="col-4">
 				<div class="ratio ratio-1x1">
 					<div class="border d-flex align-items-center">
-						<img id="v-image" src="profilePhotos/<?php echo $userDetails["photoPath"] ?>" class="img-fluid mx-auto align-middle profile-image-introduction" alt="User profile image">
+						<img id="v-image" src="profilePhotos/<?php echo $userDetails["photoPath"] ?>" class="img-fluid mx-auto align-middle profile-image-introduction" alt="User profile image"/>
 					</div>
 				</div>
             </div>
             <div class="col">
                 <div class="">
                     <label for="u-image" class="form-label fw-bold">Profile Image</label>
-                    <input class="form-control" type="file" id="u-image">
+                    <input class="form-control" type="file" id="u-image"/>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col mb-3">
                 <label for="v-name" class="form-label fw-bold">Name</label>
-                <input id="v-name" type="text" class="form-control" placeholder="<?php echo $userDetails["name"] ?>" disabled readonly>
+                <input id="v-name" type="text" class="form-control" placeholder="<?php echo $userDetails["name"] ?>" disabled readonly/>
             </div>
             <div class="col mb-3">
                 <label for="v-lastName" class="form-label fw-bold">Last Name</label>
-                <input id="v-lastName" type="text" class="form-control" placeholder="<?php echo $userDetails["lastName"] ?>" disabled readonly>
+                <input id="v-lastName" type="text" class="form-control" placeholder="<?php echo $userDetails["lastName"] ?>" disabled readonly/>
             </div>
         </div>
         <div class="row">
             <div class="col mb-3 position-relative">
                 <label for="u-userName" class="form-label fw-bold">User Name</label>
-                <input id="u-userName" name="User Name" type="text" class="form-control" placeholder="" value="<?php echo $userDetails["userName"] ?>" disabled>
+                <input id="u-userName" name="User Name" type="text" class="form-control" placeholder="" value="<?php echo $userDetails["userName"] ?>" disabled/>
                 <div class="invalid-tooltip"></div>
             </div>
             <div class="col-auto d-flex align-items-end mb-3">
@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col mb-3 position-relative">
                 <label for="u-email" class="form-label fw-bold">Email</label>
-                <input id="u-email" type="email" type="text" class="form-control" placeholder="" value="<?php echo $userDetails["email"] ?>" disabled>
+                <input id="u-email" type="email" type="text" class="form-control" placeholder="" value="<?php echo $userDetails["email"] ?>" disabled/>
                 <div class="invalid-tooltip"></div>
             </div>
             <div class="col-auto d-flex align-items-end mb-3">
@@ -79,12 +79,12 @@
         <div class="row">
             <div class="col mb-3 position-relative">
                 <label for="u-psw" class="form-label fw-bold">Password</label>
-                <input id="u-psw" type="text" class="form-control" placeholder="" disabled>
+                <input id="u-psw" type="text" class="form-control" placeholder="" disabled/>
                 <div class="invalid-tooltip"></div>
             </div>
             <div class="col mb-3 position-relative">
                 <label for="u-psw-confirm" class="form-label fw-bold">Confirm password</label>
-                <input id="u-psw-confirm" type="text" class="form-control" placeholder="" disabled>
+                <input id="u-psw-confirm" type="text" class="form-control" placeholder="" disabled/>
                 <div class="invalid-tooltip"></div>
             </div>
             <div class="col-auto d-flex align-items-end mb-3">

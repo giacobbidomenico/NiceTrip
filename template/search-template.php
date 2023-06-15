@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col mb-3">
                 <label for="s-input" class="form-label fw-bold invisible" hidden>Search</label>
-                <input id="s-input" type="text" class="form-control" placeholder="My sweet holiday!">
+                <input id="s-input" type="text" class="form-control" placeholder="My sweet holiday!"/>
             </div>
             <div class="col-auto d-flex align-items-end mb-3">
                 <button id="s-button" type="button" class="btn btn-light">

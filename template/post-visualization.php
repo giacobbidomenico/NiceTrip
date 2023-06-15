@@ -17,7 +17,7 @@
 					<div id="p-131-author" class="d-flex flex-row">
 						<div class="ratio ratio-1x1 square-desktop-icon align-self-end">
 							<div class="border d-flex align-items-center">
-								<img src="profilePhotos/<?php echo $authorDetails[0]["photoPath"]?>" class="img-fluid mx-auto align-middle profile-image-introduction" alt="User profile image">
+								<img src="profilePhotos/<?php echo $authorDetails[0]["photoPath"]?>" class="img-fluid mx-auto align-middle profile-image-introduction" alt="User profile image"/>
 							</div>
 						</div>
 						<h3 class="ms-3 mb-0 fs-6">
@@ -34,7 +34,7 @@
 					<?php 
 						foreach($postImages as $image){
 							echo '<div class="carousel-item '.($image === $postImages[0]?"active":"").'">
-								<img id="image" src="img/'.$image["name"].'" class="d-block w-100" alt="Post image">
+								<img id="image" src="img/'.$image["name"].'" class="d-block w-100" alt="Post image"/>
 							</div>';
 						}
 					?>
