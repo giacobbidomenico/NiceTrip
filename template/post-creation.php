@@ -1,7 +1,7 @@
 <form id="new-post-form" class="g-3 mt-4 ps-4 pe-4 needs-validation" method="POST" novalidate>
     <div class="row">
         <label for="title" class="form-label fw-bold fs-4 text-primary">Title</label>
-        <input id="title" type="text" class="form-control" name="title" required>
+        <input id="title" type="text" class="form-control" name="title" required/>
         <div class="invalid-feedback">
         </div>
     </div>
