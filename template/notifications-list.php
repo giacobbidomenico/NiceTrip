@@ -2,6 +2,7 @@
 
     <?php
         $id = $_SESSION["id"];
+        //fetch the notifications from the database
         $notifications = $dbh->getUserNotifications($id);
         if(count($notifications) === 0):
     ?>
@@ -13,6 +14,7 @@
     </article>
     <?php
         endif;
+        //change the order of notifications from the most recent one
         $notifications = array_reverse($notifications);
         for($i = 0; $i < count($notifications); $i++):
     ?>
@@ -20,6 +22,7 @@
     <div class="row border-top border-bottom pt-2 pb-2 mb-3">
         <div class="col-2">
             <?php
+                //based on the type of notification, choose the appropriate icon
                 if($notifications[$i]["type"]=== 1) {
                     $image = UPLOAD_DIR.'like-icon.png';
                     $alt = "like icon";
@@ -37,7 +40,7 @@
         </div>
         <div class="col-5">
             <?php
-
+                //based on the type of notification, choose the appropriate message
                 $link = 'http://'.$_SERVER['HTTP_HOST'].$actualDir.'/single-post.php?postId='.$notifications[$i]["postId"];
 
                 if($notifications[$i]["type"]=== 1) {
