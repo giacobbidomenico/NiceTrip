@@ -37,6 +37,7 @@
     </div>
     <div class="col-12">
         <div class="col-md-6 d-grid pe-1">
+            <label for="login-submit" hidden>Login:</label>
             <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Login" name="login" id="login-submit"/>
         </div>
     </div>

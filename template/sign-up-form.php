@@ -52,7 +52,6 @@
                 </svg>
             </span>
             <div class="invalid-feedback text-wrap">
-                
             </div>
         </div>
     </div>
@@ -62,7 +61,8 @@
     </div>
     <div class="col-12">
         <div class="col-md-6 d-grid pe-1">
-            <input class="btn btn-primary btn-lg rounded-0 fw-bold" type="submit" value="Sign Up" name="signup" id="sign-up-submit"/>
+            <label for="sign-up-submit" hidden></label>
+            <input class="btn btn-primary btn-lg rounded-0" type="submit" value="Sign Up" name="signup" id="sign-up-submit"/>
         </div>
     </div>
 </form>
