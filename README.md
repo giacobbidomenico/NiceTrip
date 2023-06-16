@@ -82,3 +82,4 @@ The technologies used are:
 - If you don't have, install a web server and move the project directory to its default path
 - If you don't have, install mysql and import nicetrip.sql (file in [db](https://github.com/giacobbidomenico/NiceTrip/tree/main/db) directory)
 - Set the database parameters in the bootstrap.php file
+- If you want to change the e-mail address from which messages are sent, you can always enter the credentials of another e-mail account in the boostrap.php file
