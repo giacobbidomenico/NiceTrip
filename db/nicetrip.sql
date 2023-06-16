@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Giu 16, 2023 alle 09:21
+-- Creato il: Giu 16, 2023 alle 09:29
 -- Versione del server: 10.4.25-MariaDB
 -- Versione PHP: 8.1.10
 
@@ -169,25 +169,6 @@ CREATE TABLE `notifications` (
   `sent` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dump dei dati per la tabella `notifications`
---
-
-INSERT INTO `notifications` (`id`, `type`, `senderId`, `receiverId`, `postId`, `datetime`, `sent`) VALUES
-(620, 1, 14, 15, 139, '2023-06-16 00:34:13', 1),
-(621, 2, 14, 15, 139, '2023-06-16 00:34:50', 1),
-(622, 1, 14, 15, 139, '2023-06-16 00:42:14', 1),
-(623, 1, 14, 15, 139, '2023-06-16 00:42:16', 1),
-(624, 1, 14, 15, 139, '2023-06-16 00:56:43', 1),
-(625, 1, 14, 15, 139, '2023-06-16 00:56:45', 1),
-(626, 1, 14, 15, 139, '2023-06-16 00:56:46', 1),
-(627, 1, 14, 15, 139, '2023-06-16 00:56:47', 1),
-(628, 1, 14, 15, 139, '2023-06-16 00:56:48', 1),
-(629, 1, 14, 15, 139, '2023-06-16 00:59:52', 1),
-(630, 1, 14, 15, 139, '2023-06-16 00:59:53', 1),
-(631, 1, 14, 15, 139, '2023-06-16 00:59:54', 1),
-(632, 1, 15, 13, 136, '2023-06-16 09:19:40', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -251,16 +232,6 @@ CREATE TABLE `visualizations` (
   `userId` int(11) NOT NULL,
   `postId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `visualizations`
---
-
-INSERT INTO `visualizations` (`id`, `userId`, `postId`) VALUES
-(446, 14, 135),
-(447, 13, 137),
-(448, 14, 136),
-(449, 14, 139);
 
 --
 -- Indici per le tabelle scaricate
