@@ -1,5 +1,24 @@
 <?php
 
+/**
+*  Change the following variables to set database credentials:
+*/
+$host = "localhost";
+$username = "root";
+$password = "";
+$dbname = "nicetrip";
+$port = 3306;
+
+/**
+*  Change the following variables to set e-mail credentials:
+*/
+$serverMail = 'smtp.libero.it';
+$email = 'nicetrip.social@libero.it';
+$emailPassword = '@Iamgroot12';
+$nameFrom = 'NiceTrip';
+
+
+
 if(!session_id())  
     session_start();
 
@@ -13,8 +32,8 @@ $actualDir = dirname($_SERVER["PHP_SELF"]);
 require_once "db/database.php";
 require_once "utils/mail.php";
 
-$dbh = new ConcreteDatabaseHelper("localhost", "root", "", "nicetrip", 3306);
-$mailManager = new MailManager('smtp.libero.it', 'nicetrip.social@libero.it', '@Iamgroot12', 'NiceTrip');
+$dbh = new ConcreteDatabaseHelper($host, $username, $password, $dbname, $port);
+$mailManager = new MailManager($serverMail, $email, $emailPassword, $nameFrom);
 
 
 require_once "utils/functions.php";
