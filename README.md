@@ -80,5 +80,5 @@ The technologies used are:
 
 # How to use
 - If you don't have, install a web server and move the project directory to its default path
-- If you don't have, install mysql and import nicetrip.sql (file in db directory)
+- If you don't have, install mysql and import nicetrip.sql (file in [db](https://github.com/giacobbidomenico/NiceTrip/tree/main/db) directory)
 - Set the database parameters in the bootstrap.php file
