@@ -1,6 +1,6 @@
 "use strict";
 
-const ADDED_PREV_PER_TIME = 3;
+const ADDED_PREV_PER_TIME = 10;
 let postCounter = 0;
 let posts = [];
 let maxScroll = window.innerHeight;
